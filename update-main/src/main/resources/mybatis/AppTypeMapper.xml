@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinking.update.main.dao.AppTypeDao">
+    <!-- AppType的resultMap,column是给数据库列起的别名,它对应property类的属性-->
+    <resultMap id="result_AppType_Map" type="com.thinking.update.main.entity.AppType">
+        <id column="id" property="id" />
+        <result column="type_name" property="typeName" />
+        <result column="remark" property="remark" />
+    </resultMap>
+
+    <!-- 数据库中表名为:t_app_type的列名,as前是数据库的列明,as后是列的别名用于映射成实体类中的属性,需要注意的是别名必须与resultMap中的column别名一致 -->
+    <sql id="t_app_type_Column">
+        t_app_type.id as id
+        ,t_app_type.type_name as type_name
+        ,t_app_type.remark as remark
+    </sql>
+
+    <!--获得类名为:AppType对应的数据库表的数据总行数 -->
+    <select id="getAppTypeRowCount" resultType="java.lang.Long">
+        select count(id) from t_app_type
+    </select>
+    <!-- 获得类名为:AppType对应数据库中表的数据集合 -->
+    <select id="selectAppType" resultMap="result_AppType_Map">
+        select 
+        <include refid="t_app_type_Column" /> 
+        from t_app_type
+    </select> 
+
+    <!-- 获得一个AppType对象,以参数AppType对象中不为空的属性作为条件进行查询-->
+    <select id="selectAppTypeByObj" parameterType="com.thinking.update.main.entity.AppType" resultMap="result_AppType_Map">
+        select 
+            <include refid="t_app_type_Column" /> 
+        from t_app_type
+        <where>
+            <if test="remark != null "> and t_app_type.remark = #{remark}</if>
+            <if test="typeName != null "> and t_app_type.type_name = #{typeName}</if>
+            <if test="id != null "> and t_app_type.id = #{id}</if>
+        </where>
+    </select> 
+
+    <!-- 通过AppType的id获得对应数据库中表的数据对象-->
+    <select id="selectAppTypeById" parameterType="java.lang.Long" resultMap="result_AppType_Map">
+        select 
+            <include refid="t_app_type_Column" /> 
+        from t_app_type
+        where t_app_type.id = #{id}
+    </select> 
+
+    <!-- 将AppType插入到对应数据库的表中,包括属性值为null的数据-->
+
+    <insert id="insertAppType" parameterType="com.thinking.update.main.entity.AppType">
+        insert into t_app_type(id,type_name,remark) 
+        values(#{id},#{typeName},#{remark})
+    </insert>
+
+    <!-- 将AppType中属性值不为null的数据,插入到对应数据库的表中-->
+    <insert id="insertNonEmptyAppType" parameterType="com.thinking.update.main.entity.AppType">
+        insert into t_app_type
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="typeName != null">type_name,</if>
+            <if test="remark != null">remark,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null"> #{id},</if>
+            <if test="typeName != null"> #{typeName},</if>
+            <if test="remark != null"> #{remark},</if>
+        </trim>
+    </insert>
+
+    <!-- 将AppType批量插入到对应数据库的表中-->
+    <insert id="insertAppTypeByBatch" parameterType="ArrayList">
+        insert into t_app_type(id,type_name,remark) values
+        <foreach collection="list" item="item" index="index" separator="," >
+            (#{item.id},#{item.typeName},#{item.remark})
+        </foreach>
+    </insert>
+
+    <!-- 通过AppType的id将数据库表中对应的数据删除-->
+    <delete id="deleteAppTypeById" parameterType="java.lang.Long">
+        delete from t_app_type
+        where id = #{id}
+    </delete>
+
+    <!-- 通过AppType的id将AppType的数据更新到数据库中对应的表,包括值null的数据-->
+    <update id="updateAppTypeById" parameterType="com.thinking.update.main.entity.AppType">
+        update t_app_type set
+            type_name=#{typeName}
+            ,remark=#{remark}
+        where id=#{id}
+    </update>
+
+    <!-- 通过AppType的id将AppType中属性值不为null的数据更新到数据库对应的表中-->
+    <update id="updateNonEmptyAppTypeById" parameterType="com.thinking.update.main.entity.AppType">
+        update t_app_type
+        <set>
+            <if test="typeName != null">
+                type_name=#{typeName},
+            </if>
+            <if test="remark != null">
+                remark=#{remark},
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+
+</mapper>

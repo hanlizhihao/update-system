@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinking.update.main.dao.AppActivityLogDao">
+    <!-- AppActivityLog的resultMap,column是给数据库列起的别名,它对应property类的属性-->
+    <resultMap id="result_AppActivityLog_Map" type="com.thinking.update.main.entity.AppActivityLog">
+        <id column="id" property="id" />
+        <result column="version_log_id" property="versionLogId" />
+        <result column="last_update_state" property="lastUpdateState" />
+        <result column="log" property="log" />
+        <result column="version_id" property="versionId" />
+        <result column="version" property="version" />
+        <result column="target_version" property="targetVersion" />
+        <result column="app_name" property="appName" />
+        <result column="log_type" property="logType" />
+        <result column="target_version_id" property="targetVersionId" />
+        <result column="log_url" property="logUrl" />
+        <result column="update_state" property="updateState" />
+        <result column="app_id" property="appId" />
+        <result column="ts" property="ts" />
+    </resultMap>
+
+    <!-- 数据库中表名为:t_app_activity_log的列名,as前是数据库的列明,as后是列的别名用于映射成实体类中的属性,需要注意的是别名必须与resultMap中的column别名一致 -->
+    <sql id="t_app_activity_log_Column">
+        t_app_activity_log.id as id
+        ,t_app_activity_log.version_log_id as version_log_id
+        ,t_app_activity_log.last_update_state as last_update_state
+        ,t_app_activity_log.log as log
+        ,t_app_activity_log.version_id as version_id
+        ,t_app_activity_log.version as version
+        ,t_app_activity_log.target_version as target_version
+        ,t_app_activity_log.app_name as app_name
+        ,t_app_activity_log.log_type as log_type
+        ,t_app_activity_log.target_version_id as target_version_id
+        ,t_app_activity_log.log_url as log_url
+        ,t_app_activity_log.update_state as update_state
+        ,t_app_activity_log.app_id as app_id
+        ,t_app_activity_log.ts as ts
+    </sql>
+
+    <!--获得类名为:AppActivityLog对应的数据库表的数据总行数 -->
+    <select id="getAppActivityLogRowCount" resultType="java.lang.Long">
+        select count(id) from t_app_activity_log
+    </select>
+    <!-- 获得类名为:AppActivityLog对应数据库中表的数据集合 -->
+    <select id="selectAppActivityLog" resultMap="result_AppActivityLog_Map">
+        select 
+        <include refid="t_app_activity_log_Column" /> 
+        from t_app_activity_log
+    </select> 
+
+    <!-- 获得一个AppActivityLog对象,以参数AppActivityLog对象中不为空的属性作为条件进行查询-->
+    <select id="selectAppActivityLogByObj" parameterType="com.thinking.update.main.entity.AppActivityLog" resultMap="result_AppActivityLog_Map">
+        select 
+            <include refid="t_app_activity_log_Column" /> 
+        from t_app_activity_log
+        <where>
+            <if test="ts != null "> and t_app_activity_log.ts = #{ts}</if>
+            <if test="appId != null "> and t_app_activity_log.app_id = #{appId}</if>
+            <if test="updateState != null "> and t_app_activity_log.update_state = #{updateState}</if>
+            <if test="logUrl != null "> and t_app_activity_log.log_url = #{logUrl}</if>
+            <if test="targetVersionId != null "> and t_app_activity_log.target_version_id = #{targetVersionId}</if>
+            <if test="logType != null "> and t_app_activity_log.log_type = #{logType}</if>
+            <if test="appName != null "> and t_app_activity_log.app_name = #{appName}</if>
+            <if test="targetVersion != null "> and t_app_activity_log.target_version = #{targetVersion}</if>
+            <if test="version != null "> and t_app_activity_log.version = #{version}</if>
+            <if test="versionId != null "> and t_app_activity_log.version_id = #{versionId}</if>
+            <if test="log != null "> and t_app_activity_log.log = #{log}</if>
+            <if test="lastUpdateState != null "> and t_app_activity_log.last_update_state = #{lastUpdateState}</if>
+            <if test="versionLogId != null "> and t_app_activity_log.version_log_id = #{versionLogId}</if>
+            <if test="id != null "> and t_app_activity_log.id = #{id}</if>
+        </where>
+    </select> 
+
+    <!-- 通过AppActivityLog的id获得对应数据库中表的数据对象-->
+    <select id="selectAppActivityLogById" parameterType="java.lang.Long" resultMap="result_AppActivityLog_Map">
+        select 
+            <include refid="t_app_activity_log_Column" /> 
+        from t_app_activity_log
+        where t_app_activity_log.id = #{id}
+    </select> 
+
+    <!-- 将AppActivityLog插入到对应数据库的表中,包括属性值为null的数据-->
+
+    <insert id="insertAppActivityLog" parameterType="com.thinking.update.main.entity.AppActivityLog">
+        insert into t_app_activity_log(id,version_log_id,last_update_state,log,version_id,version,target_version,app_name,log_type,target_version_id,log_url,update_state,app_id,ts) 
+        values(#{id},#{versionLogId},#{lastUpdateState},#{log},#{versionId},#{version},#{targetVersion},#{appName},#{logType},#{targetVersionId},#{logUrl},#{updateState},#{appId},#{ts})
+    </insert>
+
+    <!-- 将AppActivityLog中属性值不为null的数据,插入到对应数据库的表中-->
+    <insert id="insertNonEmptyAppActivityLog" parameterType="com.thinking.update.main.entity.AppActivityLog">
+        insert into t_app_activity_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="versionLogId != null">version_log_id,</if>
+            <if test="lastUpdateState != null">last_update_state,</if>
+            <if test="log != null">log,</if>
+            <if test="versionId != null">version_id,</if>
+            <if test="version != null">version,</if>
+            <if test="targetVersion != null">target_version,</if>
+            <if test="appName != null">app_name,</if>
+            <if test="logType != null">log_type,</if>
+            <if test="targetVersionId != null">target_version_id,</if>
+            <if test="logUrl != null">log_url,</if>
+            <if test="updateState != null">update_state,</if>
+            <if test="appId != null">app_id,</if>
+            <if test="ts != null">ts,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null"> #{id},</if>
+            <if test="versionLogId != null"> #{versionLogId},</if>
+            <if test="lastUpdateState != null"> #{lastUpdateState},</if>
+            <if test="log != null"> #{log},</if>
+            <if test="versionId != null"> #{versionId},</if>
+            <if test="version != null"> #{version},</if>
+            <if test="targetVersion != null"> #{targetVersion},</if>
+            <if test="appName != null"> #{appName},</if>
+            <if test="logType != null"> #{logType},</if>
+            <if test="targetVersionId != null"> #{targetVersionId},</if>
+            <if test="logUrl != null"> #{logUrl},</if>
+            <if test="updateState != null"> #{updateState},</if>
+            <if test="appId != null"> #{appId},</if>
+            <if test="ts != null"> #{ts},</if>
+        </trim>
+    </insert>
+
+    <!-- 将AppActivityLog批量插入到对应数据库的表中-->
+    <insert id="insertAppActivityLogByBatch" parameterType="ArrayList">
+        insert into t_app_activity_log(id,version_log_id,last_update_state,log,version_id,version,target_version,app_name,log_type,target_version_id,log_url,update_state,app_id,ts) values
+        <foreach collection="list" item="item" index="index" separator="," >
+            (#{item.id},#{item.versionLogId},#{item.lastUpdateState},#{item.log},#{item.versionId},#{item.version},#{item.targetVersion},#{item.appName},#{item.logType},#{item.targetVersionId},#{item.logUrl},#{item.updateState},#{item.appId},#{item.ts})
+        </foreach>
+    </insert>
+
+    <!-- 通过AppActivityLog的id将数据库表中对应的数据删除-->
+    <delete id="deleteAppActivityLogById" parameterType="java.lang.Long">
+        delete from t_app_activity_log
+        where id = #{id}
+    </delete>
+
+    <!-- 通过AppActivityLog的id将AppActivityLog的数据更新到数据库中对应的表,包括值null的数据-->
+    <update id="updateAppActivityLogById" parameterType="com.thinking.update.main.entity.AppActivityLog">
+        update t_app_activity_log set
+            version_log_id=#{versionLogId}
+            ,last_update_state=#{lastUpdateState}
+            ,log=#{log}
+            ,version_id=#{versionId}
+            ,version=#{version}
+            ,target_version=#{targetVersion}
+            ,app_name=#{appName}
+            ,log_type=#{logType}
+            ,target_version_id=#{targetVersionId}
+            ,log_url=#{logUrl}
+            ,update_state=#{updateState}
+            ,app_id=#{appId}
+            ,ts=#{ts}
+        where id=#{id}
+    </update>
+
+    <!-- 通过AppActivityLog的id将AppActivityLog中属性值不为null的数据更新到数据库对应的表中-->
+    <update id="updateNonEmptyAppActivityLogById" parameterType="com.thinking.update.main.entity.AppActivityLog">
+        update t_app_activity_log
+        <set>
+            <if test="versionLogId != null">
+                version_log_id=#{versionLogId},
+            </if>
+            <if test="lastUpdateState != null">
+                last_update_state=#{lastUpdateState},
+            </if>
+            <if test="log != null">
+                log=#{log},
+            </if>
+            <if test="versionId != null">
+                version_id=#{versionId},
+            </if>
+            <if test="version != null">
+                version=#{version},
+            </if>
+            <if test="targetVersion != null">
+                target_version=#{targetVersion},
+            </if>
+            <if test="appName != null">
+                app_name=#{appName},
+            </if>
+            <if test="logType != null">
+                log_type=#{logType},
+            </if>
+            <if test="targetVersionId != null">
+                target_version_id=#{targetVersionId},
+            </if>
+            <if test="logUrl != null">
+                log_url=#{logUrl},
+            </if>
+            <if test="updateState != null">
+                update_state=#{updateState},
+            </if>
+            <if test="appId != null">
+                app_id=#{appId},
+            </if>
+            <if test="ts != null">
+                ts=#{ts},
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+
+</mapper>

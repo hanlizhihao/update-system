@@ -1,0 +1,494 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinking.update.main.dao.VehicleinfoDao">
+    <!-- Vehicleinfo的resultMap,column是给数据库列起的别名,它对应property类的属性-->
+    <resultMap id="result_Vehicleinfo_Map" type="com.thinking.update.main.entity.Vehicleinfo">
+        <id column="vehicleId" property="vehicleId" />
+        <result column="deviceFactoryNo" property="deviceFactoryNo" />
+        <result column="lightswitchsupplier" property="lightswitchsupplier" />
+        <result column="purchaseDate" property="purchaseDate" />
+        <result column="wheelaxlesModel" property="wheelaxlesModel" />
+        <result column="brakeshoreModel" property="brakeshoreModel" />
+        <result column="electricboxModel" property="electricboxModel" />
+        <result column="wiperSupplier" property="wiperSupplier" />
+        <result column="tirepressureSupplier" property="tirepressureSupplier" />
+        <result column="deviceId" property="deviceId" />
+        <result column="tireModel" property="tireModel" />
+        <result column="dayRunTime" property="dayRunTime" />
+        <result column="gearBoxModel" property="gearBoxModel" />
+        <result column="lineInfo" property="lineInfo" />
+        <result column="sim" property="sim" />
+        <result column="motorSupplier" property="motorSupplier" />
+        <result column="alarm" property="alarm" />
+        <result column="gasCost" property="gasCost" />
+        <result column="expireDate" property="expireDate" />
+        <result column="eleCost" property="eleCost" />
+        <result column="vehicleType" property="vehicleType" />
+        <result column="paymentStatus" property="paymentStatus" />
+        <result column="isReparing" property="isReparing" />
+        <result column="engineModel" property="engineModel" />
+        <result column="fsbSupplier" property="fsbSupplier" />
+        <result column="oilBoxCap" property="oilBoxCap" />
+        <result column="seatSupplier" property="seatSupplier" />
+        <result column="batteryModel" property="batteryModel" />
+        <result column="deptId" property="deptId" />
+        <result column="heaterSupplier" property="heaterSupplier" />
+        <result column="oilCost" property="oilCost" />
+        <result column="lastAlarmTime" property="lastAlarmTime" />
+        <result column="vehicleNo" property="vehicleNo" />
+        <result column="absModel" property="absModel" />
+        <result column="paymentExpiredDate" property="paymentExpiredDate" />
+        <result column="dynamoModel" property="dynamoModel" />
+        <result column="doorpumpModel" property="doorpumpModel" />
+        <result column="producer" property="producer" />
+        <result column="online" property="online" />
+        <result column="engineVinNo" property="engineVinNo" />
+        <result column="batteryCap" property="batteryCap" />
+        <result column="vehicleSN" property="vehicleSN" />
+        <result column="airBottleCap" property="airBottleCap" />
+        <result column="motorType" property="motorType" />
+        <result column="status" property="status" />
+        <result column="lastDataUpTime" property="lastDataUpTime" />
+    </resultMap>
+
+    <!-- 数据库中表名为:t_vehicleinfo的列名,as前是数据库的列明,as后是列的别名用于映射成实体类中的属性,需要注意的是别名必须与resultMap中的column别名一致 -->
+    <sql id="t_vehicleinfo_Column">
+        t_vehicleinfo.vehicleId as vehicleId
+        ,t_vehicleinfo.deviceFactoryNo as deviceFactoryNo
+        ,t_vehicleinfo.lightswitchsupplier as lightswitchsupplier
+        ,t_vehicleinfo.purchaseDate as purchaseDate
+        ,t_vehicleinfo.wheelaxlesModel as wheelaxlesModel
+        ,t_vehicleinfo.brakeshoreModel as brakeshoreModel
+        ,t_vehicleinfo.electricboxModel as electricboxModel
+        ,t_vehicleinfo.wiperSupplier as wiperSupplier
+        ,t_vehicleinfo.tirepressureSupplier as tirepressureSupplier
+        ,t_vehicleinfo.deviceId as deviceId
+        ,t_vehicleinfo.tireModel as tireModel
+        ,t_vehicleinfo.dayRunTime as dayRunTime
+        ,t_vehicleinfo.gearBoxModel as gearBoxModel
+        ,t_vehicleinfo.lineInfo as lineInfo
+        ,t_vehicleinfo.sim as sim
+        ,t_vehicleinfo.motorSupplier as motorSupplier
+        ,t_vehicleinfo.alarm as alarm
+        ,t_vehicleinfo.gasCost as gasCost
+        ,t_vehicleinfo.expireDate as expireDate
+        ,t_vehicleinfo.eleCost as eleCost
+        ,t_vehicleinfo.vehicleType as vehicleType
+        ,t_vehicleinfo.paymentStatus as paymentStatus
+        ,t_vehicleinfo.isReparing as isReparing
+        ,t_vehicleinfo.engineModel as engineModel
+        ,t_vehicleinfo.fsbSupplier as fsbSupplier
+        ,t_vehicleinfo.oilBoxCap as oilBoxCap
+        ,t_vehicleinfo.seatSupplier as seatSupplier
+        ,t_vehicleinfo.batteryModel as batteryModel
+        ,t_vehicleinfo.deptId as deptId
+        ,t_vehicleinfo.heaterSupplier as heaterSupplier
+        ,t_vehicleinfo.oilCost as oilCost
+        ,t_vehicleinfo.lastAlarmTime as lastAlarmTime
+        ,t_vehicleinfo.vehicleNo as vehicleNo
+        ,t_vehicleinfo.absModel as absModel
+        ,t_vehicleinfo.paymentExpiredDate as paymentExpiredDate
+        ,t_vehicleinfo.dynamoModel as dynamoModel
+        ,t_vehicleinfo.doorpumpModel as doorpumpModel
+        ,t_vehicleinfo.producer as producer
+        ,t_vehicleinfo.online as online
+        ,t_vehicleinfo.engineVinNo as engineVinNo
+        ,t_vehicleinfo.batteryCap as batteryCap
+        ,t_vehicleinfo.vehicleSN as vehicleSN
+        ,t_vehicleinfo.airBottleCap as airBottleCap
+        ,t_vehicleinfo.motorType as motorType
+        ,t_vehicleinfo.status as status
+        ,t_vehicleinfo.lastDataUpTime as lastDataUpTime
+    </sql>
+
+    <!--获得类名为:Vehicleinfo对应的数据库表的数据总行数 -->
+    <select id="getVehicleinfoRowCount" resultType="java.lang.Long">
+        select count(vehicleId) from t_vehicleinfo
+    </select>
+    <!-- 获得类名为:Vehicleinfo对应数据库中表的数据集合 -->
+    <select id="selectVehicleinfo" resultMap="result_Vehicleinfo_Map">
+        select 
+        <include refid="t_vehicleinfo_Column" /> 
+        from t_vehicleinfo
+    </select> 
+
+    <!-- 获得一个Vehicleinfo对象,以参数Vehicleinfo对象中不为空的属性作为条件进行查询-->
+    <select id="selectVehicleinfoByObj" parameterType="com.thinking.update.main.entity.Vehicleinfo" resultMap="result_Vehicleinfo_Map">
+        select 
+            <include refid="t_vehicleinfo_Column" /> 
+        from t_vehicleinfo
+        <where>
+            <if test="lastDataUpTime != null "> and t_vehicleinfo.lastDataUpTime = #{lastDataUpTime}</if>
+            <if test="status != null "> and t_vehicleinfo.status = #{status}</if>
+            <if test="motorType != null "> and t_vehicleinfo.motorType = #{motorType}</if>
+            <if test="airBottleCap != null "> and t_vehicleinfo.airBottleCap = #{airBottleCap}</if>
+            <if test="vehicleSN != null "> and t_vehicleinfo.vehicleSN = #{vehicleSN}</if>
+            <if test="batteryCap != null "> and t_vehicleinfo.batteryCap = #{batteryCap}</if>
+            <if test="engineVinNo != null "> and t_vehicleinfo.engineVinNo = #{engineVinNo}</if>
+            <if test="online != null "> and t_vehicleinfo.online = #{online}</if>
+            <if test="producer != null "> and t_vehicleinfo.producer = #{producer}</if>
+            <if test="doorpumpModel != null "> and t_vehicleinfo.doorpumpModel = #{doorpumpModel}</if>
+            <if test="dynamoModel != null "> and t_vehicleinfo.dynamoModel = #{dynamoModel}</if>
+            <if test="paymentExpiredDate != null "> and t_vehicleinfo.paymentExpiredDate = #{paymentExpiredDate}</if>
+            <if test="absModel != null "> and t_vehicleinfo.absModel = #{absModel}</if>
+            <if test="vehicleNo != null "> and t_vehicleinfo.vehicleNo = #{vehicleNo}</if>
+            <if test="lastAlarmTime != null "> and t_vehicleinfo.lastAlarmTime = #{lastAlarmTime}</if>
+            <if test="oilCost != null "> and t_vehicleinfo.oilCost = #{oilCost}</if>
+            <if test="heaterSupplier != null "> and t_vehicleinfo.heaterSupplier = #{heaterSupplier}</if>
+            <if test="deptId != null "> and t_vehicleinfo.deptId = #{deptId}</if>
+            <if test="batteryModel != null "> and t_vehicleinfo.batteryModel = #{batteryModel}</if>
+            <if test="seatSupplier != null "> and t_vehicleinfo.seatSupplier = #{seatSupplier}</if>
+            <if test="oilBoxCap != null "> and t_vehicleinfo.oilBoxCap = #{oilBoxCap}</if>
+            <if test="fsbSupplier != null "> and t_vehicleinfo.fsbSupplier = #{fsbSupplier}</if>
+            <if test="engineModel != null "> and t_vehicleinfo.engineModel = #{engineModel}</if>
+            <if test="isReparing != null "> and t_vehicleinfo.isReparing = #{isReparing}</if>
+            <if test="paymentStatus != null "> and t_vehicleinfo.paymentStatus = #{paymentStatus}</if>
+            <if test="vehicleType != null "> and t_vehicleinfo.vehicleType = #{vehicleType}</if>
+            <if test="eleCost != null "> and t_vehicleinfo.eleCost = #{eleCost}</if>
+            <if test="expireDate != null "> and t_vehicleinfo.expireDate = #{expireDate}</if>
+            <if test="gasCost != null "> and t_vehicleinfo.gasCost = #{gasCost}</if>
+            <if test="alarm != null "> and t_vehicleinfo.alarm = #{alarm}</if>
+            <if test="motorSupplier != null "> and t_vehicleinfo.motorSupplier = #{motorSupplier}</if>
+            <if test="sim != null "> and t_vehicleinfo.sim = #{sim}</if>
+            <if test="lineInfo != null "> and t_vehicleinfo.lineInfo = #{lineInfo}</if>
+            <if test="gearBoxModel != null "> and t_vehicleinfo.gearBoxModel = #{gearBoxModel}</if>
+            <if test="dayRunTime != null "> and t_vehicleinfo.dayRunTime = #{dayRunTime}</if>
+            <if test="tireModel != null "> and t_vehicleinfo.tireModel = #{tireModel}</if>
+            <if test="deviceId != null "> and t_vehicleinfo.deviceId = #{deviceId}</if>
+            <if test="tirepressureSupplier != null "> and t_vehicleinfo.tirepressureSupplier = #{tirepressureSupplier}</if>
+            <if test="wiperSupplier != null "> and t_vehicleinfo.wiperSupplier = #{wiperSupplier}</if>
+            <if test="electricboxModel != null "> and t_vehicleinfo.electricboxModel = #{electricboxModel}</if>
+            <if test="brakeshoreModel != null "> and t_vehicleinfo.brakeshoreModel = #{brakeshoreModel}</if>
+            <if test="wheelaxlesModel != null "> and t_vehicleinfo.wheelaxlesModel = #{wheelaxlesModel}</if>
+            <if test="purchaseDate != null "> and t_vehicleinfo.purchaseDate = #{purchaseDate}</if>
+            <if test="lightswitchsupplier != null "> and t_vehicleinfo.lightswitchsupplier = #{lightswitchsupplier}</if>
+            <if test="deviceFactoryNo != null "> and t_vehicleinfo.deviceFactoryNo = #{deviceFactoryNo}</if>
+            <if test="vehicleId != null "> and t_vehicleinfo.vehicleId = #{vehicleId}</if>
+        </where>
+    </select> 
+
+    <!-- 通过Vehicleinfo的id获得对应数据库中表的数据对象-->
+    <select id="selectVehicleinfoById" parameterType="java.lang.Integer" resultMap="result_Vehicleinfo_Map">
+        select 
+            <include refid="t_vehicleinfo_Column" /> 
+        from t_vehicleinfo
+        where t_vehicleinfo.vehicleId = #{id}
+    </select> 
+
+    <!-- 将Vehicleinfo插入到对应数据库的表中,包括属性值为null的数据-->
+
+    <insert id="insertVehicleinfo" parameterType="com.thinking.update.main.entity.Vehicleinfo">
+        insert into t_vehicleinfo(vehicleId,deviceFactoryNo,lightswitchsupplier,purchaseDate,wheelaxlesModel,brakeshoreModel,electricboxModel,wiperSupplier,tirepressureSupplier,deviceId,tireModel,dayRunTime,gearBoxModel,lineInfo,sim,motorSupplier,alarm,gasCost,expireDate,eleCost,vehicleType,paymentStatus,isReparing,engineModel,fsbSupplier,oilBoxCap,seatSupplier,batteryModel,deptId,heaterSupplier,oilCost,lastAlarmTime,vehicleNo,absModel,paymentExpiredDate,dynamoModel,doorpumpModel,producer,online,engineVinNo,batteryCap,vehicleSN,airBottleCap,motorType,status,lastDataUpTime) 
+        values(#{vehicleId},#{deviceFactoryNo},#{lightswitchsupplier},#{purchaseDate},#{wheelaxlesModel},#{brakeshoreModel},#{electricboxModel},#{wiperSupplier},#{tirepressureSupplier},#{deviceId},#{tireModel},#{dayRunTime},#{gearBoxModel},#{lineInfo},#{sim},#{motorSupplier},#{alarm},#{gasCost},#{expireDate},#{eleCost},#{vehicleType},#{paymentStatus},#{isReparing},#{engineModel},#{fsbSupplier},#{oilBoxCap},#{seatSupplier},#{batteryModel},#{deptId},#{heaterSupplier},#{oilCost},#{lastAlarmTime},#{vehicleNo},#{absModel},#{paymentExpiredDate},#{dynamoModel},#{doorpumpModel},#{producer},#{online},#{engineVinNo},#{batteryCap},#{vehicleSN},#{airBottleCap},#{motorType},#{status},#{lastDataUpTime})
+    </insert>
+
+    <!-- 将Vehicleinfo中属性值不为null的数据,插入到对应数据库的表中-->
+    <insert id="insertNonEmptyVehicleinfo" parameterType="com.thinking.update.main.entity.Vehicleinfo">
+        insert into t_vehicleinfo
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="vehicleId != null">vehicleId,</if>
+            <if test="deviceFactoryNo != null">deviceFactoryNo,</if>
+            <if test="lightswitchsupplier != null">lightswitchsupplier,</if>
+            <if test="purchaseDate != null">purchaseDate,</if>
+            <if test="wheelaxlesModel != null">wheelaxlesModel,</if>
+            <if test="brakeshoreModel != null">brakeshoreModel,</if>
+            <if test="electricboxModel != null">electricboxModel,</if>
+            <if test="wiperSupplier != null">wiperSupplier,</if>
+            <if test="tirepressureSupplier != null">tirepressureSupplier,</if>
+            <if test="deviceId != null">deviceId,</if>
+            <if test="tireModel != null">tireModel,</if>
+            <if test="dayRunTime != null">dayRunTime,</if>
+            <if test="gearBoxModel != null">gearBoxModel,</if>
+            <if test="lineInfo != null">lineInfo,</if>
+            <if test="sim != null">sim,</if>
+            <if test="motorSupplier != null">motorSupplier,</if>
+            <if test="alarm != null">alarm,</if>
+            <if test="gasCost != null">gasCost,</if>
+            <if test="expireDate != null">expireDate,</if>
+            <if test="eleCost != null">eleCost,</if>
+            <if test="vehicleType != null">vehicleType,</if>
+            <if test="paymentStatus != null">paymentStatus,</if>
+            <if test="isReparing != null">isReparing,</if>
+            <if test="engineModel != null">engineModel,</if>
+            <if test="fsbSupplier != null">fsbSupplier,</if>
+            <if test="oilBoxCap != null">oilBoxCap,</if>
+            <if test="seatSupplier != null">seatSupplier,</if>
+            <if test="batteryModel != null">batteryModel,</if>
+            <if test="deptId != null">deptId,</if>
+            <if test="heaterSupplier != null">heaterSupplier,</if>
+            <if test="oilCost != null">oilCost,</if>
+            <if test="lastAlarmTime != null">lastAlarmTime,</if>
+            <if test="vehicleNo != null">vehicleNo,</if>
+            <if test="absModel != null">absModel,</if>
+            <if test="paymentExpiredDate != null">paymentExpiredDate,</if>
+            <if test="dynamoModel != null">dynamoModel,</if>
+            <if test="doorpumpModel != null">doorpumpModel,</if>
+            <if test="producer != null">producer,</if>
+            <if test="online != null">online,</if>
+            <if test="engineVinNo != null">engineVinNo,</if>
+            <if test="batteryCap != null">batteryCap,</if>
+            <if test="vehicleSN != null">vehicleSN,</if>
+            <if test="airBottleCap != null">airBottleCap,</if>
+            <if test="motorType != null">motorType,</if>
+            <if test="status != null">status,</if>
+            <if test="lastDataUpTime != null">lastDataUpTime,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="vehicleId != null"> #{vehicleId},</if>
+            <if test="deviceFactoryNo != null"> #{deviceFactoryNo},</if>
+            <if test="lightswitchsupplier != null"> #{lightswitchsupplier},</if>
+            <if test="purchaseDate != null"> #{purchaseDate},</if>
+            <if test="wheelaxlesModel != null"> #{wheelaxlesModel},</if>
+            <if test="brakeshoreModel != null"> #{brakeshoreModel},</if>
+            <if test="electricboxModel != null"> #{electricboxModel},</if>
+            <if test="wiperSupplier != null"> #{wiperSupplier},</if>
+            <if test="tirepressureSupplier != null"> #{tirepressureSupplier},</if>
+            <if test="deviceId != null"> #{deviceId},</if>
+            <if test="tireModel != null"> #{tireModel},</if>
+            <if test="dayRunTime != null"> #{dayRunTime},</if>
+            <if test="gearBoxModel != null"> #{gearBoxModel},</if>
+            <if test="lineInfo != null"> #{lineInfo},</if>
+            <if test="sim != null"> #{sim},</if>
+            <if test="motorSupplier != null"> #{motorSupplier},</if>
+            <if test="alarm != null"> #{alarm},</if>
+            <if test="gasCost != null"> #{gasCost},</if>
+            <if test="expireDate != null"> #{expireDate},</if>
+            <if test="eleCost != null"> #{eleCost},</if>
+            <if test="vehicleType != null"> #{vehicleType},</if>
+            <if test="paymentStatus != null"> #{paymentStatus},</if>
+            <if test="isReparing != null"> #{isReparing},</if>
+            <if test="engineModel != null"> #{engineModel},</if>
+            <if test="fsbSupplier != null"> #{fsbSupplier},</if>
+            <if test="oilBoxCap != null"> #{oilBoxCap},</if>
+            <if test="seatSupplier != null"> #{seatSupplier},</if>
+            <if test="batteryModel != null"> #{batteryModel},</if>
+            <if test="deptId != null"> #{deptId},</if>
+            <if test="heaterSupplier != null"> #{heaterSupplier},</if>
+            <if test="oilCost != null"> #{oilCost},</if>
+            <if test="lastAlarmTime != null"> #{lastAlarmTime},</if>
+            <if test="vehicleNo != null"> #{vehicleNo},</if>
+            <if test="absModel != null"> #{absModel},</if>
+            <if test="paymentExpiredDate != null"> #{paymentExpiredDate},</if>
+            <if test="dynamoModel != null"> #{dynamoModel},</if>
+            <if test="doorpumpModel != null"> #{doorpumpModel},</if>
+            <if test="producer != null"> #{producer},</if>
+            <if test="online != null"> #{online},</if>
+            <if test="engineVinNo != null"> #{engineVinNo},</if>
+            <if test="batteryCap != null"> #{batteryCap},</if>
+            <if test="vehicleSN != null"> #{vehicleSN},</if>
+            <if test="airBottleCap != null"> #{airBottleCap},</if>
+            <if test="motorType != null"> #{motorType},</if>
+            <if test="status != null"> #{status},</if>
+            <if test="lastDataUpTime != null"> #{lastDataUpTime},</if>
+        </trim>
+    </insert>
+
+    <!-- 将Vehicleinfo批量插入到对应数据库的表中-->
+    <insert id="insertVehicleinfoByBatch" parameterType="ArrayList">
+        insert into t_vehicleinfo(vehicleId,deviceFactoryNo,lightswitchsupplier,purchaseDate,wheelaxlesModel,brakeshoreModel,electricboxModel,wiperSupplier,tirepressureSupplier,deviceId,tireModel,dayRunTime,gearBoxModel,lineInfo,sim,motorSupplier,alarm,gasCost,expireDate,eleCost,vehicleType,paymentStatus,isReparing,engineModel,fsbSupplier,oilBoxCap,seatSupplier,batteryModel,deptId,heaterSupplier,oilCost,lastAlarmTime,vehicleNo,absModel,paymentExpiredDate,dynamoModel,doorpumpModel,producer,online,engineVinNo,batteryCap,vehicleSN,airBottleCap,motorType,status,lastDataUpTime) values
+        <foreach collection="list" item="item" index="index" separator="," >
+            (#{item.vehicleId},#{item.deviceFactoryNo},#{item.lightswitchsupplier},#{item.purchaseDate},#{item.wheelaxlesModel},#{item.brakeshoreModel},#{item.electricboxModel},#{item.wiperSupplier},#{item.tirepressureSupplier},#{item.deviceId},#{item.tireModel},#{item.dayRunTime},#{item.gearBoxModel},#{item.lineInfo},#{item.sim},#{item.motorSupplier},#{item.alarm},#{item.gasCost},#{item.expireDate},#{item.eleCost},#{item.vehicleType},#{item.paymentStatus},#{item.isReparing},#{item.engineModel},#{item.fsbSupplier},#{item.oilBoxCap},#{item.seatSupplier},#{item.batteryModel},#{item.deptId},#{item.heaterSupplier},#{item.oilCost},#{item.lastAlarmTime},#{item.vehicleNo},#{item.absModel},#{item.paymentExpiredDate},#{item.dynamoModel},#{item.doorpumpModel},#{item.producer},#{item.online},#{item.engineVinNo},#{item.batteryCap},#{item.vehicleSN},#{item.airBottleCap},#{item.motorType},#{item.status},#{item.lastDataUpTime})
+        </foreach>
+    </insert>
+
+    <!-- 通过Vehicleinfo的id将数据库表中对应的数据删除-->
+    <delete id="deleteVehicleinfoById" parameterType="java.lang.Integer">
+        delete from t_vehicleinfo
+        where vehicleId = #{id}
+    </delete>
+
+    <!-- 通过Vehicleinfo的id将Vehicleinfo的数据更新到数据库中对应的表,包括值null的数据-->
+    <update id="updateVehicleinfoById" parameterType="com.thinking.update.main.entity.Vehicleinfo">
+        update t_vehicleinfo set
+            deviceFactoryNo=#{deviceFactoryNo}
+            ,lightswitchsupplier=#{lightswitchsupplier}
+            ,purchaseDate=#{purchaseDate}
+            ,wheelaxlesModel=#{wheelaxlesModel}
+            ,brakeshoreModel=#{brakeshoreModel}
+            ,electricboxModel=#{electricboxModel}
+            ,wiperSupplier=#{wiperSupplier}
+            ,tirepressureSupplier=#{tirepressureSupplier}
+            ,deviceId=#{deviceId}
+            ,tireModel=#{tireModel}
+            ,dayRunTime=#{dayRunTime}
+            ,gearBoxModel=#{gearBoxModel}
+            ,lineInfo=#{lineInfo}
+            ,sim=#{sim}
+            ,motorSupplier=#{motorSupplier}
+            ,alarm=#{alarm}
+            ,gasCost=#{gasCost}
+            ,expireDate=#{expireDate}
+            ,eleCost=#{eleCost}
+            ,vehicleType=#{vehicleType}
+            ,paymentStatus=#{paymentStatus}
+            ,isReparing=#{isReparing}
+            ,engineModel=#{engineModel}
+            ,fsbSupplier=#{fsbSupplier}
+            ,oilBoxCap=#{oilBoxCap}
+            ,seatSupplier=#{seatSupplier}
+            ,batteryModel=#{batteryModel}
+            ,deptId=#{deptId}
+            ,heaterSupplier=#{heaterSupplier}
+            ,oilCost=#{oilCost}
+            ,lastAlarmTime=#{lastAlarmTime}
+            ,vehicleNo=#{vehicleNo}
+            ,absModel=#{absModel}
+            ,paymentExpiredDate=#{paymentExpiredDate}
+            ,dynamoModel=#{dynamoModel}
+            ,doorpumpModel=#{doorpumpModel}
+            ,producer=#{producer}
+            ,online=#{online}
+            ,engineVinNo=#{engineVinNo}
+            ,batteryCap=#{batteryCap}
+            ,vehicleSN=#{vehicleSN}
+            ,airBottleCap=#{airBottleCap}
+            ,motorType=#{motorType}
+            ,status=#{status}
+            ,lastDataUpTime=#{lastDataUpTime}
+        where vehicleId=#{vehicleId}
+    </update>
+
+    <!-- 通过Vehicleinfo的id将Vehicleinfo中属性值不为null的数据更新到数据库对应的表中-->
+    <update id="updateNonEmptyVehicleinfoById" parameterType="com.thinking.update.main.entity.Vehicleinfo">
+        update t_vehicleinfo
+        <set>
+            <if test="deviceFactoryNo != null">
+                deviceFactoryNo=#{deviceFactoryNo},
+            </if>
+            <if test="lightswitchsupplier != null">
+                lightswitchsupplier=#{lightswitchsupplier},
+            </if>
+            <if test="purchaseDate != null">
+                purchaseDate=#{purchaseDate},
+            </if>
+            <if test="wheelaxlesModel != null">
+                wheelaxlesModel=#{wheelaxlesModel},
+            </if>
+            <if test="brakeshoreModel != null">
+                brakeshoreModel=#{brakeshoreModel},
+            </if>
+            <if test="electricboxModel != null">
+                electricboxModel=#{electricboxModel},
+            </if>
+            <if test="wiperSupplier != null">
+                wiperSupplier=#{wiperSupplier},
+            </if>
+            <if test="tirepressureSupplier != null">
+                tirepressureSupplier=#{tirepressureSupplier},
+            </if>
+            <if test="deviceId != null">
+                deviceId=#{deviceId},
+            </if>
+            <if test="tireModel != null">
+                tireModel=#{tireModel},
+            </if>
+            <if test="dayRunTime != null">
+                dayRunTime=#{dayRunTime},
+            </if>
+            <if test="gearBoxModel != null">
+                gearBoxModel=#{gearBoxModel},
+            </if>
+            <if test="lineInfo != null">
+                lineInfo=#{lineInfo},
+            </if>
+            <if test="sim != null">
+                sim=#{sim},
+            </if>
+            <if test="motorSupplier != null">
+                motorSupplier=#{motorSupplier},
+            </if>
+            <if test="alarm != null">
+                alarm=#{alarm},
+            </if>
+            <if test="gasCost != null">
+                gasCost=#{gasCost},
+            </if>
+            <if test="expireDate != null">
+                expireDate=#{expireDate},
+            </if>
+            <if test="eleCost != null">
+                eleCost=#{eleCost},
+            </if>
+            <if test="vehicleType != null">
+                vehicleType=#{vehicleType},
+            </if>
+            <if test="paymentStatus != null">
+                paymentStatus=#{paymentStatus},
+            </if>
+            <if test="isReparing != null">
+                isReparing=#{isReparing},
+            </if>
+            <if test="engineModel != null">
+                engineModel=#{engineModel},
+            </if>
+            <if test="fsbSupplier != null">
+                fsbSupplier=#{fsbSupplier},
+            </if>
+            <if test="oilBoxCap != null">
+                oilBoxCap=#{oilBoxCap},
+            </if>
+            <if test="seatSupplier != null">
+                seatSupplier=#{seatSupplier},
+            </if>
+            <if test="batteryModel != null">
+                batteryModel=#{batteryModel},
+            </if>
+            <if test="deptId != null">
+                deptId=#{deptId},
+            </if>
+            <if test="heaterSupplier != null">
+                heaterSupplier=#{heaterSupplier},
+            </if>
+            <if test="oilCost != null">
+                oilCost=#{oilCost},
+            </if>
+            <if test="lastAlarmTime != null">
+                lastAlarmTime=#{lastAlarmTime},
+            </if>
+            <if test="vehicleNo != null">
+                vehicleNo=#{vehicleNo},
+            </if>
+            <if test="absModel != null">
+                absModel=#{absModel},
+            </if>
+            <if test="paymentExpiredDate != null">
+                paymentExpiredDate=#{paymentExpiredDate},
+            </if>
+            <if test="dynamoModel != null">
+                dynamoModel=#{dynamoModel},
+            </if>
+            <if test="doorpumpModel != null">
+                doorpumpModel=#{doorpumpModel},
+            </if>
+            <if test="producer != null">
+                producer=#{producer},
+            </if>
+            <if test="online != null">
+                online=#{online},
+            </if>
+            <if test="engineVinNo != null">
+                engineVinNo=#{engineVinNo},
+            </if>
+            <if test="batteryCap != null">
+                batteryCap=#{batteryCap},
+            </if>
+            <if test="vehicleSN != null">
+                vehicleSN=#{vehicleSN},
+            </if>
+            <if test="airBottleCap != null">
+                airBottleCap=#{airBottleCap},
+            </if>
+            <if test="motorType != null">
+                motorType=#{motorType},
+            </if>
+            <if test="status != null">
+                status=#{status},
+            </if>
+            <if test="lastDataUpTime != null">
+                lastDataUpTime=#{lastDataUpTime},
+            </if>
+        </set>
+        where vehicleId=#{vehicleId}
+    </update>
+
+</mapper>

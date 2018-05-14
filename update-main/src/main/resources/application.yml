@@ -1,0 +1,62 @@
+server:
+  port: 8080
+  tomcat:
+    uri-encoding: utf-8
+  session:
+    cookie:
+      name: UISESSION
+spring:
+  thymeleaf:
+    mode: LEGACYHTML5
+    cache: false
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+  profiles: 
+    active: dev
+  http:
+    multipart:
+      max-file-size: 30Mb
+      max-request-size: 30Mb
+  devtools:
+    restart:
+      enabled: true
+  aop:
+    proxy-target-class: true
+mybatis: 
+  configuration:
+    map-underscore-to-camel-case: true
+  mapper-locations: mybatis/**/*Mapper.xml
+  typeAliasesPackage: com.thinking.update.main.entity
+pagehelper:
+    helperDialect: mysql
+    reasonable: true #分页参数合理化，最小值不能小于0，最大值不能超过行数
+    supportMethodsArguments: true
+    params: count=countSql
+    rowBoundsWithCount: true
+    offsetAsPageNum: true
+app:
+ swaggerEnabled: true
+ zkServer: 118.190.200.75:2181
+myOAthConfig:
+  hostUrl: http://localhost:5678/auth
+  logoutUrl: ${myOAthConfig.hostUrl}/logout
+security:
+  basic:
+    realm: local
+  enable-csrf: false
+  user:
+    password: none
+  oauth2:
+    sso:
+      login-path: /login
+    client:
+      client-id: acme
+      client-secret: acmesecret
+      access-token-uri: ${myOAthConfig.hostUrl}/oauth/token
+      user-authorization-uri: ${myOAthConfig.hostUrl}/oauth/authorize
+      client-authentication-scheme: form
+    resource:
+      jwt:
+       key-uri: ${myOAthConfig.hostUrl}/oauth/token_key
+#      user-info-uri: ${myOAthConfig.hostUrl}/user

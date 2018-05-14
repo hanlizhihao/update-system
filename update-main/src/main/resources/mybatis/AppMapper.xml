@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinking.update.main.dao.AppDao">
+    <!-- App的resultMap,column是给数据库列起的别名,它对应property类的属性-->
+    <resultMap id="result_App_Map" type="com.thinking.update.main.entity.App">
+        <id column="id" property="id" />
+        <result column="target_version_name" property="targetVersionName" />
+        <result column="create_user_id" property="createUserId" />
+        <result column="device_id" property="deviceId" />
+        <result column="create_time" property="createTime" />
+        <result column="running_state" property="runningState" />
+        <result column="version_id" property="versionId" />
+        <result column="protocol_id" property="protocolId" />
+        <result column="running_state_name" property="runningStateName" />
+        <result column="app_name" property="appName" />
+        <result column="app_type_id" property="appTypeId" />
+        <result column="update_time" property="updateTime" />
+        <result column="version_state" property="versionState" />
+        <result column="version_name" property="versionName" />
+        <result column="update_user" property="updateUser" />
+        <result column="update_user_id" property="updateUserId" />
+        <result column="target_version_id" property="targetVersionId" />
+        <result column="update_state" property="updateState" />
+        <result column="create_user" property="createUser" />
+        <result column="protocol_name" property="protocolName" />
+        <result column="ts" property="ts" />
+    </resultMap>
+
+    <!-- 数据库中表名为:t_app的列名,as前是数据库的列明,as后是列的别名用于映射成实体类中的属性,需要注意的是别名必须与resultMap中的column别名一致 -->
+    <sql id="t_app_Column">
+        t_app.id as id
+        ,t_app.target_version_name as target_version_name
+        ,t_app.create_user_id as create_user_id
+        ,t_app.device_id as device_id
+        ,t_app.create_time as create_time
+        ,t_app.running_state as running_state
+        ,t_app.version_id as version_id
+        ,t_app.protocol_id as protocol_id
+        ,t_app.running_state_name as running_state_name
+        ,t_app.app_name as app_name
+        ,t_app.app_type_id as app_type_id
+        ,t_app.update_time as update_time
+        ,t_app.version_state as version_state
+        ,t_app.version_name as version_name
+        ,t_app.update_user as update_user
+        ,t_app.update_user_id as update_user_id
+        ,t_app.target_version_id as target_version_id
+        ,t_app.update_state as update_state
+        ,t_app.create_user as create_user
+        ,t_app.protocol_name as protocol_name
+        ,t_app.ts as ts
+    </sql>
+
+    <!--获得类名为:App对应的数据库表的数据总行数 -->
+    <select id="getAppRowCount" resultType="java.lang.Long">
+        select count(id) from t_app
+    </select>
+    <!-- 获得类名为:App对应数据库中表的数据集合 -->
+    <select id="selectApp" resultMap="result_App_Map">
+        select 
+        <include refid="t_app_Column" /> 
+        from t_app
+    </select> 
+
+    <!-- 获得一个App对象,以参数App对象中不为空的属性作为条件进行查询-->
+    <select id="selectAppByObj" parameterType="com.thinking.update.main.entity.App" resultMap="result_App_Map">
+        select 
+            <include refid="t_app_Column" /> 
+        from t_app
+        <where>
+            <if test="ts != null "> and t_app.ts = #{ts}</if>
+            <if test="protocolName != null "> and t_app.protocol_name = #{protocolName}</if>
+            <if test="createUser != null "> and t_app.create_user = #{createUser}</if>
+            <if test="updateState != null "> and t_app.update_state = #{updateState}</if>
+            <if test="targetVersionId != null "> and t_app.target_version_id = #{targetVersionId}</if>
+            <if test="updateUserId != null "> and t_app.update_user_id = #{updateUserId}</if>
+            <if test="updateUser != null "> and t_app.update_user = #{updateUser}</if>
+            <if test="versionName != null "> and t_app.version_name = #{versionName}</if>
+            <if test="versionState != null "> and t_app.version_state = #{versionState}</if>
+            <if test="updateTime != null "> and t_app.update_time = #{updateTime}</if>
+            <if test="appTypeId != null "> and t_app.app_type_id = #{appTypeId}</if>
+            <if test="appName != null "> and t_app.app_name = #{appName}</if>
+            <if test="runningStateName != null "> and t_app.running_state_name = #{runningStateName}</if>
+            <if test="protocolId != null "> and t_app.protocol_id = #{protocolId}</if>
+            <if test="versionId != null "> and t_app.version_id = #{versionId}</if>
+            <if test="runningState != null "> and t_app.running_state = #{runningState}</if>
+            <if test="createTime != null "> and t_app.create_time = #{createTime}</if>
+            <if test="deviceId != null "> and t_app.device_id = #{deviceId}</if>
+            <if test="createUserId != null "> and t_app.create_user_id = #{createUserId}</if>
+            <if test="targetVersionName != null "> and t_app.target_version_name = #{targetVersionName}</if>
+            <if test="id != null "> and t_app.id = #{id}</if>
+        </where>
+    </select> 
+
+    <!-- 通过App的id获得对应数据库中表的数据对象-->
+    <select id="selectAppById" parameterType="java.lang.Long" resultMap="result_App_Map">
+        select 
+            <include refid="t_app_Column" /> 
+        from t_app
+        where t_app.id = #{id}
+    </select> 
+
+    <!-- 将App插入到对应数据库的表中,包括属性值为null的数据-->
+
+    <insert id="insertApp" parameterType="com.thinking.update.main.entity.App">
+        insert into t_app(id,target_version_name,create_user_id,device_id,create_time,running_state,version_id,protocol_id,running_state_name,app_name,app_type_id,update_time,version_state,version_name,update_user,update_user_id,target_version_id,update_state,create_user,protocol_name,ts) 
+        values(#{id},#{targetVersionName},#{createUserId},#{deviceId},#{createTime},#{runningState},#{versionId},#{protocolId},#{runningStateName},#{appName},#{appTypeId},#{updateTime},#{versionState},#{versionName},#{updateUser},#{updateUserId},#{targetVersionId},#{updateState},#{createUser},#{protocolName},#{ts})
+    </insert>
+
+    <!-- 将App中属性值不为null的数据,插入到对应数据库的表中-->
+    <insert id="insertNonEmptyApp" parameterType="com.thinking.update.main.entity.App">
+        insert into t_app
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="targetVersionName != null">target_version_name,</if>
+            <if test="createUserId != null">create_user_id,</if>
+            <if test="deviceId != null">device_id,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="runningState != null">running_state,</if>
+            <if test="versionId != null">version_id,</if>
+            <if test="protocolId != null">protocol_id,</if>
+            <if test="runningStateName != null">running_state_name,</if>
+            <if test="appName != null">app_name,</if>
+            <if test="appTypeId != null">app_type_id,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="versionState != null">version_state,</if>
+            <if test="versionName != null">version_name,</if>
+            <if test="updateUser != null">update_user,</if>
+            <if test="updateUserId != null">update_user_id,</if>
+            <if test="targetVersionId != null">target_version_id,</if>
+            <if test="updateState != null">update_state,</if>
+            <if test="createUser != null">create_user,</if>
+            <if test="protocolName != null">protocol_name,</if>
+            <if test="ts != null">ts,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null"> #{id},</if>
+            <if test="targetVersionName != null"> #{targetVersionName},</if>
+            <if test="createUserId != null"> #{createUserId},</if>
+            <if test="deviceId != null"> #{deviceId},</if>
+            <if test="createTime != null"> #{createTime},</if>
+            <if test="runningState != null"> #{runningState},</if>
+            <if test="versionId != null"> #{versionId},</if>
+            <if test="protocolId != null"> #{protocolId},</if>
+            <if test="runningStateName != null"> #{runningStateName},</if>
+            <if test="appName != null"> #{appName},</if>
+            <if test="appTypeId != null"> #{appTypeId},</if>
+            <if test="updateTime != null"> #{updateTime},</if>
+            <if test="versionState != null"> #{versionState},</if>
+            <if test="versionName != null"> #{versionName},</if>
+            <if test="updateUser != null"> #{updateUser},</if>
+            <if test="updateUserId != null"> #{updateUserId},</if>
+            <if test="targetVersionId != null"> #{targetVersionId},</if>
+            <if test="updateState != null"> #{updateState},</if>
+            <if test="createUser != null"> #{createUser},</if>
+            <if test="protocolName != null"> #{protocolName},</if>
+            <if test="ts != null"> #{ts},</if>
+        </trim>
+    </insert>
+
+    <!-- 将App批量插入到对应数据库的表中-->
+    <insert id="insertAppByBatch" parameterType="ArrayList">
+        insert into t_app(id,target_version_name,create_user_id,device_id,create_time,running_state,version_id,protocol_id,running_state_name,app_name,app_type_id,update_time,version_state,version_name,update_user,update_user_id,target_version_id,update_state,create_user,protocol_name,ts) values
+        <foreach collection="list" item="item" index="index" separator="," >
+            (#{item.id},#{item.targetVersionName},#{item.createUserId},#{item.deviceId},#{item.createTime},#{item.runningState},#{item.versionId},#{item.protocolId},#{item.runningStateName},#{item.appName},#{item.appTypeId},#{item.updateTime},#{item.versionState},#{item.versionName},#{item.updateUser},#{item.updateUserId},#{item.targetVersionId},#{item.updateState},#{item.createUser},#{item.protocolName},#{item.ts})
+        </foreach>
+    </insert>
+
+    <!-- 通过App的id将数据库表中对应的数据删除-->
+    <delete id="deleteAppById" parameterType="java.lang.Long">
+        delete from t_app
+        where id = #{id}
+    </delete>
+
+    <!-- 通过App的id将App的数据更新到数据库中对应的表,包括值null的数据-->
+    <update id="updateAppById" parameterType="com.thinking.update.main.entity.App">
+        update t_app set
+            target_version_name=#{targetVersionName}
+            ,create_user_id=#{createUserId}
+            ,device_id=#{deviceId}
+            ,create_time=#{createTime}
+            ,running_state=#{runningState}
+            ,version_id=#{versionId}
+            ,protocol_id=#{protocolId}
+            ,running_state_name=#{runningStateName}
+            ,app_name=#{appName}
+            ,app_type_id=#{appTypeId}
+            ,update_time=#{updateTime}
+            ,version_state=#{versionState}
+            ,version_name=#{versionName}
+            ,update_user=#{updateUser}
+            ,update_user_id=#{updateUserId}
+            ,target_version_id=#{targetVersionId}
+            ,update_state=#{updateState}
+            ,create_user=#{createUser}
+            ,protocol_name=#{protocolName}
+            ,ts=#{ts}
+        where id=#{id}
+    </update>
+
+    <!-- 通过App的id将App中属性值不为null的数据更新到数据库对应的表中-->
+    <update id="updateNonEmptyAppById" parameterType="com.thinking.update.main.entity.App">
+        update t_app
+        <set>
+            <if test="targetVersionName != null">
+                target_version_name=#{targetVersionName},
+            </if>
+            <if test="createUserId != null">
+                create_user_id=#{createUserId},
+            </if>
+            <if test="deviceId != null">
+                device_id=#{deviceId},
+            </if>
+            <if test="createTime != null">
+                create_time=#{createTime},
+            </if>
+            <if test="runningState != null">
+                running_state=#{runningState},
+            </if>
+            <if test="versionId != null">
+                version_id=#{versionId},
+            </if>
+            <if test="protocolId != null">
+                protocol_id=#{protocolId},
+            </if>
+            <if test="runningStateName != null">
+                running_state_name=#{runningStateName},
+            </if>
+            <if test="appName != null">
+                app_name=#{appName},
+            </if>
+            <if test="appTypeId != null">
+                app_type_id=#{appTypeId},
+            </if>
+            <if test="updateTime != null">
+                update_time=#{updateTime},
+            </if>
+            <if test="versionState != null">
+                version_state=#{versionState},
+            </if>
+            <if test="versionName != null">
+                version_name=#{versionName},
+            </if>
+            <if test="updateUser != null">
+                update_user=#{updateUser},
+            </if>
+            <if test="updateUserId != null">
+                update_user_id=#{updateUserId},
+            </if>
+            <if test="targetVersionId != null">
+                target_version_id=#{targetVersionId},
+            </if>
+            <if test="updateState != null">
+                update_state=#{updateState},
+            </if>
+            <if test="createUser != null">
+                create_user=#{createUser},
+            </if>
+            <if test="protocolName != null">
+                protocol_name=#{protocolName},
+            </if>
+            <if test="ts != null">
+                ts=#{ts},
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+
+</mapper>

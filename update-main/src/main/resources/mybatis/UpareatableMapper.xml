@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinking.update.main.dao.UpareatableDao">
+    <!-- Upareatable的resultMap,column是给数据库列起的别名,它对应property类的属性-->
+    <resultMap id="result_Upareatable_Map" type="com.thinking.update.main.entity.Upareatable">
+        <result column="uptype" property="uptype" />
+        <result column="flag" property="flag" />
+        <result column="taskflag" property="taskflag" />
+        <result column="relateid" property="relateid" />
+        <result column="remarkstr" property="remarkstr" />
+        <result column="listorder" property="listorder" />
+        <result column="upareaid" property="upareaid" />
+        <result column="upareaname" property="upareaname" />
+        <result column="upcorpname" property="upcorpname" />
+    </resultMap>
+
+    <!-- 数据库中表名为:upareatable的列名,as前是数据库的列明,as后是列的别名用于映射成实体类中的属性,需要注意的是别名必须与resultMap中的column别名一致 -->
+    <sql id="upareatable_Column">
+        upareatable.uptype as uptype
+        ,upareatable.flag as flag
+        ,upareatable.taskflag as taskflag
+        ,upareatable.relateid as relateid
+        ,upareatable.remarkstr as remarkstr
+        ,upareatable.listorder as listorder
+        ,upareatable.upareaid as upareaid
+        ,upareatable.upareaname as upareaname
+        ,upareatable.upcorpname as upcorpname
+    </sql>
+
+    <!--获得类名为:Upareatable对应的数据库表的数据总行数 -->
+    <select id="getUpareatableRowCount" resultType="java.lang.Long">
+        select count(*) from upareatable
+    </select>
+    <!-- 获得类名为:Upareatable对应数据库中表的数据集合 -->
+    <select id="selectUpareatable" resultMap="result_Upareatable_Map">
+        select 
+        <include refid="upareatable_Column" /> 
+        from upareatable
+    </select> 
+
+    <!-- 将Upareatable插入到对应数据库的表中,包括属性值为null的数据-->
+
+    <insert id="insertUpareatable" parameterType="com.thinking.update.main.entity.Upareatable">
+        insert into upareatable(uptype,flag,taskflag,relateid,remarkstr,listorder,upareaid,upareaname,upcorpname) 
+        values(#{uptype},#{flag},#{taskflag},#{relateid},#{remarkstr},#{listorder},#{upareaid},#{upareaname},#{upcorpname})
+    </insert>
+
+    <!-- 将Upareatable中属性值不为null的数据,插入到对应数据库的表中-->
+    <insert id="insertNonEmptyUpareatable" parameterType="com.thinking.update.main.entity.Upareatable">
+        insert into upareatable
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="uptype != null">uptype,</if>
+            <if test="flag != null">flag,</if>
+            <if test="taskflag != null">taskflag,</if>
+            <if test="relateid != null">relateid,</if>
+            <if test="remarkstr != null">remarkstr,</if>
+            <if test="listorder != null">listorder,</if>
+            <if test="upareaid != null">upareaid,</if>
+            <if test="upareaname != null">upareaname,</if>
+            <if test="upcorpname != null">upcorpname,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="uptype != null"> #{uptype},</if>
+            <if test="flag != null"> #{flag},</if>
+            <if test="taskflag != null"> #{taskflag},</if>
+            <if test="relateid != null"> #{relateid},</if>
+            <if test="remarkstr != null"> #{remarkstr},</if>
+            <if test="listorder != null"> #{listorder},</if>
+            <if test="upareaid != null"> #{upareaid},</if>
+            <if test="upareaname != null"> #{upareaname},</if>
+            <if test="upcorpname != null"> #{upcorpname},</if>
+        </trim>
+    </insert>
+
+    <!-- 将Upareatable批量插入到对应数据库的表中-->
+    <insert id="insertUpareatableByBatch" parameterType="ArrayList">
+        insert into upareatable(uptype,flag,taskflag,relateid,remarkstr,listorder,upareaid,upareaname,upcorpname) values
+        <foreach collection="list" item="item" index="index" separator="," >
+            (#{item.uptype},#{item.flag},#{item.taskflag},#{item.relateid},#{item.remarkstr},#{item.listorder},#{item.upareaid},#{item.upareaname},#{item.upcorpname})
+        </foreach>
+    </insert>
+
+</mapper>

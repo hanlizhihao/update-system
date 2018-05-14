@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinking.update.main.dao.UsersDao">
+    <!-- Users的resultMap,column是给数据库列起的别名,它对应property类的属性-->
+    <resultMap id="result_Users_Map" type="com.thinking.update.main.entity.Users">
+        <id column="id" property="id" />
+        <result column="password" property="password" />
+        <result column="enabled" property="enabled" />
+        <result column="username" property="username" />
+    </resultMap>
+
+    <!-- 数据库中表名为:users的列名,as前是数据库的列明,as后是列的别名用于映射成实体类中的属性,需要注意的是别名必须与resultMap中的column别名一致 -->
+    <sql id="users_Column">
+        users.id as id
+        ,users.password as password
+        ,users.enabled as enabled
+        ,users.username as username
+    </sql>
+
+    <!--获得类名为:Users对应的数据库表的数据总行数 -->
+    <select id="getUsersRowCount" resultType="java.lang.Long">
+        select count(id) from users
+    </select>
+    <!-- 获得类名为:Users对应数据库中表的数据集合 -->
+    <select id="selectUsers" resultMap="result_Users_Map">
+        select 
+        <include refid="users_Column" /> 
+        from users
+    </select> 
+
+    <!-- 获得一个Users对象,以参数Users对象中不为空的属性作为条件进行查询-->
+    <select id="selectUsersByObj" parameterType="com.thinking.update.main.entity.Users" resultMap="result_Users_Map">
+        select 
+            <include refid="users_Column" /> 
+        from users
+        <where>
+            <if test="username != null "> and users.username = #{username}</if>
+            <if test="enabled != null "> and users.enabled = #{enabled}</if>
+            <if test="password != null "> and users.password = #{password}</if>
+            <if test="id != null "> and users.id = #{id}</if>
+        </where>
+    </select> 
+
+    <!-- 通过Users的id获得对应数据库中表的数据对象-->
+    <select id="selectUsersById" parameterType="java.lang.Long" resultMap="result_Users_Map">
+        select 
+            <include refid="users_Column" /> 
+        from users
+        where users.id = #{id}
+    </select> 
+
+    <!-- 将Users插入到对应数据库的表中,包括属性值为null的数据-->
+
+    <insert id="insertUsers" parameterType="com.thinking.update.main.entity.Users">
+        insert into users(id,password,enabled,username) 
+        values(#{id},#{password},#{enabled},#{username})
+    </insert>
+
+    <!-- 将Users中属性值不为null的数据,插入到对应数据库的表中-->
+    <insert id="insertNonEmptyUsers" parameterType="com.thinking.update.main.entity.Users">
+        insert into users
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="password != null">password,</if>
+            <if test="enabled != null">enabled,</if>
+            <if test="username != null">username,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null"> #{id},</if>
+            <if test="password != null"> #{password},</if>
+            <if test="enabled != null"> #{enabled},</if>
+            <if test="username != null"> #{username},</if>
+        </trim>
+    </insert>
+
+    <!-- 将Users批量插入到对应数据库的表中-->
+    <insert id="insertUsersByBatch" parameterType="java.util.ArrayList">
+        insert into users(id,password,enabled,username) values
+        <foreach collection="list" item="item" index="index" separator="," >
+            (#{item.id},#{item.password},#{item.enabled},#{item.username})
+        </foreach>
+    </insert>
+
+    <!-- 通过Users的id将数据库表中对应的数据删除-->
+    <delete id="deleteUsersById" parameterType="java.lang.Long">
+        delete from users
+        where id = #{id}
+    </delete>
+
+    <!-- 通过Users的id将Users的数据更新到数据库中对应的表,包括值null的数据-->
+    <update id="updateUsersById" parameterType="com.thinking.update.main.entity.Users">
+        update users set
+            password=#{password}
+            ,enabled=#{enabled}
+            ,username=#{username}
+        where id=#{id}
+    </update>
+
+    <!-- 通过Users的id将Users中属性值不为null的数据更新到数据库对应的表中-->
+    <update id="updateNonEmptyUsersById" parameterType="com.thinking.update.main.entity.Users">
+        update users
+        <set>
+            <if test="password != null">
+                password=#{password},
+            </if>
+            <if test="enabled != null">
+                enabled=#{enabled},
+            </if>
+            <if test="username != null">
+                username=#{username},
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+
+</mapper>
