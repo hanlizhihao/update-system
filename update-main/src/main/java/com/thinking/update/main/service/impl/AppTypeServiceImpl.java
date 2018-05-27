@@ -1,13 +1,10 @@
 package com.thinking.update.main.service.impl;
-
+import java.util.List;
 import com.thinking.update.main.dao.AppTypeDao;
 import com.thinking.update.main.entity.AppType;
 import com.thinking.update.main.service.AppTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-
 @Service
 public class AppTypeServiceImpl implements AppTypeService{
     @Autowired

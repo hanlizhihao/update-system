@@ -1,9 +1,6 @@
 package com.thinking.update.main.service;
-
-import com.thinking.update.main.entity.TaskDetail;
-
 import java.util.List;
-
+import com.thinking.update.main.entity.TaskDetail;
 public interface TaskDetailService{
 	/**
 	 * 获得TaskDetail数据的总行数

@@ -1,9 +1,6 @@
 package com.thinking.update.main.dao;
-
 import com.thinking.update.main.entity.App;
-
 import java.util.List;
-
 public interface AppDao{
 	/**
 	 * 获得App数据的总行数

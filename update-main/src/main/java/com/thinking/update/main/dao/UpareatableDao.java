@@ -1,9 +1,6 @@
 package com.thinking.update.main.dao;
-
 import com.thinking.update.main.entity.Upareatable;
-
 import java.util.List;
-
 public interface UpareatableDao{
 	/**
 	 * 获得Upareatable数据的总行数

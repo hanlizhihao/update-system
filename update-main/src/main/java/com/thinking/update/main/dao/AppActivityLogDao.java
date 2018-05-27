@@ -1,9 +1,6 @@
 package com.thinking.update.main.dao;
-
 import com.thinking.update.main.entity.AppActivityLog;
-
 import java.util.List;
-
 public interface AppActivityLogDao{
 	/**
 	 * 获得AppActivityLog数据的总行数

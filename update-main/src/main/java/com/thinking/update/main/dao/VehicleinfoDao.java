@@ -1,9 +1,6 @@
 package com.thinking.update.main.dao;
-
 import com.thinking.update.main.entity.Vehicleinfo;
-
 import java.util.List;
-
 public interface VehicleinfoDao{
 	/**
 	 * 获得Vehicleinfo数据的总行数
@@ -26,7 +23,7 @@ public interface VehicleinfoDao{
 	 * @param id
 	 * @return
 	 */
-    Vehicleinfo selectVehicleinfoById(Integer id);
+    Vehicleinfo selectVehicleinfoById(Object id);
 	/**
 	 * 插入Vehicleinfo到数据库,包括null值
 	 * @param value
@@ -50,7 +47,7 @@ public interface VehicleinfoDao{
 	 * @param id
 	 * @return
 	 */
-    int deleteVehicleinfoById(Integer id);
+    int deleteVehicleinfoById(Object id);
 	/**
 	 * 通过Vehicleinfo的id更新Vehicleinfo中的数据,包括null值
 	 * @param enti

@@ -1,9 +1,6 @@
 package com.thinking.update.main.dao;
-
 import com.thinking.update.main.entity.Users;
-
 import java.util.List;
-
 public interface UsersDao{
 	/**
 	 * 获得Users数据的总行数

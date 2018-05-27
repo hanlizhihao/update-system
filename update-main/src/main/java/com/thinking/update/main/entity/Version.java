@@ -6,6 +6,7 @@ public class Version {
     private java.util.Date createTime;
     private String fileName;//文件真实名称
     private String md5Code;//对文件的md5校验码
+    private String remark;
     private Long type;//0-安装程序，1-协议
     private String url;//文件的下载地址
     private Object fileSize;//文件大小 单位：MB
@@ -18,7 +19,7 @@ public class Version {
     public Version() {
         super();
     }
-    public Version(Long id,Long createUserId,String md5Name,java.util.Date createTime,String fileName,String md5Code,Long type,String url,Object fileSize,java.util.Date updateTime,String versionName,String updateUser,Long updateUserId,String createUser,java.util.Date ts) {
+    public Version(Long id,Long createUserId,String md5Name,java.util.Date createTime,String fileName,String md5Code,String remark,Long type,String url,Object fileSize,java.util.Date updateTime,String versionName,String updateUser,Long updateUserId,String createUser,java.util.Date ts) {
         super();
         this.id = id;
         this.createUserId = createUserId;
@@ -26,6 +27,7 @@ public class Version {
         this.createTime = createTime;
         this.fileName = fileName;
         this.md5Code = md5Code;
+        this.remark = remark;
         this.type = type;
         this.url = url;
         this.fileSize = fileSize;
@@ -82,6 +84,14 @@ public class Version {
 
     public void setMd5Code(String md5Code) {
         this.md5Code = md5Code;
+    }
+
+    public String getRemark() {
+        return this.remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 
     public Long getType() {

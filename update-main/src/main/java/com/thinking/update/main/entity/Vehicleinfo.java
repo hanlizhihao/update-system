@@ -1,111 +1,124 @@
 package com.thinking.update.main.entity;
 public class Vehicleinfo {
-    private Integer vehicleId;//主键ID
     private String deviceFactoryNo;//主机厂车辆自编号
-    private String lightswitchsupplier;//灯光组合开关厂家
-    private String purchaseDate;//购买日期
-    private String wheelaxlesModel;//车桥型号/厂家
+    private String companyName;//机构名称
     private String brakeshoreModel;//刹车蹄片型号/厂家
-    private String electricboxModel;//电器盒型号/厂家
     private String wiperSupplier;//雨刮系统厂家
-    private String tirepressureSupplier;//胎压型号/厂家
     private String deviceId;//设备号
     private String tireModel;//轮胎型号/厂家
     private Integer dayRunTime;//每日行驶时间
-    private String gearBoxModel;//变速箱型号/厂家
     private String lineInfo;//班线
-    private String sim;//sim卡信息
     private String motorSupplier;//电机型号/厂家
-    private Integer alarm;//是否报警
-    private Integer gasCost;//标准气耗
-    private java.util.Date expireDate;//车辆到期日期
-    private Integer eleCost;//标准电耗
     private String vehicleType;//车型
-    private Integer paymentStatus;//是否欠费
+    private Integer companyDeptId;//机构主键
     private String isReparing;//是否正在维修。改信息根据“车辆维护”信息，通过触发器自动修改
-    private String engineModel;//发动机型号/厂家
     private String fsbSupplier;//总线厂家
-    private Integer oilBoxCap;//油箱容量
-    private String seatSupplier;//座椅厂家
+    private Integer lineDeptId;//机构主键
     private String batteryModel;//电池型号/厂家
     private Integer deptId;//所属线路编号
-    private String heaterSupplier;//暖风厂家
     private Integer oilCost;//标准油耗
     private Integer lastAlarmTime;//报警最后更新时间
     private String vehicleNo;//车牌号
-    private String absModel;//ABS 型号/厂家
+    private String groupName;//机构名称
     private java.util.Date paymentExpiredDate;//缴费到期时间
     private String dynamoModel;//发电机型号/厂家
     private String doorpumpModel;//门泵型号/厂家
     private String producer;//车辆生产厂家
-    private Integer online;
-    private String engineVinNo;//发动机VIN码
     private Integer batteryCap;//电池电量
     private String vehicleSN;//车辆编号
-    private Integer airBottleCap;//气瓶容量
-    private Object motorType;//车辆类型：1- 燃油车，2- 电车，3- 油电混合动力车，4- 燃气车，5- 气电混合动力车
+    private Object motorType;//车辆类型：
+1- 燃油车
+，2- 电车
+，3- 油电混合动力车
+，4- 燃气车
+，5- 气电混合动力车
     private Integer status;//汽车状态：1-正常    2-故障   3-维修
     private Integer lastDataUpTime;//数据最后更新时间
+    private String lightswitchsupplier;//灯光组合开关厂家
+    private String purchaseDate;//购买日期
+    private String wheelaxlesModel;//车桥型号/厂家
+    private String electricboxModel;//电器盒型号/厂家
+    private String lineName;//机构名称
+    private Integer groupDeptId;//机构主键
+    private String tirepressureSupplier;//胎压型号/厂家
+    private String gearBoxModel;//变速箱型号/厂家
+    private String subCompanyName;//机构名称
+    private String sim;//sim卡信息
+    private Integer alarm;//是否报警
+    private Integer gasCost;//标准气耗
+    private java.util.Date expireDate;//车辆到期日期
+    private Integer vehicleId;//主键ID
+    private Integer eleCost;//标准电耗
+    private Integer paymentStatus;//是否欠费
+    private String engineModel;//发动机型号/厂家
+    private Integer oilBoxCap;//油箱容量
+    private String seatSupplier;//座椅厂家
+    private Integer subCompanyDeptId;//机构主键
+    private String heaterSupplier;//暖风厂家
+    private String absModel;//ABS 型号/厂家
+    private Integer online;
+    private String engineVinNo;//发动机VIN码
+    private Integer airBottleCap;//气瓶容量
     public Vehicleinfo() {
         super();
     }
-    public Vehicleinfo(Integer vehicleId,String deviceFactoryNo,String lightswitchsupplier,String purchaseDate,String wheelaxlesModel,String brakeshoreModel,String electricboxModel,String wiperSupplier,String tirepressureSupplier,String deviceId,String tireModel,Integer dayRunTime,String gearBoxModel,String lineInfo,String sim,String motorSupplier,Integer alarm,Integer gasCost,java.util.Date expireDate,Integer eleCost,String vehicleType,Integer paymentStatus,String isReparing,String engineModel,String fsbSupplier,Integer oilBoxCap,String seatSupplier,String batteryModel,Integer deptId,String heaterSupplier,Integer oilCost,Integer lastAlarmTime,String vehicleNo,String absModel,java.util.Date paymentExpiredDate,String dynamoModel,String doorpumpModel,String producer,Integer online,String engineVinNo,Integer batteryCap,String vehicleSN,Integer airBottleCap,Object motorType,Integer status,Integer lastDataUpTime) {
+    public Vehicleinfo(String deviceFactoryNo,String companyName,String brakeshoreModel,String wiperSupplier,String deviceId,String tireModel,Integer dayRunTime,String lineInfo,String motorSupplier,String vehicleType,Integer companyDeptId,String isReparing,String fsbSupplier,Integer lineDeptId,String batteryModel,Integer deptId,Integer oilCost,Integer lastAlarmTime,String vehicleNo,String groupName,java.util.Date paymentExpiredDate,String dynamoModel,String doorpumpModel,String producer,Integer batteryCap,String vehicleSN,Object motorType,Integer status,Integer lastDataUpTime,String lightswitchsupplier,String purchaseDate,String wheelaxlesModel,String electricboxModel,String lineName,Integer groupDeptId,String tirepressureSupplier,String gearBoxModel,String subCompanyName,String sim,Integer alarm,Integer gasCost,java.util.Date expireDate,Integer vehicleId,Integer eleCost,Integer paymentStatus,String engineModel,Integer oilBoxCap,String seatSupplier,Integer subCompanyDeptId,String heaterSupplier,String absModel,Integer online,String engineVinNo,Integer airBottleCap) {
         super();
-        this.vehicleId = vehicleId;
         this.deviceFactoryNo = deviceFactoryNo;
-        this.lightswitchsupplier = lightswitchsupplier;
-        this.purchaseDate = purchaseDate;
-        this.wheelaxlesModel = wheelaxlesModel;
+        this.companyName = companyName;
         this.brakeshoreModel = brakeshoreModel;
-        this.electricboxModel = electricboxModel;
         this.wiperSupplier = wiperSupplier;
-        this.tirepressureSupplier = tirepressureSupplier;
         this.deviceId = deviceId;
         this.tireModel = tireModel;
         this.dayRunTime = dayRunTime;
-        this.gearBoxModel = gearBoxModel;
         this.lineInfo = lineInfo;
-        this.sim = sim;
         this.motorSupplier = motorSupplier;
-        this.alarm = alarm;
-        this.gasCost = gasCost;
-        this.expireDate = expireDate;
-        this.eleCost = eleCost;
         this.vehicleType = vehicleType;
-        this.paymentStatus = paymentStatus;
+        this.companyDeptId = companyDeptId;
         this.isReparing = isReparing;
-        this.engineModel = engineModel;
         this.fsbSupplier = fsbSupplier;
-        this.oilBoxCap = oilBoxCap;
-        this.seatSupplier = seatSupplier;
+        this.lineDeptId = lineDeptId;
         this.batteryModel = batteryModel;
         this.deptId = deptId;
-        this.heaterSupplier = heaterSupplier;
         this.oilCost = oilCost;
         this.lastAlarmTime = lastAlarmTime;
         this.vehicleNo = vehicleNo;
-        this.absModel = absModel;
+        this.groupName = groupName;
         this.paymentExpiredDate = paymentExpiredDate;
         this.dynamoModel = dynamoModel;
         this.doorpumpModel = doorpumpModel;
         this.producer = producer;
-        this.online = online;
-        this.engineVinNo = engineVinNo;
         this.batteryCap = batteryCap;
         this.vehicleSN = vehicleSN;
-        this.airBottleCap = airBottleCap;
         this.motorType = motorType;
         this.status = status;
         this.lastDataUpTime = lastDataUpTime;
-    }
-    public Integer getVehicleId() {
-        return this.vehicleId;
-    }
-
-    public void setVehicleId(Integer vehicleId) {
+        this.lightswitchsupplier = lightswitchsupplier;
+        this.purchaseDate = purchaseDate;
+        this.wheelaxlesModel = wheelaxlesModel;
+        this.electricboxModel = electricboxModel;
+        this.lineName = lineName;
+        this.groupDeptId = groupDeptId;
+        this.tirepressureSupplier = tirepressureSupplier;
+        this.gearBoxModel = gearBoxModel;
+        this.subCompanyName = subCompanyName;
+        this.sim = sim;
+        this.alarm = alarm;
+        this.gasCost = gasCost;
+        this.expireDate = expireDate;
         this.vehicleId = vehicleId;
+        this.eleCost = eleCost;
+        this.paymentStatus = paymentStatus;
+        this.engineModel = engineModel;
+        this.oilBoxCap = oilBoxCap;
+        this.seatSupplier = seatSupplier;
+        this.subCompanyDeptId = subCompanyDeptId;
+        this.heaterSupplier = heaterSupplier;
+        this.absModel = absModel;
+        this.online = online;
+        this.engineVinNo = engineVinNo;
+        this.airBottleCap = airBottleCap;
     }
-
     public String getDeviceFactoryNo() {
         return this.deviceFactoryNo;
     }
@@ -114,28 +127,12 @@ public class Vehicleinfo {
         this.deviceFactoryNo = deviceFactoryNo;
     }
 
-    public String getLightswitchsupplier() {
-        return this.lightswitchsupplier;
+    public String getCompanyName() {
+        return this.companyName;
     }
 
-    public void setLightswitchsupplier(String lightswitchsupplier) {
-        this.lightswitchsupplier = lightswitchsupplier;
-    }
-
-    public String getPurchaseDate() {
-        return this.purchaseDate;
-    }
-
-    public void setPurchaseDate(String purchaseDate) {
-        this.purchaseDate = purchaseDate;
-    }
-
-    public String getWheelaxlesModel() {
-        return this.wheelaxlesModel;
-    }
-
-    public void setWheelaxlesModel(String wheelaxlesModel) {
-        this.wheelaxlesModel = wheelaxlesModel;
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
     }
 
     public String getBrakeshoreModel() {
@@ -146,28 +143,12 @@ public class Vehicleinfo {
         this.brakeshoreModel = brakeshoreModel;
     }
 
-    public String getElectricboxModel() {
-        return this.electricboxModel;
-    }
-
-    public void setElectricboxModel(String electricboxModel) {
-        this.electricboxModel = electricboxModel;
-    }
-
     public String getWiperSupplier() {
         return this.wiperSupplier;
     }
 
     public void setWiperSupplier(String wiperSupplier) {
         this.wiperSupplier = wiperSupplier;
-    }
-
-    public String getTirepressureSupplier() {
-        return this.tirepressureSupplier;
-    }
-
-    public void setTirepressureSupplier(String tirepressureSupplier) {
-        this.tirepressureSupplier = tirepressureSupplier;
     }
 
     public String getDeviceId() {
@@ -194,28 +175,12 @@ public class Vehicleinfo {
         this.dayRunTime = dayRunTime;
     }
 
-    public String getGearBoxModel() {
-        return this.gearBoxModel;
-    }
-
-    public void setGearBoxModel(String gearBoxModel) {
-        this.gearBoxModel = gearBoxModel;
-    }
-
     public String getLineInfo() {
         return this.lineInfo;
     }
 
     public void setLineInfo(String lineInfo) {
         this.lineInfo = lineInfo;
-    }
-
-    public String getSim() {
-        return this.sim;
-    }
-
-    public void setSim(String sim) {
-        this.sim = sim;
     }
 
     public String getMotorSupplier() {
@@ -226,38 +191,6 @@ public class Vehicleinfo {
         this.motorSupplier = motorSupplier;
     }
 
-    public Integer getAlarm() {
-        return this.alarm;
-    }
-
-    public void setAlarm(Integer alarm) {
-        this.alarm = alarm;
-    }
-
-    public Integer getGasCost() {
-        return this.gasCost;
-    }
-
-    public void setGasCost(Integer gasCost) {
-        this.gasCost = gasCost;
-    }
-
-    public java.util.Date getExpireDate() {
-        return this.expireDate;
-    }
-
-    public void setExpireDate(java.util.Date expireDate) {
-        this.expireDate = expireDate;
-    }
-
-    public Integer getEleCost() {
-        return this.eleCost;
-    }
-
-    public void setEleCost(Integer eleCost) {
-        this.eleCost = eleCost;
-    }
-
     public String getVehicleType() {
         return this.vehicleType;
     }
@@ -266,12 +199,12 @@ public class Vehicleinfo {
         this.vehicleType = vehicleType;
     }
 
-    public Integer getPaymentStatus() {
-        return this.paymentStatus;
+    public Integer getCompanyDeptId() {
+        return this.companyDeptId;
     }
 
-    public void setPaymentStatus(Integer paymentStatus) {
-        this.paymentStatus = paymentStatus;
+    public void setCompanyDeptId(Integer companyDeptId) {
+        this.companyDeptId = companyDeptId;
     }
 
     public String getIsReparing() {
@@ -282,14 +215,6 @@ public class Vehicleinfo {
         this.isReparing = isReparing;
     }
 
-    public String getEngineModel() {
-        return this.engineModel;
-    }
-
-    public void setEngineModel(String engineModel) {
-        this.engineModel = engineModel;
-    }
-
     public String getFsbSupplier() {
         return this.fsbSupplier;
     }
@@ -298,20 +223,12 @@ public class Vehicleinfo {
         this.fsbSupplier = fsbSupplier;
     }
 
-    public Integer getOilBoxCap() {
-        return this.oilBoxCap;
+    public Integer getLineDeptId() {
+        return this.lineDeptId;
     }
 
-    public void setOilBoxCap(Integer oilBoxCap) {
-        this.oilBoxCap = oilBoxCap;
-    }
-
-    public String getSeatSupplier() {
-        return this.seatSupplier;
-    }
-
-    public void setSeatSupplier(String seatSupplier) {
-        this.seatSupplier = seatSupplier;
+    public void setLineDeptId(Integer lineDeptId) {
+        this.lineDeptId = lineDeptId;
     }
 
     public String getBatteryModel() {
@@ -328,14 +245,6 @@ public class Vehicleinfo {
 
     public void setDeptId(Integer deptId) {
         this.deptId = deptId;
-    }
-
-    public String getHeaterSupplier() {
-        return this.heaterSupplier;
-    }
-
-    public void setHeaterSupplier(String heaterSupplier) {
-        this.heaterSupplier = heaterSupplier;
     }
 
     public Integer getOilCost() {
@@ -362,12 +271,12 @@ public class Vehicleinfo {
         this.vehicleNo = vehicleNo;
     }
 
-    public String getAbsModel() {
-        return this.absModel;
+    public String getGroupName() {
+        return this.groupName;
     }
 
-    public void setAbsModel(String absModel) {
-        this.absModel = absModel;
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
     }
 
     public java.util.Date getPaymentExpiredDate() {
@@ -402,22 +311,6 @@ public class Vehicleinfo {
         this.producer = producer;
     }
 
-    public Integer getOnline() {
-        return this.online;
-    }
-
-    public void setOnline(Integer online) {
-        this.online = online;
-    }
-
-    public String getEngineVinNo() {
-        return this.engineVinNo;
-    }
-
-    public void setEngineVinNo(String engineVinNo) {
-        this.engineVinNo = engineVinNo;
-    }
-
     public Integer getBatteryCap() {
         return this.batteryCap;
     }
@@ -432,14 +325,6 @@ public class Vehicleinfo {
 
     public void setVehicleSN(String vehicleSN) {
         this.vehicleSN = vehicleSN;
-    }
-
-    public Integer getAirBottleCap() {
-        return this.airBottleCap;
-    }
-
-    public void setAirBottleCap(Integer airBottleCap) {
-        this.airBottleCap = airBottleCap;
     }
 
     public Object getMotorType() {
@@ -464,6 +349,206 @@ public class Vehicleinfo {
 
     public void setLastDataUpTime(Integer lastDataUpTime) {
         this.lastDataUpTime = lastDataUpTime;
+    }
+
+    public String getLightswitchsupplier() {
+        return this.lightswitchsupplier;
+    }
+
+    public void setLightswitchsupplier(String lightswitchsupplier) {
+        this.lightswitchsupplier = lightswitchsupplier;
+    }
+
+    public String getPurchaseDate() {
+        return this.purchaseDate;
+    }
+
+    public void setPurchaseDate(String purchaseDate) {
+        this.purchaseDate = purchaseDate;
+    }
+
+    public String getWheelaxlesModel() {
+        return this.wheelaxlesModel;
+    }
+
+    public void setWheelaxlesModel(String wheelaxlesModel) {
+        this.wheelaxlesModel = wheelaxlesModel;
+    }
+
+    public String getElectricboxModel() {
+        return this.electricboxModel;
+    }
+
+    public void setElectricboxModel(String electricboxModel) {
+        this.electricboxModel = electricboxModel;
+    }
+
+    public String getLineName() {
+        return this.lineName;
+    }
+
+    public void setLineName(String lineName) {
+        this.lineName = lineName;
+    }
+
+    public Integer getGroupDeptId() {
+        return this.groupDeptId;
+    }
+
+    public void setGroupDeptId(Integer groupDeptId) {
+        this.groupDeptId = groupDeptId;
+    }
+
+    public String getTirepressureSupplier() {
+        return this.tirepressureSupplier;
+    }
+
+    public void setTirepressureSupplier(String tirepressureSupplier) {
+        this.tirepressureSupplier = tirepressureSupplier;
+    }
+
+    public String getGearBoxModel() {
+        return this.gearBoxModel;
+    }
+
+    public void setGearBoxModel(String gearBoxModel) {
+        this.gearBoxModel = gearBoxModel;
+    }
+
+    public String getSubCompanyName() {
+        return this.subCompanyName;
+    }
+
+    public void setSubCompanyName(String subCompanyName) {
+        this.subCompanyName = subCompanyName;
+    }
+
+    public String getSim() {
+        return this.sim;
+    }
+
+    public void setSim(String sim) {
+        this.sim = sim;
+    }
+
+    public Integer getAlarm() {
+        return this.alarm;
+    }
+
+    public void setAlarm(Integer alarm) {
+        this.alarm = alarm;
+    }
+
+    public Integer getGasCost() {
+        return this.gasCost;
+    }
+
+    public void setGasCost(Integer gasCost) {
+        this.gasCost = gasCost;
+    }
+
+    public java.util.Date getExpireDate() {
+        return this.expireDate;
+    }
+
+    public void setExpireDate(java.util.Date expireDate) {
+        this.expireDate = expireDate;
+    }
+
+    public Integer getVehicleId() {
+        return this.vehicleId;
+    }
+
+    public void setVehicleId(Integer vehicleId) {
+        this.vehicleId = vehicleId;
+    }
+
+    public Integer getEleCost() {
+        return this.eleCost;
+    }
+
+    public void setEleCost(Integer eleCost) {
+        this.eleCost = eleCost;
+    }
+
+    public Integer getPaymentStatus() {
+        return this.paymentStatus;
+    }
+
+    public void setPaymentStatus(Integer paymentStatus) {
+        this.paymentStatus = paymentStatus;
+    }
+
+    public String getEngineModel() {
+        return this.engineModel;
+    }
+
+    public void setEngineModel(String engineModel) {
+        this.engineModel = engineModel;
+    }
+
+    public Integer getOilBoxCap() {
+        return this.oilBoxCap;
+    }
+
+    public void setOilBoxCap(Integer oilBoxCap) {
+        this.oilBoxCap = oilBoxCap;
+    }
+
+    public String getSeatSupplier() {
+        return this.seatSupplier;
+    }
+
+    public void setSeatSupplier(String seatSupplier) {
+        this.seatSupplier = seatSupplier;
+    }
+
+    public Integer getSubCompanyDeptId() {
+        return this.subCompanyDeptId;
+    }
+
+    public void setSubCompanyDeptId(Integer subCompanyDeptId) {
+        this.subCompanyDeptId = subCompanyDeptId;
+    }
+
+    public String getHeaterSupplier() {
+        return this.heaterSupplier;
+    }
+
+    public void setHeaterSupplier(String heaterSupplier) {
+        this.heaterSupplier = heaterSupplier;
+    }
+
+    public String getAbsModel() {
+        return this.absModel;
+    }
+
+    public void setAbsModel(String absModel) {
+        this.absModel = absModel;
+    }
+
+    public Integer getOnline() {
+        return this.online;
+    }
+
+    public void setOnline(Integer online) {
+        this.online = online;
+    }
+
+    public String getEngineVinNo() {
+        return this.engineVinNo;
+    }
+
+    public void setEngineVinNo(String engineVinNo) {
+        this.engineVinNo = engineVinNo;
+    }
+
+    public Integer getAirBottleCap() {
+        return this.airBottleCap;
+    }
+
+    public void setAirBottleCap(Integer airBottleCap) {
+        this.airBottleCap = airBottleCap;
     }
 
 }

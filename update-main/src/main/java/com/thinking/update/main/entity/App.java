@@ -1,6 +1,5 @@
 package com.thinking.update.main.entity;
-public class App implements java.io.Serializable {
-    private static final long serialVersionUID = 1L;
+public class App {
     private Long id;
     private String targetVersionName;
     private Long createUserId;
@@ -13,7 +12,7 @@ public class App implements java.io.Serializable {
     private String appName;//app名称-appTypeName
     private Integer appTypeId;//app类型id
     private java.util.Date updateTime;//更新时间
-    private Long versionState;//0-未设置目标版本，10-未设置目标已收到确认，20-已设置未确认，30-一致，40-不一致
+    private Long versionState;//版本管理状态 0-未设置目标版本，10-未设置目标已收到确认，20-已设置未确认，30-一致，40-不一致
     private String versionName;
     private String updateUser;//更新用户
     private Long updateUserId;//更新用户id

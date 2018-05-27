@@ -1,13 +1,10 @@
 package com.thinking.update.main.service.impl;
-
+import java.util.List;
 import com.thinking.update.main.dao.TaskDetailDao;
 import com.thinking.update.main.entity.TaskDetail;
 import com.thinking.update.main.service.TaskDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-
 @Service
 public class TaskDetailServiceImpl implements TaskDetailService{
     @Autowired

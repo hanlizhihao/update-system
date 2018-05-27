@@ -2,34 +2,32 @@ package com.thinking.update.main.entity;
 public class Task {
     private Long id;
     private String taskName;//任务名称
-    private java.util.Date createTime;
-    private Object finishedNumber;
-    private String remark;//描述
-    private String departmentIds;
     private java.util.Date updateTime;
     private String updateUser;
+    private java.util.Date createTime;
     private Object appNumber;//任务涉及的app数量
-    private Double persent;//任务完成比例
+    private Object finishedNumber;
+    private String remark;//描述
     private String departments;//任务涉及的所有机构
     private String createUser;
+    private Double percent;//任务完成比例
     private java.util.Date ts;
     public Task() {
         super();
     }
-    public Task(Long id,String taskName,java.util.Date createTime,Object finishedNumber,String remark,String departmentIds,java.util.Date updateTime,String updateUser,Object appNumber,Double persent,String departments,String createUser,java.util.Date ts) {
+    public Task(Long id,String taskName,java.util.Date updateTime,String updateUser,java.util.Date createTime,Object appNumber,Object finishedNumber,String remark,String departments,String createUser,Double percent,java.util.Date ts) {
         super();
         this.id = id;
         this.taskName = taskName;
-        this.createTime = createTime;
-        this.finishedNumber = finishedNumber;
-        this.remark = remark;
-        this.departmentIds = departmentIds;
         this.updateTime = updateTime;
         this.updateUser = updateUser;
+        this.createTime = createTime;
         this.appNumber = appNumber;
-        this.persent = persent;
+        this.finishedNumber = finishedNumber;
+        this.remark = remark;
         this.departments = departments;
         this.createUser = createUser;
+        this.percent = percent;
         this.ts = ts;
     }
     public Long getId() {
@@ -48,12 +46,36 @@ public class Task {
         this.taskName = taskName;
     }
 
+    public java.util.Date getUpdateTime() {
+        return this.updateTime;
+    }
+
+    public void setUpdateTime(java.util.Date updateTime) {
+        this.updateTime = updateTime;
+    }
+
+    public String getUpdateUser() {
+        return this.updateUser;
+    }
+
+    public void setUpdateUser(String updateUser) {
+        this.updateUser = updateUser;
+    }
+
     public java.util.Date getCreateTime() {
         return this.createTime;
     }
 
     public void setCreateTime(java.util.Date createTime) {
         this.createTime = createTime;
+    }
+
+    public Object getAppNumber() {
+        return this.appNumber;
+    }
+
+    public void setAppNumber(Object appNumber) {
+        this.appNumber = appNumber;
     }
 
     public Object getFinishedNumber() {
@@ -72,46 +94,6 @@ public class Task {
         this.remark = remark;
     }
 
-    public String getDepartmentIds() {
-        return this.departmentIds;
-    }
-
-    public void setDepartmentIds(String departmentIds) {
-        this.departmentIds = departmentIds;
-    }
-
-    public java.util.Date getUpdateTime() {
-        return this.updateTime;
-    }
-
-    public void setUpdateTime(java.util.Date updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    public String getUpdateUser() {
-        return this.updateUser;
-    }
-
-    public void setUpdateUser(String updateUser) {
-        this.updateUser = updateUser;
-    }
-
-    public Object getAppNumber() {
-        return this.appNumber;
-    }
-
-    public void setAppNumber(Object appNumber) {
-        this.appNumber = appNumber;
-    }
-
-    public Double getPersent() {
-        return this.persent;
-    }
-
-    public void setPersent(Double persent) {
-        this.persent = persent;
-    }
-
     public String getDepartments() {
         return this.departments;
     }
@@ -126,6 +108,14 @@ public class Task {
 
     public void setCreateUser(String createUser) {
         this.createUser = createUser;
+    }
+
+    public Double getPercent() {
+        return this.percent;
+    }
+
+    public void setPercent(Double percent) {
+        this.percent = percent;
     }
 
     public java.util.Date getTs() {

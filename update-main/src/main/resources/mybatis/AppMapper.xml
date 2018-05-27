@@ -159,7 +159,7 @@
     </insert>
 
     <!-- 将App批量插入到对应数据库的表中-->
-    <insert id="insertAppByBatch" parameterType="ArrayList">
+    <insert id="insertAppByBatch" parameterType="java.util.ArrayList">
         insert into t_app(id,target_version_name,create_user_id,device_id,create_time,running_state,version_id,protocol_id,running_state_name,app_name,app_type_id,update_time,version_state,version_name,update_user,update_user_id,target_version_id,update_state,create_user,protocol_name,ts) values
         <foreach collection="list" item="item" index="index" separator="," >
             (#{item.id},#{item.targetVersionName},#{item.createUserId},#{item.deviceId},#{item.createTime},#{item.runningState},#{item.versionId},#{item.protocolId},#{item.runningStateName},#{item.appName},#{item.appTypeId},#{item.updateTime},#{item.versionState},#{item.versionName},#{item.updateUser},#{item.updateUserId},#{item.targetVersionId},#{item.updateState},#{item.createUser},#{item.protocolName},#{item.ts})

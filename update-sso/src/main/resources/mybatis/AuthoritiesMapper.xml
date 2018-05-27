@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinking.update.sso.dao.AuthoritiesDao">
+    <!-- Authorities的resultMap,column是给数据库列起的别名,它对应property类的属性-->
+    <resultMap id="result_Authorities_Map" type="com.thinking.update.sso.entity.Authorities">
+        <id column="id" property="id" />
+        <result column="authority" property="authority" />
+        <result column="username" property="username" />
+    </resultMap>
+
+    <!-- 数据库中表名为:authorities的列名,as前是数据库的列明,as后是列的别名用于映射成实体类中的属性,需要注意的是别名必须与resultMap中的column别名一致 -->
+    <sql id="authorities_Column">
+        authorities.id as id
+        ,authorities.authority as authority
+        ,authorities.username as username
+    </sql>
+
+    <!--获得类名为:Authorities对应的数据库表的数据总行数 -->
+    <select id="getAuthoritiesRowCount" resultType="java.lang.Long">
+        select count(id) from authorities
+    </select>
+    <!-- 获得类名为:Authorities对应数据库中表的数据集合 -->
+    <select id="selectAuthorities" resultMap="result_Authorities_Map">
+        select 
+        <include refid="authorities_Column" /> 
+        from authorities
+    </select> 
+
+    <!-- 获得一个Authorities对象,以参数Authorities对象中不为空的属性作为条件进行查询-->
+    <select id="selectAuthoritiesByObj" parameterType="com.thinking.update.sso.entity.Authorities" resultMap="result_Authorities_Map">
+        select 
+            <include refid="authorities_Column" /> 
+        from authorities
+        <where>
+            <if test="username != null "> and authorities.username = #{username}</if>
+            <if test="authority != null "> and authorities.authority = #{authority}</if>
+            <if test="id != null "> and authorities.id = #{id}</if>
+        </where>
+    </select> 
+
+    <!-- 通过Authorities的id获得对应数据库中表的数据对象-->
+    <select id="selectAuthoritiesById" parameterType="java.lang.Long" resultMap="result_Authorities_Map">
+        select 
+            <include refid="authorities_Column" /> 
+        from authorities
+        where authorities.id = #{id}
+    </select> 
+
+    <!-- 将Authorities插入到对应数据库的表中,包括属性值为null的数据-->
+
+    <insert id="insertAuthorities" parameterType="com.thinking.update.sso.entity.Authorities">
+        insert into authorities(id,authority,username) 
+        values(#{id},#{authority},#{username})
+    </insert>
+
+    <!-- 将Authorities中属性值不为null的数据,插入到对应数据库的表中-->
+    <insert id="insertNonEmptyAuthorities" parameterType="com.thinking.update.sso.entity.Authorities">
+        insert into authorities
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="authority != null">authority,</if>
+            <if test="username != null">username,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null"> #{id},</if>
+            <if test="authority != null"> #{authority},</if>
+            <if test="username != null"> #{username},</if>
+        </trim>
+    </insert>
+
+    <!-- 将Authorities批量插入到对应数据库的表中-->
+    <insert id="insertAuthoritiesByBatch" parameterType="java.util.ArrayList">
+        insert into authorities(id,authority,username) values
+        <foreach collection="list" item="item" index="index" separator="," >
+            (#{item.id},#{item.authority},#{item.username})
+        </foreach>
+    </insert>
+
+    <!-- 通过Authorities的id将数据库表中对应的数据删除-->
+    <delete id="deleteAuthoritiesById" parameterType="java.lang.Long">
+        delete from authorities
+        where id = #{id}
+    </delete>
+
+    <!-- 通过Authorities的id将Authorities的数据更新到数据库中对应的表,包括值null的数据-->
+    <update id="updateAuthoritiesById" parameterType="com.thinking.update.sso.entity.Authorities">
+        update authorities set
+            authority=#{authority}
+            ,username=#{username}
+        where id=#{id}
+    </update>
+
+    <!-- 通过Authorities的id将Authorities中属性值不为null的数据更新到数据库对应的表中-->
+    <update id="updateNonEmptyAuthoritiesById" parameterType="com.thinking.update.sso.entity.Authorities">
+        update authorities
+        <set>
+            <if test="authority != null">
+                authority=#{authority},
+            </if>
+            <if test="username != null">
+                username=#{username},
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+
+</mapper>

@@ -1,13 +1,10 @@
 package com.thinking.update.main.service.impl;
-
+import java.util.List;
 import com.thinking.update.main.dao.VehicleinfoDao;
 import com.thinking.update.main.entity.Vehicleinfo;
 import com.thinking.update.main.service.VehicleinfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-
 @Service
 public class VehicleinfoServiceImpl implements VehicleinfoService{
     @Autowired
@@ -25,7 +22,7 @@ public class VehicleinfoServiceImpl implements VehicleinfoService{
         return vehicleinfoDao.selectVehicleinfoByObj(obj);
     }
     @Override
-    public Vehicleinfo selectVehicleinfoById(Integer id){
+    public Vehicleinfo selectVehicleinfoById(Object id){
         return vehicleinfoDao.selectVehicleinfoById(id);
     }
     @Override
@@ -41,7 +38,7 @@ public class VehicleinfoServiceImpl implements VehicleinfoService{
         return vehicleinfoDao.insertVehicleinfoByBatch(value);
     }
     @Override
-    public int deleteVehicleinfoById(Integer id){
+    public int deleteVehicleinfoById(Object id){
         return vehicleinfoDao.deleteVehicleinfoById(id);
     }
     @Override

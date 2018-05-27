@@ -1,9 +1,6 @@
 package com.thinking.update.main.dao;
-
 import com.thinking.update.main.entity.MauthDept;
-
 import java.util.List;
-
 public interface MauthDeptDao{
 	/**
 	 * 获得MauthDept数据的总行数

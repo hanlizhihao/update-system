@@ -5,16 +5,15 @@
     <resultMap id="result_Task_Map" type="com.thinking.update.main.entity.Task">
         <id column="id" property="id" />
         <result column="task_name" property="taskName" />
-        <result column="create_time" property="createTime" />
-        <result column="finished_number" property="finishedNumber" />
-        <result column="remark" property="remark" />
-        <result column="department_ids" property="departmentIds" />
         <result column="update_time" property="updateTime" />
         <result column="update_user" property="updateUser" />
+        <result column="create_time" property="createTime" />
         <result column="app_number" property="appNumber" />
-        <result column="persent" property="persent" />
+        <result column="finished_number" property="finishedNumber" />
+        <result column="remark" property="remark" />
         <result column="departments" property="departments" />
         <result column="create_user" property="createUser" />
+        <result column="percent" property="percent" />
         <result column="ts" property="ts" />
     </resultMap>
 
@@ -22,16 +21,15 @@
     <sql id="t_task_Column">
         t_task.id as id
         ,t_task.task_name as task_name
-        ,t_task.create_time as create_time
-        ,t_task.finished_number as finished_number
-        ,t_task.remark as remark
-        ,t_task.department_ids as department_ids
         ,t_task.update_time as update_time
         ,t_task.update_user as update_user
+        ,t_task.create_time as create_time
         ,t_task.app_number as app_number
-        ,t_task.persent as persent
+        ,t_task.finished_number as finished_number
+        ,t_task.remark as remark
         ,t_task.departments as departments
         ,t_task.create_user as create_user
+        ,t_task.percent as percent
         ,t_task.ts as ts
     </sql>
 
@@ -53,16 +51,15 @@
         from t_task
         <where>
             <if test="ts != null "> and t_task.ts = #{ts}</if>
+            <if test="percent != null "> and t_task.percent = #{percent}</if>
             <if test="createUser != null "> and t_task.create_user = #{createUser}</if>
             <if test="departments != null "> and t_task.departments = #{departments}</if>
-            <if test="persent != null "> and t_task.persent = #{persent}</if>
-            <if test="appNumber != null "> and t_task.app_number = #{appNumber}</if>
-            <if test="updateUser != null "> and t_task.update_user = #{updateUser}</if>
-            <if test="updateTime != null "> and t_task.update_time = #{updateTime}</if>
-            <if test="departmentIds != null "> and t_task.department_ids = #{departmentIds}</if>
             <if test="remark != null "> and t_task.remark = #{remark}</if>
             <if test="finishedNumber != null "> and t_task.finished_number = #{finishedNumber}</if>
+            <if test="appNumber != null "> and t_task.app_number = #{appNumber}</if>
             <if test="createTime != null "> and t_task.create_time = #{createTime}</if>
+            <if test="updateUser != null "> and t_task.update_user = #{updateUser}</if>
+            <if test="updateTime != null "> and t_task.update_time = #{updateTime}</if>
             <if test="taskName != null "> and t_task.task_name = #{taskName}</if>
             <if test="id != null "> and t_task.id = #{id}</if>
         </where>
@@ -79,8 +76,8 @@
     <!-- 将Task插入到对应数据库的表中,包括属性值为null的数据-->
 
     <insert id="insertTask" parameterType="com.thinking.update.main.entity.Task">
-        insert into t_task(id,task_name,create_time,finished_number,remark,department_ids,update_time,update_user,app_number,persent,departments,create_user,ts) 
-        values(#{id},#{taskName},#{createTime},#{finishedNumber},#{remark},#{departmentIds},#{updateTime},#{updateUser},#{appNumber},#{persent},#{departments},#{createUser},#{ts})
+        insert into t_task(id,task_name,update_time,update_user,create_time,app_number,finished_number,remark,departments,create_user,percent,ts) 
+        values(#{id},#{taskName},#{updateTime},#{updateUser},#{createTime},#{appNumber},#{finishedNumber},#{remark},#{departments},#{createUser},#{percent},#{ts})
     </insert>
 
     <!-- 将Task中属性值不为null的数据,插入到对应数据库的表中-->
@@ -89,40 +86,38 @@
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">id,</if>
             <if test="taskName != null">task_name,</if>
-            <if test="createTime != null">create_time,</if>
-            <if test="finishedNumber != null">finished_number,</if>
-            <if test="remark != null">remark,</if>
-            <if test="departmentIds != null">department_ids,</if>
             <if test="updateTime != null">update_time,</if>
             <if test="updateUser != null">update_user,</if>
+            <if test="createTime != null">create_time,</if>
             <if test="appNumber != null">app_number,</if>
-            <if test="persent != null">persent,</if>
+            <if test="finishedNumber != null">finished_number,</if>
+            <if test="remark != null">remark,</if>
             <if test="departments != null">departments,</if>
             <if test="createUser != null">create_user,</if>
+            <if test="percent != null">percent,</if>
             <if test="ts != null">ts,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null"> #{id},</if>
             <if test="taskName != null"> #{taskName},</if>
-            <if test="createTime != null"> #{createTime},</if>
-            <if test="finishedNumber != null"> #{finishedNumber},</if>
-            <if test="remark != null"> #{remark},</if>
-            <if test="departmentIds != null"> #{departmentIds},</if>
             <if test="updateTime != null"> #{updateTime},</if>
             <if test="updateUser != null"> #{updateUser},</if>
+            <if test="createTime != null"> #{createTime},</if>
             <if test="appNumber != null"> #{appNumber},</if>
-            <if test="persent != null"> #{persent},</if>
+            <if test="finishedNumber != null"> #{finishedNumber},</if>
+            <if test="remark != null"> #{remark},</if>
             <if test="departments != null"> #{departments},</if>
             <if test="createUser != null"> #{createUser},</if>
+            <if test="percent != null"> #{percent},</if>
             <if test="ts != null"> #{ts},</if>
         </trim>
     </insert>
 
     <!-- 将Task批量插入到对应数据库的表中-->
-    <insert id="insertTaskByBatch" parameterType="ArrayList">
-        insert into t_task(id,task_name,create_time,finished_number,remark,department_ids,update_time,update_user,app_number,persent,departments,create_user,ts) values
+    <insert id="insertTaskByBatch" parameterType="java.util.ArrayList">
+        insert into t_task(id,task_name,update_time,update_user,create_time,app_number,finished_number,remark,departments,create_user,percent,ts) values
         <foreach collection="list" item="item" index="index" separator="," >
-            (#{item.id},#{item.taskName},#{item.createTime},#{item.finishedNumber},#{item.remark},#{item.departmentIds},#{item.updateTime},#{item.updateUser},#{item.appNumber},#{item.persent},#{item.departments},#{item.createUser},#{item.ts})
+            (#{item.id},#{item.taskName},#{item.updateTime},#{item.updateUser},#{item.createTime},#{item.appNumber},#{item.finishedNumber},#{item.remark},#{item.departments},#{item.createUser},#{item.percent},#{item.ts})
         </foreach>
     </insert>
 
@@ -136,16 +131,15 @@
     <update id="updateTaskById" parameterType="com.thinking.update.main.entity.Task">
         update t_task set
             task_name=#{taskName}
-            ,create_time=#{createTime}
-            ,finished_number=#{finishedNumber}
-            ,remark=#{remark}
-            ,department_ids=#{departmentIds}
             ,update_time=#{updateTime}
             ,update_user=#{updateUser}
+            ,create_time=#{createTime}
             ,app_number=#{appNumber}
-            ,persent=#{persent}
+            ,finished_number=#{finishedNumber}
+            ,remark=#{remark}
             ,departments=#{departments}
             ,create_user=#{createUser}
+            ,percent=#{percent}
             ,ts=#{ts}
         where id=#{id}
     </update>
@@ -157,8 +151,17 @@
             <if test="taskName != null">
                 task_name=#{taskName},
             </if>
+            <if test="updateTime != null">
+                update_time=#{updateTime},
+            </if>
+            <if test="updateUser != null">
+                update_user=#{updateUser},
+            </if>
             <if test="createTime != null">
                 create_time=#{createTime},
+            </if>
+            <if test="appNumber != null">
+                app_number=#{appNumber},
             </if>
             <if test="finishedNumber != null">
                 finished_number=#{finishedNumber},
@@ -166,26 +169,14 @@
             <if test="remark != null">
                 remark=#{remark},
             </if>
-            <if test="departmentIds != null">
-                department_ids=#{departmentIds},
-            </if>
-            <if test="updateTime != null">
-                update_time=#{updateTime},
-            </if>
-            <if test="updateUser != null">
-                update_user=#{updateUser},
-            </if>
-            <if test="appNumber != null">
-                app_number=#{appNumber},
-            </if>
-            <if test="persent != null">
-                persent=#{persent},
-            </if>
             <if test="departments != null">
                 departments=#{departments},
             </if>
             <if test="createUser != null">
                 create_user=#{createUser},
+            </if>
+            <if test="percent != null">
+                percent=#{percent},
             </if>
             <if test="ts != null">
                 ts=#{ts},

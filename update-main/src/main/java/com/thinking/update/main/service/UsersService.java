@@ -1,9 +1,6 @@
 package com.thinking.update.main.service;
-
-import com.thinking.update.main.entity.Users;
-
 import java.util.List;
-
+import com.thinking.update.main.entity.Users;
 public interface UsersService{
 	/**
 	 * 获得Users数据的总行数

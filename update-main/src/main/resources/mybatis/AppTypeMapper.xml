@@ -69,7 +69,7 @@
     </insert>
 
     <!-- 将AppType批量插入到对应数据库的表中-->
-    <insert id="insertAppTypeByBatch" parameterType="ArrayList">
+    <insert id="insertAppTypeByBatch" parameterType="java.util.ArrayList">
         insert into t_app_type(id,type_name,remark) values
         <foreach collection="list" item="item" index="index" separator="," >
             (#{item.id},#{item.typeName},#{item.remark})

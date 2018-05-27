@@ -1,9 +1,6 @@
 package com.thinking.update.main.service;
-
-import com.thinking.update.main.entity.AppVersionLog;
-
 import java.util.List;
-
+import com.thinking.update.main.entity.AppVersionLog;
 public interface AppVersionLogService{
 	/**
 	 * 获得AppVersionLog数据的总行数

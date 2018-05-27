@@ -2,16 +2,20 @@ package com.thinking.update.main.entity;
 public class Users {
     private Long id;
     private String password;
+    private String realName;
     private Integer enabled;//1-开启，0-关闭
+    private String picture;
     private String username;
     public Users() {
         super();
     }
-    public Users(Long id,String password,Integer enabled,String username) {
+    public Users(Long id,String password,String realName,Integer enabled,String picture,String username) {
         super();
         this.id = id;
         this.password = password;
+        this.realName = realName;
         this.enabled = enabled;
+        this.picture = picture;
         this.username = username;
     }
     public Long getId() {
@@ -30,12 +34,28 @@ public class Users {
         this.password = password;
     }
 
+    public String getRealName() {
+        return this.realName;
+    }
+
+    public void setRealName(String realName) {
+        this.realName = realName;
+    }
+
     public Integer getEnabled() {
         return this.enabled;
     }
 
     public void setEnabled(Integer enabled) {
         this.enabled = enabled;
+    }
+
+    public String getPicture() {
+        return this.picture;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture;
     }
 
     public String getUsername() {

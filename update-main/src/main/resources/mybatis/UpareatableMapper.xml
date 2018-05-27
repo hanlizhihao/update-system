@@ -73,7 +73,7 @@
     </insert>
 
     <!-- 将Upareatable批量插入到对应数据库的表中-->
-    <insert id="insertUpareatableByBatch" parameterType="ArrayList">
+    <insert id="insertUpareatableByBatch" parameterType="java.util.ArrayList">
         insert into upareatable(uptype,flag,taskflag,relateid,remarkstr,listorder,upareaid,upareaname,upcorpname) values
         <foreach collection="list" item="item" index="index" separator="," >
             (#{item.uptype},#{item.flag},#{item.taskflag},#{item.relateid},#{item.remarkstr},#{item.listorder},#{item.upareaid},#{item.upareaname},#{item.upcorpname})

@@ -124,7 +124,7 @@
     </insert>
 
     <!-- 将AppActivityLog批量插入到对应数据库的表中-->
-    <insert id="insertAppActivityLogByBatch" parameterType="ArrayList">
+    <insert id="insertAppActivityLogByBatch" parameterType="java.util.ArrayList">
         insert into t_app_activity_log(id,version_log_id,last_update_state,log,version_id,version,target_version,app_name,log_type,target_version_id,log_url,update_state,app_id,ts) values
         <foreach collection="list" item="item" index="index" separator="," >
             (#{item.id},#{item.versionLogId},#{item.lastUpdateState},#{item.log},#{item.versionId},#{item.version},#{item.targetVersion},#{item.appName},#{item.logType},#{item.targetVersionId},#{item.logUrl},#{item.updateState},#{item.appId},#{item.ts})

@@ -1,9 +1,6 @@
 package com.thinking.update.main.dao;
-
 import com.thinking.update.main.entity.AppVersionLog;
-
 import java.util.List;
-
 public interface AppVersionLogDao{
 	/**
 	 * 获得AppVersionLog数据的总行数

@@ -1,6 +1,5 @@
 package com.thinking.update.main.entity;
-public class AppVersionLog implements java.io.Serializable {
-    private static final long serialVersionUID = 1L;
+public class AppVersionLog {
     private Long id;
     private String appName;//车牌号+应用名称
     private String stateName;

@@ -104,7 +104,7 @@
     </insert>
 
     <!-- 将AppVersionLog批量插入到对应数据库的表中-->
-    <insert id="insertAppVersionLogByBatch" parameterType="ArrayList">
+    <insert id="insertAppVersionLogByBatch" parameterType="java.util.ArrayList">
         insert into t_app_version_log(id,app_name,state_name,target_version_id,version_id,state,app_id,version,target_version,ts) values
         <foreach collection="list" item="item" index="index" separator="," >
             (#{item.id},#{item.appName},#{item.stateName},#{item.targetVersionId},#{item.versionId},#{item.state},#{item.appId},#{item.version},#{item.targetVersion},#{item.ts})
