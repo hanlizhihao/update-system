@@ -1,5 +1,8 @@
-package com.thinking.update.main.entity;
-public class Version {
+package com.thinking.update.main.domain.entity;
+
+import java.io.Serializable;
+
+public class Version implements Serializable {
     private Long id;
     private Long createUserId;
     private String md5Name;//存储在服务器上的名称
@@ -7,9 +10,9 @@ public class Version {
     private String fileName;//文件真实名称
     private String md5Code;//对文件的md5校验码
     private String remark;
-    private Long type;//0-安装程序，1-协议
+    private Integer type;//0-安装程序，1-协议
     private String url;//文件的下载地址
-    private Object fileSize;//文件大小 单位：MB
+    private Double fileSize;//文件大小 单位：MB
     private java.util.Date updateTime;
     private String versionName;//描述名称
     private String updateUser;
@@ -19,7 +22,7 @@ public class Version {
     public Version() {
         super();
     }
-    public Version(Long id,Long createUserId,String md5Name,java.util.Date createTime,String fileName,String md5Code,String remark,Long type,String url,Object fileSize,java.util.Date updateTime,String versionName,String updateUser,Long updateUserId,String createUser,java.util.Date ts) {
+    public Version(Long id, Long createUserId, String md5Name, java.util.Date createTime, String fileName, String md5Code, String remark, Integer type, String url, Double fileSize, java.util.Date updateTime, String versionName, String updateUser, Long updateUserId, String createUser, java.util.Date ts) {
         super();
         this.id = id;
         this.createUserId = createUserId;
@@ -94,11 +97,11 @@ public class Version {
         this.remark = remark;
     }
 
-    public Long getType() {
+    public Integer getType() {
         return this.type;
     }
 
-    public void setType(Long type) {
+    public void setType(Integer type) {
         this.type = type;
     }
 
@@ -114,7 +117,7 @@ public class Version {
         return this.fileSize;
     }
 
-    public void setFileSize(Object fileSize) {
+    public void setFileSize(Double fileSize) {
         this.fileSize = fileSize;
     }
 

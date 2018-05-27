@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.thinking.update.main.dao.UsersDao">
     <!-- Users的resultMap,column是给数据库列起的别名,它对应property类的属性-->
-    <resultMap id="result_Users_Map" type="com.thinking.update.main.entity.Users">
+    <resultMap id="result_Users_Map" type="com.thinking.update.main.domain.entity.Users">
         <id column="id" property="id" />
         <result column="password" property="password" />
         <result column="real_name" property="realName" />
@@ -33,7 +33,7 @@
     </select> 
 
     <!-- 获得一个Users对象,以参数Users对象中不为空的属性作为条件进行查询-->
-    <select id="selectUsersByObj" parameterType="com.thinking.update.main.entity.Users" resultMap="result_Users_Map">
+    <select id="selectUsersByObj" parameterType="com.thinking.update.main.domain.entity.Users" resultMap="result_Users_Map">
         select 
             <include refid="users_Column" /> 
         from users
@@ -57,13 +57,13 @@
 
     <!-- 将Users插入到对应数据库的表中,包括属性值为null的数据-->
 
-    <insert id="insertUsers" parameterType="com.thinking.update.main.entity.Users">
+    <insert id="insertUsers" parameterType="com.thinking.update.main.domain.entity.Users">
         insert into users(id,password,real_name,enabled,picture,username) 
         values(#{id},#{password},#{realName},#{enabled},#{picture},#{username})
     </insert>
 
     <!-- 将Users中属性值不为null的数据,插入到对应数据库的表中-->
-    <insert id="insertNonEmptyUsers" parameterType="com.thinking.update.main.entity.Users">
+    <insert id="insertNonEmptyUsers" parameterType="com.thinking.update.main.domain.entity.Users">
         insert into users
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">id,</if>
@@ -98,7 +98,7 @@
     </delete>
 
     <!-- 通过Users的id将Users的数据更新到数据库中对应的表,包括值null的数据-->
-    <update id="updateUsersById" parameterType="com.thinking.update.main.entity.Users">
+    <update id="updateUsersById" parameterType="com.thinking.update.main.domain.entity.Users">
         update users set
             password=#{password}
             ,real_name=#{realName}
@@ -109,7 +109,7 @@
     </update>
 
     <!-- 通过Users的id将Users中属性值不为null的数据更新到数据库对应的表中-->
-    <update id="updateNonEmptyUsersById" parameterType="com.thinking.update.main.entity.Users">
+    <update id="updateNonEmptyUsersById" parameterType="com.thinking.update.main.domain.entity.Users">
         update users
         <set>
             <if test="password != null">

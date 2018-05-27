@@ -1,5 +1,5 @@
 package com.thinking.update.main.dao;
-import com.thinking.update.main.entity.AppType;
+import com.thinking.update.main.domain.entity.AppType;
 import java.util.List;
 public interface AppTypeDao{
 	/**

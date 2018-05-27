@@ -1,6 +1,6 @@
 package com.thinking.update.main.service;
 import java.util.List;
-import com.thinking.update.main.entity.Upareatable;
+import com.thinking.update.main.domain.entity.Upareatable;
 public interface UpareatableService{
 	/**
 	 * 获得Upareatable数据的总行数

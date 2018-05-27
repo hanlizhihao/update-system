@@ -1,7 +1,7 @@
 package com.thinking.update.main.service.impl;
 import java.util.List;
 import com.thinking.update.main.dao.UpareatableDao;
-import com.thinking.update.main.entity.Upareatable;
+import com.thinking.update.main.domain.entity.Upareatable;
 import com.thinking.update.main.service.UpareatableService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

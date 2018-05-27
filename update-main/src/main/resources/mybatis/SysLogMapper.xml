@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.thinking.update.main.dao.SysLogDao">
     <!-- SysLog的resultMap,column是给数据库列起的别名,它对应property类的属性-->
-    <resultMap id="result_SysLog_Map" type="com.thinking.update.main.entity.SysLog">
+    <resultMap id="result_SysLog_Map" type="com.thinking.update.main.domain.entity.SysLog">
         <id column="id" property="id" />
         <result column="gmt_create" property="gmtCreate" />
         <result column="method" property="method" />
@@ -39,7 +39,7 @@
     </select> 
 
     <!-- 获得一个SysLog对象,以参数SysLog对象中不为空的属性作为条件进行查询-->
-    <select id="selectSysLogByObj" parameterType="com.thinking.update.main.entity.SysLog" resultMap="result_SysLog_Map">
+    <select id="selectSysLogByObj" parameterType="com.thinking.update.main.domain.entity.SysLog" resultMap="result_SysLog_Map">
         select 
             <include refid="sys_log_Column" /> 
         from sys_log
@@ -66,13 +66,13 @@
 
     <!-- 将SysLog插入到对应数据库的表中,包括属性值为null的数据-->
 
-    <insert id="insertSysLog" parameterType="com.thinking.update.main.entity.SysLog">
+    <insert id="insertSysLog" parameterType="com.thinking.update.main.domain.entity.SysLog">
         insert into sys_log(id,gmt_create,method,user_id,ip,time,params,operation,username) 
         values(#{id},#{gmtCreate},#{method},#{userId},#{ip},#{time},#{params},#{operation},#{username})
     </insert>
 
     <!-- 将SysLog中属性值不为null的数据,插入到对应数据库的表中-->
-    <insert id="insertNonEmptySysLog" parameterType="com.thinking.update.main.entity.SysLog">
+    <insert id="insertNonEmptySysLog" parameterType="com.thinking.update.main.domain.entity.SysLog">
         insert into sys_log
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">id,</if>
@@ -113,7 +113,7 @@
     </delete>
 
     <!-- 通过SysLog的id将SysLog的数据更新到数据库中对应的表,包括值null的数据-->
-    <update id="updateSysLogById" parameterType="com.thinking.update.main.entity.SysLog">
+    <update id="updateSysLogById" parameterType="com.thinking.update.main.domain.entity.SysLog">
         update sys_log set
             gmt_create=#{gmtCreate}
             ,method=#{method}
@@ -127,7 +127,7 @@
     </update>
 
     <!-- 通过SysLog的id将SysLog中属性值不为null的数据更新到数据库对应的表中-->
-    <update id="updateNonEmptySysLogById" parameterType="com.thinking.update.main.entity.SysLog">
+    <update id="updateNonEmptySysLogById" parameterType="com.thinking.update.main.domain.entity.SysLog">
         update sys_log
         <set>
             <if test="gmtCreate != null">

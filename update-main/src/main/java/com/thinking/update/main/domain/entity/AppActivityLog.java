@@ -1,5 +1,8 @@
-package com.thinking.update.main.entity;
-public class AppActivityLog {
+package com.thinking.update.main.domain.entity;
+
+import java.io.Serializable;
+
+public class AppActivityLog implements Serializable {
     private Long id;
     private Long versionLogId;//版本日志id
     private String lastUpdateState;

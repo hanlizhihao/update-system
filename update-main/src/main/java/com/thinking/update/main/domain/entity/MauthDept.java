@@ -1,5 +1,8 @@
-package com.thinking.update.main.entity;
-public class MauthDept {
+package com.thinking.update.main.domain.entity;
+
+import java.io.Serializable;
+
+public class MauthDept implements Serializable {
     private Integer deptId;//机构主键
     private Integer code;//机构编号
     private Long updatedAt;//更新时间

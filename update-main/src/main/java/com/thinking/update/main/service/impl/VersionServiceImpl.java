@@ -1,7 +1,7 @@
 package com.thinking.update.main.service.impl;
 import java.util.List;
 import com.thinking.update.main.dao.VersionDao;
-import com.thinking.update.main.entity.Version;
+import com.thinking.update.main.domain.entity.Version;
 import com.thinking.update.main.service.VersionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

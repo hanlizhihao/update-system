@@ -1,5 +1,8 @@
-package com.thinking.update.main.entity;
-public class Upareatable {
+package com.thinking.update.main.domain.entity;
+
+import java.io.Serializable;
+
+public class Upareatable implements Serializable {
     private Integer uptype;
     private String flag;
     private Long taskflag;

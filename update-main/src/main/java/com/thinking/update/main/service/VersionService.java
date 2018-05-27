@@ -1,6 +1,6 @@
 package com.thinking.update.main.service;
 import java.util.List;
-import com.thinking.update.main.entity.Version;
+import com.thinking.update.main.domain.entity.Version;
 public interface VersionService{
 	/**
 	 * 获得Version数据的总行数

@@ -1,5 +1,5 @@
 package com.thinking.update.main.dao;
-import com.thinking.update.main.entity.SysLog;
+import com.thinking.update.main.domain.entity.SysLog;
 import java.util.List;
 public interface SysLogDao{
 	/**

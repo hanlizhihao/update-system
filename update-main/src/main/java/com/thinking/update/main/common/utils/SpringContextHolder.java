@@ -1,4 +1,4 @@
-package com.thinking.update.main.main.common.utils;
+package com.thinking.update.main.common.utils;
 
 import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;

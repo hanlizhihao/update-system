@@ -1,5 +1,8 @@
-package com.thinking.update.main.entity;
-public class SysLog {
+package com.thinking.update.main.domain.entity;
+
+import java.io.Serializable;
+
+public class SysLog implements Serializable {
     private Long id;
     private java.util.Date gmtCreate;//创建时间
     private String method;//请求方法

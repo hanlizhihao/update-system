@@ -5,7 +5,7 @@ import com.thinking.update.main.common.utils.HttpContextUtils;
 import com.thinking.update.main.common.utils.IPUtils;
 import com.thinking.update.main.common.utils.JSONUtils;
 import com.thinking.update.main.dao.LogDao;
-import com.thinking.update.main.entity.Log;
+import com.thinking.update.main.domain.entity.Log;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;

@@ -1,6 +1,6 @@
 package com.thinking.update.main.service;
 import java.util.List;
-import com.thinking.update.main.entity.AppType;
+import com.thinking.update.main.domain.entity.AppType;
 public interface AppTypeService{
 	/**
 	 * 获得AppType数据的总行数

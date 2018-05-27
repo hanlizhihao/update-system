@@ -1,5 +1,5 @@
 package com.thinking.update.main.dao;
-import com.thinking.update.main.entity.TaskDetail;
+import com.thinking.update.main.domain.entity.TaskDetail;
 import java.util.List;
 public interface TaskDetailDao{
 	/**

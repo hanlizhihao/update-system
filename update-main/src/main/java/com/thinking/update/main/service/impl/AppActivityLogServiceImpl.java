@@ -1,7 +1,7 @@
 package com.thinking.update.main.service.impl;
 import java.util.List;
 import com.thinking.update.main.dao.AppActivityLogDao;
-import com.thinking.update.main.entity.AppActivityLog;
+import com.thinking.update.main.domain.entity.AppActivityLog;
 import com.thinking.update.main.service.AppActivityLogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

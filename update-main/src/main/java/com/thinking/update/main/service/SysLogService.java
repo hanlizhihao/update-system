@@ -1,6 +1,6 @@
 package com.thinking.update.main.service;
 import java.util.List;
-import com.thinking.update.main.entity.SysLog;
+import com.thinking.update.main.domain.entity.SysLog;
 public interface SysLogService{
 	/**
 	 * 获得SysLog数据的总行数

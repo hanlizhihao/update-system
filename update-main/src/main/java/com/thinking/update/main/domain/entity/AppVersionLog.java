@@ -1,5 +1,8 @@
-package com.thinking.update.main.entity;
-public class AppVersionLog {
+package com.thinking.update.main.domain.entity;
+
+import java.io.Serializable;
+
+public class AppVersionLog implements Serializable {
     private Long id;
     private String appName;//车牌号+应用名称
     private String stateName;

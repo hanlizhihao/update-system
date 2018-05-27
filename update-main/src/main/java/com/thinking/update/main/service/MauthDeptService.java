@@ -1,6 +1,6 @@
 package com.thinking.update.main.service;
 import java.util.List;
-import com.thinking.update.main.entity.MauthDept;
+import com.thinking.update.main.domain.entity.MauthDept;
 public interface MauthDeptService{
 	/**
 	 * 获得MauthDept数据的总行数

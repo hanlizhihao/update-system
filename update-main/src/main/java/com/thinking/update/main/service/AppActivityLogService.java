@@ -1,6 +1,6 @@
 package com.thinking.update.main.service;
 import java.util.List;
-import com.thinking.update.main.entity.AppActivityLog;
+import com.thinking.update.main.domain.entity.AppActivityLog;
 public interface AppActivityLogService{
 	/**
 	 * 获得AppActivityLog数据的总行数

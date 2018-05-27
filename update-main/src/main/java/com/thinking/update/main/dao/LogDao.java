@@ -1,7 +1,7 @@
 package com.thinking.update.main.dao;
 
 
-import com.thinking.update.main.entity.Log;
+import com.thinking.update.main.domain.entity.Log;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

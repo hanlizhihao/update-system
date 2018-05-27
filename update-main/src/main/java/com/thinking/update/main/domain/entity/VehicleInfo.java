@@ -1,5 +1,8 @@
-package com.thinking.update.main.entity;
-public class Vehicleinfo {
+package com.thinking.update.main.domain.entity;
+
+import java.io.Serializable;
+
+public class VehicleInfo implements Serializable {
     private String deviceFactoryNo;//主机厂车辆自编号
     private String companyName;//机构名称
     private String brakeshoreModel;//刹车蹄片型号/厂家
@@ -26,12 +29,7 @@ public class Vehicleinfo {
     private String producer;//车辆生产厂家
     private Integer batteryCap;//电池电量
     private String vehicleSN;//车辆编号
-    private Object motorType;//车辆类型：
-1- 燃油车
-，2- 电车
-，3- 油电混合动力车
-，4- 燃气车
-，5- 气电混合动力车
+    private Object motorType;//车辆类型：1- 燃油车，2- 电车，3- 油电混合动力车，4- 燃气车，5- 气电混合动力车
     private Integer status;//汽车状态：1-正常    2-故障   3-维修
     private Integer lastDataUpTime;//数据最后更新时间
     private String lightswitchsupplier;//灯光组合开关厂家
@@ -59,10 +57,10 @@ public class Vehicleinfo {
     private Integer online;
     private String engineVinNo;//发动机VIN码
     private Integer airBottleCap;//气瓶容量
-    public Vehicleinfo() {
+    public VehicleInfo() {
         super();
     }
-    public Vehicleinfo(String deviceFactoryNo,String companyName,String brakeshoreModel,String wiperSupplier,String deviceId,String tireModel,Integer dayRunTime,String lineInfo,String motorSupplier,String vehicleType,Integer companyDeptId,String isReparing,String fsbSupplier,Integer lineDeptId,String batteryModel,Integer deptId,Integer oilCost,Integer lastAlarmTime,String vehicleNo,String groupName,java.util.Date paymentExpiredDate,String dynamoModel,String doorpumpModel,String producer,Integer batteryCap,String vehicleSN,Object motorType,Integer status,Integer lastDataUpTime,String lightswitchsupplier,String purchaseDate,String wheelaxlesModel,String electricboxModel,String lineName,Integer groupDeptId,String tirepressureSupplier,String gearBoxModel,String subCompanyName,String sim,Integer alarm,Integer gasCost,java.util.Date expireDate,Integer vehicleId,Integer eleCost,Integer paymentStatus,String engineModel,Integer oilBoxCap,String seatSupplier,Integer subCompanyDeptId,String heaterSupplier,String absModel,Integer online,String engineVinNo,Integer airBottleCap) {
+    public VehicleInfo(String deviceFactoryNo, String companyName, String brakeshoreModel, String wiperSupplier, String deviceId, String tireModel, Integer dayRunTime, String lineInfo, String motorSupplier, String vehicleType, Integer companyDeptId, String isReparing, String fsbSupplier, Integer lineDeptId, String batteryModel, Integer deptId, Integer oilCost, Integer lastAlarmTime, String vehicleNo, String groupName, java.util.Date paymentExpiredDate, String dynamoModel, String doorpumpModel, String producer, Integer batteryCap, String vehicleSN, Object motorType, Integer status, Integer lastDataUpTime, String lightswitchsupplier, String purchaseDate, String wheelaxlesModel, String electricboxModel, String lineName, Integer groupDeptId, String tirepressureSupplier, String gearBoxModel, String subCompanyName, String sim, Integer alarm, Integer gasCost, java.util.Date expireDate, Integer vehicleId, Integer eleCost, Integer paymentStatus, String engineModel, Integer oilBoxCap, String seatSupplier, Integer subCompanyDeptId, String heaterSupplier, String absModel, Integer online, String engineVinNo, Integer airBottleCap) {
         super();
         this.deviceFactoryNo = deviceFactoryNo;
         this.companyName = companyName;

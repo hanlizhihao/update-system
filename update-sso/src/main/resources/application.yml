@@ -19,7 +19,7 @@ mybatis:
   configuration:
     map-underscore-to-camel-case: true
   mapper-locations: mybatis/**/*Mapper.xml
-  typeAliasesPackage: com.thinking.update.main.entity
+  typeAliasesPackage: com.thinking.update.main.domain.entity
 pagehelper:
     helperDialect: mysql
     reasonable: true #分页参数合理化，最小值不能小于0，最大值不能超过行数

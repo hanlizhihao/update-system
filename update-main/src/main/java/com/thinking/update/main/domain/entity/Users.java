@@ -1,5 +1,8 @@
-package com.thinking.update.main.entity;
-public class Users {
+package com.thinking.update.main.domain.entity;
+
+import java.io.Serializable;
+
+public class Users implements Serializable {
     private Long id;
     private String password;
     private String realName;

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.thinking.update.main.dao.UpareatableDao">
     <!-- Upareatable的resultMap,column是给数据库列起的别名,它对应property类的属性-->
-    <resultMap id="result_Upareatable_Map" type="com.thinking.update.main.entity.Upareatable">
+    <resultMap id="result_Upareatable_Map" type="com.thinking.update.main.domain.entity.Upareatable">
         <result column="uptype" property="uptype" />
         <result column="flag" property="flag" />
         <result column="taskflag" property="taskflag" />
@@ -40,13 +40,13 @@
 
     <!-- 将Upareatable插入到对应数据库的表中,包括属性值为null的数据-->
 
-    <insert id="insertUpareatable" parameterType="com.thinking.update.main.entity.Upareatable">
+    <insert id="insertUpareatable" parameterType="com.thinking.update.main.domain.entity.Upareatable">
         insert into upareatable(uptype,flag,taskflag,relateid,remarkstr,listorder,upareaid,upareaname,upcorpname) 
         values(#{uptype},#{flag},#{taskflag},#{relateid},#{remarkstr},#{listorder},#{upareaid},#{upareaname},#{upcorpname})
     </insert>
 
     <!-- 将Upareatable中属性值不为null的数据,插入到对应数据库的表中-->
-    <insert id="insertNonEmptyUpareatable" parameterType="com.thinking.update.main.entity.Upareatable">
+    <insert id="insertNonEmptyUpareatable" parameterType="com.thinking.update.main.domain.entity.Upareatable">
         insert into upareatable
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="uptype != null">uptype,</if>

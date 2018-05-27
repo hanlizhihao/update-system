@@ -1,7 +1,10 @@
 package com.thinking.update.main.service;
 import java.util.List;
-import com.thinking.update.main.entity.App;
+import com.thinking.update.main.domain.entity.App;
 public interface AppService{
+
+
+
 	/**
 	 * 获得App数据的总行数
 	 * @return
@@ -29,7 +32,7 @@ public interface AppService{
 	 * @param value
 	 * @return
 	 */
-    int insertApp(App value);
+    App insertApp(App value);
 	/**
 	 * 插入App中属性值不为null的数据到数据库
 	 * @param value

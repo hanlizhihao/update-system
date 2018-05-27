@@ -1,5 +1,8 @@
-package com.thinking.update.main.entity;
-public class Task {
+package com.thinking.update.main.domain.entity;
+
+import java.io.Serializable;
+
+public class Task implements Serializable {
     private Long id;
     private String taskName;//任务名称
     private java.util.Date updateTime;

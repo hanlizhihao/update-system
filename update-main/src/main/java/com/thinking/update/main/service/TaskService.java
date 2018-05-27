@@ -1,6 +1,6 @@
 package com.thinking.update.main.service;
 import java.util.List;
-import com.thinking.update.main.entity.Task;
+import com.thinking.update.main.domain.entity.Task;
 public interface TaskService{
 	/**
 	 * 获得Task数据的总行数

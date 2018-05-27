@@ -1,5 +1,5 @@
 package com.thinking.update.main.dao;
-import com.thinking.update.main.entity.Version;
+import com.thinking.update.main.domain.entity.Version;
 import java.util.List;
 public interface VersionDao{
 	/**

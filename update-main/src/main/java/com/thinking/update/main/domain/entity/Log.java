@@ -1,10 +1,11 @@
-package com.thinking.update.main.entity;
+package com.thinking.update.main.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Log {
+public class Log implements Serializable {
 	private Long id;
 
 	private Long userId;

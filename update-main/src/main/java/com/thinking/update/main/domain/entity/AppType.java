@@ -1,5 +1,8 @@
-package com.thinking.update.main.entity;
-public class AppType {
+package com.thinking.update.main.domain.entity;
+
+import java.io.Serializable;
+
+public class AppType  implements Serializable {
     private Long id;
     private String typeName;//类型名称
     private String remark;//备注
