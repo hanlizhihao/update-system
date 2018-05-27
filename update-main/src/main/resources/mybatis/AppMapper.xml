@@ -84,8 +84,34 @@
             <if test="targetVersionName != null "> and t_app.target_version_name = #{targetVersionName}</if>
             <if test="id != null "> and t_app.id = #{id}</if>
         </where>
-    </select> 
-
+    </select>
+    <!-- 获得一个App对象,以参数App对象中不为空的属性作为条件进行查询-->
+    <select id="filterAppByObj" parameterType="com.thinking.update.main.domain.entity.App" resultMap="result_App_Map">
+        select
+        <include refid="t_app_Column" />
+        from t_app
+        <where>
+            <if test="ts != null "> and t_app.ts like #{ts}</if>
+            <if test="protocolName != null "> and t_app.protocol_name like #{protocolName}</if>
+            <if test="createUser != null "> and t_app.create_user like #{createUser}</if>
+            <if test="updateState != null "> and t_app.update_state like #{updateState}</if>
+            <if test="targetVersionId != null "> and t_app.target_version_id like #{targetVersionId}</if>
+            <if test="updateUser != null "> and t_app.update_user like #{updateUser}</if>
+            <if test="versionName != null "> and t_app.version_name like #{versionName}</if>
+            <if test="versionState != null "> and t_app.version_state like #{versionState}</if>
+            <if test="updateTime != null "> and t_app.update_time like #{updateTime}</if>
+            <if test="appTypeId != null "> and t_app.app_type_id like #{appTypeId}</if>
+            <if test="appName != null "> and t_app.app_name like #{appName}</if>
+            <if test="runningStateName != null "> and t_app.running_state_name like #{runningStateName}</if>
+            <if test="protocolId != null "> and t_app.protocol_id like #{protocolId}</if>
+            <if test="versionId != null "> and t_app.version_id like #{versionId}</if>
+            <if test="runningState != null "> and t_app.running_state like #{runningState}</if>
+            <if test="createTime != null "> and t_app.create_time like #{createTime}</if>
+            <if test="deviceId != null "> and t_app.device_id like #{deviceId}</if>
+            <if test="targetVersionName != null "> and t_app.target_version_name like #{targetVersionName}</if>
+            <if test="id != null "> and t_app.id like #{id}</if>
+        </where>
+    </select>
     <!-- 通过App的id获得对应数据库中表的数据对象-->
     <select id="selectAppById" parameterType="java.lang.Long" resultMap="result_App_Map">
         select 

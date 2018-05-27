@@ -5,20 +5,13 @@ package com.thinking.update.main.common.handler;
  * @create 2018/5/27
  */
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
-
 import java.io.Serializable;
 
 /**
  * 统一返回对象.
+ * @author Administrator
  */
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@RequiredArgsConstructor
+
 public class ApiResult implements Serializable {
 
     /**
@@ -67,13 +60,38 @@ public class ApiResult implements Serializable {
 
     private Object result;
 
-    ApiResult(Object o) {
-        this.result = o;
+
+    public ApiResult(Object result) {
+        this.result = result;
     }
 
-    ApiResult(int code, String message) {
+    public ApiResult(int code, String message) {
         this.code = code;
         this.message = message;
+    }
+
+    public int getCode() {
+        return code;
+    }
+
+    public void setCode(int code) {
+        this.code = code;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public Object getResult() {
+        return result;
+    }
+
+    public void setResult(Object result) {
+        this.result = result;
     }
 
 }

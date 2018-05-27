@@ -1,4 +1,4 @@
-package com.thinking.update.sso.entity;
+package com.thinking.update.sso.domain.entity;
 public class Authorities {
     private Long id;
     private String authority;

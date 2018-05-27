@@ -1,6 +1,9 @@
 package com.thinking.update.main.service;
 import java.util.List;
+
 import com.thinking.update.main.domain.entity.App;
+import org.springframework.data.domain.Pageable;
+
 public interface AppService{
 
 
@@ -17,10 +20,11 @@ public interface AppService{
     List<App> selectApp();
 	/**
 	 * 获得一个App对象,以参数App对象中不为空的属性作为条件进行查询
-	 * @param obj
+	 * @param obj 筛选条件
+	 * @param pageable page页码,size单页数量
 	 * @return
 	 */
-    App selectAppByObj(App obj);
+	List<App> selectAppByPageAndFilter(Pageable pageable, App obj);
 	/**
 	 * 通过App的id获得App对象
 	 * @param id

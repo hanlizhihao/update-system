@@ -1,10 +1,13 @@
 package com.thinking.update.sso.service.impl;
 import java.util.List;
 import com.thinking.update.sso.dao.AuthoritiesDao;
-import com.thinking.update.sso.entity.Authorities;
+import com.thinking.update.sso.domain.entity.Authorities;
 import com.thinking.update.sso.service.AuthoritiesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+/**
+ * @author Administrator
+ */
 @Service
 public class AuthoritiesServiceImpl implements AuthoritiesService{
     @Autowired

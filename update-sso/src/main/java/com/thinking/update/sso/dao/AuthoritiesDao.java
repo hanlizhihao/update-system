@@ -1,5 +1,5 @@
 package com.thinking.update.sso.dao;
-import com.thinking.update.sso.entity.Authorities;
+import com.thinking.update.sso.domain.entity.Authorities;
 import java.util.List;
 public interface AuthoritiesDao{
 	/**

@@ -19,6 +19,8 @@ import java.io.Serializable;
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 public class AppModel implements Serializable {
+    @ApiModelProperty("AppID")
+    private Long id;
     @ApiModelProperty("设备Id")
     @NotNull
     private Long deviceId;

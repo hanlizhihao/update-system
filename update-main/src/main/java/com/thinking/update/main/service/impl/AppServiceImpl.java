@@ -1,21 +1,17 @@
 package com.thinking.update.main.service.impl;
 import java.util.List;
 
+import com.github.pagehelper.PageHelper;
 import com.thinking.update.main.common.enums.AppRunningStateEnum;
 import com.thinking.update.main.common.enums.AppUpdateStateEnum;
 import com.thinking.update.main.common.enums.VersionManageStateEnum;
-import com.thinking.update.main.common.enums.VersionTypeEnum;
 import com.thinking.update.main.common.exception.BDException;
-import com.thinking.update.main.common.handler.ApiResult;
 import com.thinking.update.main.dao.AppDao;
 import com.thinking.update.main.dao.AppTypeDao;
 import com.thinking.update.main.dao.VersionDao;
 import com.thinking.update.main.domain.entity.App;
-import com.thinking.update.main.domain.entity.AppType;
-import com.thinking.update.main.domain.entity.Version;
 import com.thinking.update.main.service.AppService;
-import javafx.scene.chart.ValueAxis;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,6 +32,13 @@ public class AppServiceImpl implements AppService{
         value.setUpdateState(AppUpdateStateEnum.DOWNLOADING.getValue());
         value.setVersionState(VersionManageStateEnum.UNSET_TARGET_VERSION.getValue());
     }
+
+    public void setAppForUpdate(App app) {
+        app.setRunningStateName(AppRunningStateEnum.getNameByValue(app.getRunningState()));
+        app.setAppName(appTypeDao.selectAppTypeById(app.getAppTypeId()).getTypeName());
+        app.setProtocolName(versionDao.selectVersionById(app.getProtocolId()).getVersionName());
+        app.setTargetVersionName(versionDao.selectVersionById(app.getVersionId()).getVersionName());
+    }
     @Override
     public long getAppRowCount(){
         return appDao.getAppRowCount();
@@ -45,8 +48,9 @@ public class AppServiceImpl implements AppService{
         return appDao.selectApp();
     }
     @Override
-    public App selectAppByObj(App obj){
-        return appDao.selectAppByObj(obj);
+    public List<App> selectAppByPageAndFilter(Pageable pageable, App obj){
+        PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize());
+        return appDao.filterAppByObj(obj);
     }
     @Override
     public App selectAppById(Long id){
@@ -81,8 +85,14 @@ public class AppServiceImpl implements AppService{
         return appDao.updateAppById(enti);
     }
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public int updateNonEmptyAppById(App enti){
-        return appDao.updateNonEmptyAppById(enti);
+        setAppForUpdate(enti);
+        int result = appDao.updateNonEmptyAppById(enti);
+        if (result == 0) {
+            throw new BDException("更新终端应用异常");
+        }
+        return result;
     }
 
     public AppDao getAppDao() {

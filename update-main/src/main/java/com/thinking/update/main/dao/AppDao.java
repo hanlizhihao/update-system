@@ -17,7 +17,14 @@ public interface AppDao{
 	 * @param obj
 	 * @return
 	 */
-    App selectAppByObj(App obj);
+    List<App> selectAppByObj(App obj);
+
+	/**
+	 *
+	 * @param obj
+	 * @return
+	 */
+	List<App> filterAppByObj(App obj);
 	/**
 	 * 通过App的id获得App对象
 	 * @param id

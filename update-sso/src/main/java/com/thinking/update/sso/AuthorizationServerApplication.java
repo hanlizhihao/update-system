@@ -1,5 +1,6 @@
 package com.thinking.update.sso;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
@@ -17,6 +18,7 @@ import java.util.UUID;
 @EnableResourceServer
 @SpringBootApplication
 @RestController
+@MapperScan(basePackages = {"com.thinking.update.sso.dao","com.thinking.update.*.dao"})
 public class AuthorizationServerApplication extends WebMvcConfigurerAdapter {
 
     @RequestMapping("/")

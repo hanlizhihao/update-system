@@ -1,5 +1,8 @@
 package com.thinking.update.main.common.enums;
 
+import com.thinking.update.main.common.exception.BDException;
+import com.thinking.update.main.domain.entity.App;
+
 /**
  * @author Administrator
  */
@@ -34,5 +37,14 @@ public enum AppRunningStateEnum {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public static String getNameByValue(int value) {
+        for (AppRunningStateEnum stateEnum: AppRunningStateEnum.values()) {
+            if (stateEnum.getValue() == value) {
+                return stateEnum.getName();
+            }
+        }
+        throw new BDException("没有与Value相匹配的终端运行状态枚举");
     }
 }

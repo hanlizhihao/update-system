@@ -1,6 +1,6 @@
 package com.thinking.update.sso.service;
 import java.util.List;
-import com.thinking.update.sso.entity.Authorities;
+import com.thinking.update.sso.domain.entity.Authorities;
 public interface AuthoritiesService{
 	/**
 	 * 获得Authorities数据的总行数
