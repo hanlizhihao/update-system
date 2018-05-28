@@ -1,5 +1,5 @@
-package com.thinking.update.main.dao;
-import com.thinking.update.main.domain.entity.Users;
+package com.thinking.update.common.dao;
+import com.thinking.update.common.entity.Users;
 import java.util.List;
 public interface UsersDao{
 	/**

@@ -1,4 +1,4 @@
-package com.thinking.update.main.domain.entity;
+package com.thinking.update.common.entity;
 
 import java.io.Serializable;
 

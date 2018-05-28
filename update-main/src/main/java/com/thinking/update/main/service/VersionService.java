@@ -1,6 +1,8 @@
 package com.thinking.update.main.service;
 import java.util.List;
 import com.thinking.update.main.domain.entity.Version;
+import com.thinking.update.main.domain.model.EnumVo;
+
 public interface VersionService{
 	/**
 	 * 获得Version数据的总行数
@@ -12,12 +14,6 @@ public interface VersionService{
 	 * @return
 	 */
     List<Version> selectVersion();
-	/**
-	 * 获得一个Version对象,以参数Version对象中不为空的属性作为条件进行查询
-	 * @param obj
-	 * @return
-	 */
-    Version selectVersionByObj(Version obj);
 	/**
 	 * 通过Version的id获得Version对象
 	 * @param id
@@ -60,4 +56,8 @@ public interface VersionService{
 	 * @return
 	 */
     int updateNonEmptyVersionById(Version enti);
+
+    List<EnumVo> getPackageList();
+
+    List<EnumVo> getProtocolList();
 }

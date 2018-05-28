@@ -48,9 +48,12 @@ public abstract class BaseApplicationController {
      * @param entity
      */
     protected void setCommonCreateFields(AbstractEntity entity) {
+        Date date = new Date(System.currentTimeMillis());
         entity.setCreateUser(this.getUserName());
+        entity.setCreateTime(date);
         entity.setUpdateUser(this.getUserName());
-        entity.setTs(new Date(System.currentTimeMillis()));
+        entity.setUpdateTime(date);
+        entity.setTs(date);
     }
 
     /**
@@ -58,7 +61,9 @@ public abstract class BaseApplicationController {
      * @param entity
      */
     protected void setCommonUpdateFields(AbstractEntity entity) {
+        Date date = new Date(System.currentTimeMillis());
         entity.setUpdateUser(this.getUserName());
-        entity.setTs(new Date(System.currentTimeMillis()));
+        entity.setUpdateTime(date);
+        entity.setTs(date);
     }
 }

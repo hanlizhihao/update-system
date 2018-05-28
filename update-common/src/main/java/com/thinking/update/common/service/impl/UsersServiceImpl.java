@@ -1,8 +1,8 @@
-package com.thinking.update.main.service.impl;
+package com.thinking.update.common.service.impl;
 import java.util.List;
-import com.thinking.update.main.dao.UsersDao;
-import com.thinking.update.main.domain.entity.Users;
-import com.thinking.update.main.service.UsersService;
+import com.thinking.update.common.dao.UsersDao;
+import com.thinking.update.common.entity.Users;
+import com.thinking.update.common.service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 @Service

@@ -25,7 +25,6 @@ public class App extends AbstractEntity implements Serializable {
     private String runningStateName;//终端运行状态名称
     private String appName;//app名称-appTypeName
     private Long appTypeId;//app类型id
-    private java.util.Date updateTime;//更新时间
     private Integer versionState;//版本管理状态 0-未设置目标版本，10-未设置目标已收到确认，20-已设置未确认，30-一致，40-不一致
     private String versionName;
     private Long targetVersionId;//目标版本

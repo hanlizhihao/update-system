@@ -17,7 +17,7 @@ public interface VersionDao{
 	 * @param obj
 	 * @return
 	 */
-    Version selectVersionByObj(Version obj);
+    List<Version> selectVersionByObj(Version obj);
 	/**
 	 * 通过Version的id获得Version对象
 	 * @param id

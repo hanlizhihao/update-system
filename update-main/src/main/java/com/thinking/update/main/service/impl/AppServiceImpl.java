@@ -1,4 +1,5 @@
 package com.thinking.update.main.service.impl;
+import java.util.LinkedList;
 import java.util.List;
 
 import com.github.pagehelper.PageHelper;
@@ -8,12 +9,16 @@ import com.thinking.update.main.common.enums.VersionManageStateEnum;
 import com.thinking.update.main.common.exception.BDException;
 import com.thinking.update.main.dao.AppDao;
 import com.thinking.update.main.dao.AppTypeDao;
+import com.thinking.update.main.dao.VehicleinfoDao;
 import com.thinking.update.main.dao.VersionDao;
 import com.thinking.update.main.domain.entity.App;
+import com.thinking.update.main.domain.entity.VehicleInfo;
+import com.thinking.update.main.domain.model.EnumVo;
 import com.thinking.update.main.service.AppService;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 
@@ -25,6 +30,8 @@ public class AppServiceImpl implements AppService{
     private AppTypeDao appTypeDao;
     @Resource
     private VersionDao versionDao;
+    @Resource
+    private VehicleinfoDao vehicleinfoDao;
 
     public void setAppDefaultField(App value) {
         value.setRunningState(AppRunningStateEnum.NORMAL.getValue());
@@ -93,6 +100,28 @@ public class AppServiceImpl implements AppService{
             throw new BDException("更新终端应用异常");
         }
         return result;
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class, readOnly = true)
+    public List<EnumVo> getDeviceList() {
+        List<EnumVo> enumVoList = new LinkedList<>();
+        List<VehicleInfo> vehicleInfoList = vehicleinfoDao.selectVehicleinfo();
+        if (!CollectionUtils.isEmpty(vehicleInfoList)) {
+            vehicleInfoList.forEach(vehicleInfo -> {
+                EnumVo enumVo = new EnumVo();
+                enumVo.setValue(vehicleInfo.getDeviceId());
+                StringBuilder stringBuilder = new StringBuilder();
+                stringBuilder.append(vehicleInfo.getCompanyName())
+                        .append(vehicleInfo.getSubCompanyName())
+                        .append(vehicleInfo.getGroupName())
+                        .append(vehicleInfo.getLineName())
+                        .append(vehicleInfo.getVehicleNo());
+                enumVo.setTitle(stringBuilder.toString());
+                enumVoList.add(enumVo);
+            });
+        }
+        return enumVoList;
     }
 
     public AppDao getAppDao() {

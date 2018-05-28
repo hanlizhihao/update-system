@@ -1,11 +1,23 @@
 package com.thinking.update.main.domain.entity;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
+/**
+ * @author Administrator
+ */
 public class AppType  implements Serializable {
     private Long id;
-    private String typeName;//类型名称
-    private String remark;//备注
+    /**
+     * 类型名称
+     */
+    @NotNull
+    private String typeName;
+    /**
+     * 备注
+     */
+    @NotNull
+    private String remark;
     public AppType() {
         super();
     }

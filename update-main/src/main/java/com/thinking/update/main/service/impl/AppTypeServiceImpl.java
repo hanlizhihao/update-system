@@ -1,13 +1,23 @@
 package com.thinking.update.main.service.impl;
-import java.util.List;
+import com.thinking.update.main.common.exception.BDException;
 import com.thinking.update.main.dao.AppTypeDao;
 import com.thinking.update.main.domain.entity.AppType;
+import com.thinking.update.main.domain.model.EnumVo;
 import com.thinking.update.main.service.AppTypeService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
+
+import javax.annotation.Resource;
+import java.util.LinkedList;
+import java.util.List;
+
+/**
+ * @author Administrator
+ */
 @Service
 public class AppTypeServiceImpl implements AppTypeService{
-    @Autowired
+    @Resource
     private AppTypeDao appTypeDao;
     @Override
     public long getAppTypeRowCount(){
@@ -26,8 +36,12 @@ public class AppTypeServiceImpl implements AppTypeService{
         return appTypeDao.selectAppTypeById(id);
     }
     @Override
-    public int insertAppType(AppType value){
-        return appTypeDao.insertAppType(value);
+    public AppType insertAppType(AppType value){
+        int result = appTypeDao.insertAppType(value);
+        if (result == 1) {
+            return value;
+        }
+        throw new BDException("Service添加App分类失败");
     }
     @Override
     public int insertNonEmptyAppType(AppType value){
@@ -48,6 +62,24 @@ public class AppTypeServiceImpl implements AppTypeService{
     @Override
     public int updateNonEmptyAppTypeById(AppType enti){
         return appTypeDao.updateNonEmptyAppTypeById(enti);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class, readOnly = true)
+    public List<EnumVo> getAppTypeList() {
+        List<EnumVo> enumVoList = new LinkedList<>();
+        List<AppType> appTypes = appTypeDao.selectAppType();
+        if (!CollectionUtils.isEmpty(appTypes)) {
+            appTypes.forEach(appType -> {
+                EnumVo enumVo = EnumVo.builder()
+                        .title(appType.getTypeName())
+                        .value(appType.getId().toString())
+                        .build();
+                enumVoList.add(enumVo);
+            });
+            return enumVoList;
+        }
+        return null;
     }
 
     public AppTypeDao getAppTypeDao() {

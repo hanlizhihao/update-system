@@ -24,4 +24,8 @@ public abstract class AbstractEntity {
     private String updateUser;
 
     private java.util.Date ts;
+    /**
+     * 更新时间
+     */
+    private java.util.Date updateTime;
 }
