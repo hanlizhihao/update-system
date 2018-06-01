@@ -1,5 +1,7 @@
 package com.thinking.update.main.dao;
 import com.thinking.update.main.domain.entity.App;
+import org.apache.ibatis.annotations.Param;
+
 import java.util.List;
 public interface AppDao{
 	/**
@@ -20,11 +22,28 @@ public interface AppDao{
     List<App> selectAppByObj(App obj);
 
 	/**
-	 *
+	 * 带过滤条件的分页查询
 	 * @param obj
 	 * @return
 	 */
 	List<App> filterAppByObj(App obj);
+
+	/**
+	 * 带过滤条件的分页查询
+	 * @param obj App
+	 * @param deviceIds ids数组
+	 * @return
+	 */
+	List<App> getAppForPageByObjAndDeviceIds(@Param("obj") App obj, @Param("deviceIds") List<Long> deviceIds);
+
+	/**
+	 * 基于deviceIds以及异常状态集合来查询
+	 * @param states 异常状态列表
+	 * @param deviceIds ids数组
+	 * @return
+	 */
+	List<App> getAppForPageByDeviceIdsAndStateList(@Param("states") List<Integer> states,
+												   @Param("deviceIds") List<Long> deviceIds);
 	/**
 	 * 通过App的id获得App对象
 	 * @param id

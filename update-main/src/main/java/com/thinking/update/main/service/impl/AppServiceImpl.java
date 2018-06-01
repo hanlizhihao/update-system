@@ -22,6 +22,9 @@ import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 
+/**
+ * @author Administrator
+ */
 @Service
 public class AppServiceImpl implements AppService{
     @Resource
@@ -55,10 +58,21 @@ public class AppServiceImpl implements AppService{
         return appDao.selectApp();
     }
     @Override
-    public List<App> selectAppByPageAndFilter(Pageable pageable, App obj){
+    public List<App> selectAppByPageAndFilter(Pageable pageable, App obj, List<Long> deviceIds){
         PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize());
-        return appDao.filterAppByObj(obj);
+        if (deviceIds == null || deviceIds.size() == 0) {
+            return appDao.filterAppByObj(obj);
+        } else {
+            return appDao.getAppForPageByObjAndDeviceIds(obj, deviceIds);
+        }
     }
+
+    @Override
+    public List<App> selectAbnormalPageBydeviceIds(Pageable pageable, List<Long> deviceIds) {
+        PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize());
+        return appDao.getAppForPageByDeviceIdsAndStateList(AppUpdateStateEnum.getAbnormalStateList(), deviceIds);
+    }
+
     @Override
     public App selectAppById(Long id){
         return appDao.selectAppById(id);

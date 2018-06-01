@@ -112,6 +112,54 @@
             <if test="id != null "> and t_app.id like #{id}</if>
         </where>
     </select>
+    <select id="getAppForPageByObjAndDeviceIds" parameterType="com.thinking.update.main.domain.entity.App" resultMap="result_App_Map">
+        select
+        <include refid="t_app_Column" />
+        from t_app
+        <where>
+            <if test="obj.ts != null "> and t_app.ts like #{obj.ts}</if>
+            <if test="obj.protocolName != null "> and t_app.protocol_name like #{obj.protocolName}</if>
+            <if test="obj.createUser != null "> and t_app.create_user like #{obj.createUser}</if>
+            <if test="obj.updateState != null "> and t_app.update_state like #{obj.updateState}</if>
+            <if test="obj.targetVersionId != null "> and t_app.target_version_id like #{obj.targetVersionId}</if>
+            <if test="obj.updateUser != null "> and t_app.update_user like #{obj.updateUser}</if>
+            <if test="obj.versionName != null "> and t_app.version_name like #{obj.versionName}</if>
+            <if test="obj.versionState != null "> and t_app.version_state like #{obj.versionState}</if>
+            <if test="obj.updateTime != null "> and t_app.update_time like #{obj.updateTime}</if>
+            <if test="obj.appTypeId != null "> and t_app.app_type_id like #{obj.appTypeId}</if>
+            <if test="obj.appName != null "> and t_app.app_name like #{obj.appName}</if>
+            <if test="obj.runningStateName != null "> and t_app.running_state_name like #{obj.runningStateName}</if>
+            <if test="obj.protocolId != null "> and t_app.protocol_id like #{obj.protocolId}</if>
+            <if test="obj.versionId != null "> and t_app.version_id like #{obj.versionId}</if>
+            <if test="obj.runningState != null "> and t_app.running_state like #{obj.runningState}</if>
+            <if test="obj.createTime != null "> and t_app.create_time like #{obj.createTime}</if>
+            <if test="obj.deviceId != null "> and t_app.device_id like #{obj.deviceId}</if>
+            <if test="obj.targetVersionName != null "> and t_app.target_version_name like #{obj.targetVersionName}</if>
+            <if test="obj.id != null "> and t_app.id like #{obj.id}</if>
+            and t_app.device_id in
+            <foreach collection="deviceIds" index="index" item="item" separator="," open="(" close=")">
+                #{item,jdbcType=BIGINT}
+            </foreach>
+        </where>
+    </select>
+
+    <select id="getAppForPageByDeviceIdsAndStateList" parameterType="com.thinking.update.main.domain.entity.App" resultMap="result_App_Map">
+        select
+        <include refid="t_app_Column" />
+        from t_app
+        <where>
+            <if test="@Ognl@isNotEmpty(states)">
+                and t_app.update_state in
+                <foreach collection="states" index="index" item="item" separator="," open="(" close=")">
+                    #{item,jdbcType=INT}
+                </foreach>
+            </if>
+            and t_app.device_id in
+            <foreach collection="deviceIds" index="index" item="item" separator="," open="(" close=")">
+                #{item,jdbcType=BIGINT}
+            </foreach>
+        </where>
+    </select>
     <!-- 通过App的id获得对应数据库中表的数据对象-->
     <select id="selectAppById" parameterType="java.lang.Long" resultMap="result_App_Map">
         select 

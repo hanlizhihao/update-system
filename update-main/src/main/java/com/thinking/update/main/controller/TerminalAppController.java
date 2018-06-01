@@ -13,6 +13,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.data.domain.Pageable;
 import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
@@ -28,7 +29,7 @@ import java.util.List;
 @Api(description = "终端应用Api")
 @RestController
 @Slf4j
-@RequestMapping("/update/app")
+@RequestMapping("/app")
 public class TerminalAppController extends BaseApplicationController {
 
     @Resource
@@ -48,14 +49,14 @@ public class TerminalAppController extends BaseApplicationController {
     @ApiOperation(value = "终端app列表查询", notes = "终端app列表查询", httpMethod = "GET")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "page", paramType = "query", value = "查询页号"),
-            @ApiImplicitParam(name = "size", paramType = "query", value = "每页显示记录条数")
+            @ApiImplicitParam(name = "size", paramType = "query", value = "每页显示记录数")
     })
     @PrintLog("终端app列表查询")
     @GetMapping(value = "/list")
-    public PageInfo<App> appList(Pageable pageable, AppModel appModel) {
+    public PageInfo<App> appList(Pageable pageable, AppModel appModel, @Param("deviceIds") List<Long> deviceIds) {
         App app = new App();
         BeanCopyHelper.copy(appModel, app);
-        return new PageInfo<>(appService.selectAppByPageAndFilter(pageable, app));
+        return new PageInfo<>(appService.selectAppByPageAndFilter(pageable, app, deviceIds));
     }
 
     @PrintLog("更新终端应用")

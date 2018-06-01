@@ -1,5 +1,12 @@
 package com.thinking.update.main.common.enums;
 
+import org.springframework.util.CollectionUtils;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 /**
  * @author Administrator
  */
@@ -59,5 +66,12 @@ public enum AppUpdateStateEnum {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public static List<Integer> getAbnormalStateList() {
+        Integer[] abnormalList = new Integer[]{MD5_CHECK_FAILED.getValue(), INSTALL_FAILED.getValue(), START_fAILED.getValue(),
+                CHECK_FAILED.getValue(), CHECK_UPLOAD_FAIL.getValue(), REINSTALL.getValue(), ROLLBACK_VERSION.getValue()
+        };
+        return Arrays.asList(abnormalList);
     }
 }
