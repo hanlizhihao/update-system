@@ -1,6 +1,5 @@
 package com.thinking.update.main.service.impl;
-import com.thinking.update.main.dao.VehicleinfoDao;
-import com.thinking.update.main.domain.entity.MauthDept;
+import com.thinking.update.main.dao.VehicleDao;
 import com.thinking.update.main.domain.entity.VehicleInfo;
 import com.thinking.update.main.service.VehicleService;
 import org.springframework.stereotype.Service;
@@ -14,52 +13,47 @@ import java.util.List;
 @Service
 public class VehicleServiceImpl implements VehicleService {
     @Resource
-    private VehicleinfoDao vehicleinfoDao;
+    private VehicleDao vehicleDao;
+
     @Override
     public long getVehicleRowCount(){
-        return vehicleinfoDao.getVehicleinfoRowCount();
+        return vehicleDao.getVehicleRowCount();
     }
     @Override
     public List<VehicleInfo> selectVehicle(){
-        return vehicleinfoDao.selectVehicleinfo();
+        return vehicleDao.selectVehicle();
     }
     @Override
     public VehicleInfo selectVehicleByObj(VehicleInfo obj){
-        return vehicleinfoDao.selectVehicleinfoByObj(obj);
+        return vehicleDao.selectVehicleinfoByObj(obj);
     }
     @Override
     public VehicleInfo selectVehicleById(Object id){
-        return vehicleinfoDao.selectVehicleinfoById(id);
+        return vehicleDao.selectVehicleinfoById(id);
     }
     @Override
     public int insertVehicle(VehicleInfo value){
-        return vehicleinfoDao.insertVehicleinfo(value);
+        return vehicleDao.insertVehicleinfo(value);
     }
     @Override
     public int insertNonEmptyVehicle(VehicleInfo value){
-        return vehicleinfoDao.insertNonEmptyVehicleinfo(value);
+        return vehicleDao.insertNonEmptyVehicleinfo(value);
     }
     @Override
     public int insertVehicleByBatch(List<VehicleInfo> value){
-        return vehicleinfoDao.insertVehicleinfoByBatch(value);
+        return vehicleDao.insertVehicleinfoByBatch(value);
     }
     @Override
     public int deleteVehicleById(Object id){
-        return vehicleinfoDao.deleteVehicleinfoById(id);
+        return vehicleDao.deleteVehicleinfoById(id);
     }
     @Override
     public int updateVehicleById(VehicleInfo enti){
-        return vehicleinfoDao.updateVehicleinfoById(enti);
+        return vehicleDao.updateVehicleinfoById(enti);
     }
     @Override
     public int updateNonEmptyVehicleById(VehicleInfo enti){
-        return vehicleinfoDao.updateNonEmptyVehicleinfoById(enti);
-    }
-
-    @Override
-    public List<MauthDept> getOneChildrenLevelById(Long id) {
-
-        return null;
+        return vehicleDao.updateNonEmptyVehicleinfoById(enti);
     }
 
     @Override
@@ -67,12 +61,12 @@ public class VehicleServiceImpl implements VehicleService {
         return null;
     }
 
-    public VehicleinfoDao getVehicleinfoDao() {
-        return this.vehicleinfoDao;
+    public VehicleDao getVehicleDao() {
+        return this.vehicleDao;
     }
 
-    public void setVehicleinfoDao(VehicleinfoDao vehicleinfoDao) {
-        this.vehicleinfoDao = vehicleinfoDao;
+    public void setVehicleDao(VehicleDao vehicleDao) {
+        this.vehicleDao = vehicleDao;
     }
 
 }

@@ -53,7 +53,7 @@ public class TerminalAppController extends BaseApplicationController {
     })
     @PrintLog("终端app列表查询")
     @GetMapping(value = "/list")
-    public PageInfo<App> appList(Pageable pageable, AppModel appModel, @Param("deviceIds") List<Long> deviceIds) {
+    public PageInfo<App> appList(Pageable pageable, AppModel appModel, @RequestParam("deviceIds") List<Long> deviceIds) {
         App app = new App();
         BeanCopyHelper.copy(appModel, app);
         return new PageInfo<>(appService.selectAppByPageAndFilter(pageable, app, deviceIds));

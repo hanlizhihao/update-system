@@ -1,6 +1,11 @@
 package com.thinking.update.main.service;
 import java.util.List;
+
+import com.thinking.update.main.domain.entity.App;
 import com.thinking.update.main.domain.entity.Task;
+import com.thinking.update.main.domain.model.TaskModel;
+import org.springframework.data.domain.Pageable;
+
 public interface TaskService{
 	/**
 	 * 获得Task数据的总行数
@@ -27,9 +32,25 @@ public interface TaskService{
 	/**
 	 * 插入Task到数据库,包括null值
 	 * @param value
+	 * @param taskModel
 	 * @return
 	 */
-    int insertTask(Task value);
+    Task insertTask(Task value, TaskModel taskModel);
+
+	/**
+	 * 批量更新App
+	 * @param app
+	 * @param appIds
+	 */
+    void batchUpdateAppProtocol(App app, List<Long> appIds);
+
+	/**
+	 * 查询分页任务
+	 * @param pageable
+	 * @param task
+	 * @return
+	 */
+	List<Task> selectTaskByPageAndFilter(Pageable pageable, Task task);
 	/**
 	 * 插入Task中属性值不为null的数据到数据库
 	 * @param value
@@ -60,4 +81,11 @@ public interface TaskService{
 	 * @return
 	 */
     int updateNonEmptyTaskById(Task enti);
+
+	/**
+	 * 更新任务
+	 * @param taskModel
+	 * @return
+	 */
+	int updateTask(Task task, TaskModel taskModel);
 }

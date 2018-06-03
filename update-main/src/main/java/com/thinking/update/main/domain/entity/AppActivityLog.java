@@ -2,6 +2,9 @@ package com.thinking.update.main.domain.entity;
 
 import java.io.Serializable;
 
+/**
+ * @author Administrator
+ */
 public class AppActivityLog implements Serializable {
     private Long id;
     private Long versionLogId;//版本日志id
@@ -11,16 +14,22 @@ public class AppActivityLog implements Serializable {
     private String version;
     private String targetVersion;
     private String appName;
-    private Long logType;//日志类型，0-文本，1-文件
+    /**
+     * 日志类型，0-文本，1-文件
+     */
+    private Integer logType;
     private Long targetVersionId;
-    private String logUrl;//日志下载地址
+    /**
+     * 日志下载地址
+     */
+    private String logUrl;
     private String updateState;
     private Long appId;//app id
     private java.util.Date ts;
     public AppActivityLog() {
         super();
     }
-    public AppActivityLog(Long id,Long versionLogId,String lastUpdateState,String log,Long versionId,String version,String targetVersion,String appName,Long logType,Long targetVersionId,String logUrl,String updateState,Long appId,java.util.Date ts) {
+    public AppActivityLog(Long id,Long versionLogId,String lastUpdateState,String log,Long versionId,String version,String targetVersion,String appName,Integer logType,Long targetVersionId,String logUrl,String updateState,Long appId,java.util.Date ts) {
         super();
         this.id = id;
         this.versionLogId = versionLogId;
@@ -101,11 +110,11 @@ public class AppActivityLog implements Serializable {
         this.appName = appName;
     }
 
-    public Long getLogType() {
+    public Integer getLogType() {
         return this.logType;
     }
 
-    public void setLogType(Long logType) {
+    public void setLogType(Integer logType) {
         this.logType = logType;
     }
 

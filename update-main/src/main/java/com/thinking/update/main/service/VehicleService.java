@@ -66,7 +66,5 @@ public interface VehicleService {
 	 */
     int updateNonEmptyVehicleById(VehicleInfo enti);
 
-    List<MauthDept> getOneChildrenLevelById(Long id);
-
     List<Integer> getDeviceIdsByDepartId(Long id);
 }

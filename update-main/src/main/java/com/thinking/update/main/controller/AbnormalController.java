@@ -4,6 +4,7 @@ import com.github.pagehelper.PageInfo;
 import com.thinking.update.main.common.annotation.PrintLog;
 import com.thinking.update.main.common.utils.BeanCopyHelper;
 import com.thinking.update.main.domain.entity.App;
+import com.thinking.update.main.domain.model.AbnormalDetailVo;
 import com.thinking.update.main.domain.model.AppModel;
 import com.thinking.update.main.service.AppService;
 import io.swagger.annotations.Api;
@@ -14,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -45,6 +47,13 @@ public class AbnormalController extends BaseApplicationController {
         App app = new App();
         BeanCopyHelper.copy(appModel, app);
         return new PageInfo<>(appService.selectAbnormalPageBydeviceIds(pageable, deviceIds));
+    }
+
+    @PrintLog("查询异常升级的异常活动列表即异常详情")
+    @GetMapping(value = "/detail/{id}")
+    @ApiOperation(value = "异常升级活动的列表 BY hlz", notes = "异常升级活动的列表 BY hlz", httpMethod = "GET")
+    public List<AbnormalDetailVo> getAbnormalDetailByAppId(@PathVariable Long id) {
+        return appService.getAbnormalDetails(id);
     }
 
 }

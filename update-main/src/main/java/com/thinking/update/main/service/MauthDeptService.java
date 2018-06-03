@@ -60,4 +60,6 @@ public interface MauthDeptService{
 	 * @return
 	 */
     int updateNonEmptyMauthDeptById(MauthDept enti);
+
+    List<MauthDept> getMauthUnderById(Integer id);
 }

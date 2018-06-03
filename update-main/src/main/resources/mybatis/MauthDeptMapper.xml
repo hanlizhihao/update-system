@@ -57,7 +57,19 @@
             <if test="code != null "> and mauth_dept.code = #{code}</if>
             <if test="deptId != null "> and mauth_dept.dept_id = #{deptId}</if>
         </where>
-    </select> 
+    </select>
+
+    <!-- 获得一个MauthDept对象,以参数MauthDept对象中不为空的属性作为条件进行查询-->
+    <select id="selectBylftAndrgtAndLevel" parameterType="com.thinking.update.main.domain.entity.MauthDept" resultMap="result_MauthDept_Map">
+        select
+        <include refid="mauth_dept_Column" />
+        from mauth_dept
+        <where>
+            <if test="rgt != null "> and mauth_dept.rgt <= #{mauthDept.rgt}</if>
+            <if test="lft != null "> and mauth_dept.lft >= #{mauthDept.lft}</if>
+            <if test="level != null "> and mauth_dept.level = #{mauthDept.level}</if>
+        </where>
+    </select>
 
     <!-- 通过MauthDept的id获得对应数据库中表的数据对象-->
     <select id="selectMauthDeptById" parameterType="java.lang.Integer" resultMap="result_MauthDept_Map">

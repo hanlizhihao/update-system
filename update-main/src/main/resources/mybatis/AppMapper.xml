@@ -22,6 +22,8 @@
         <result column="create_user" property="createUser" />
         <result column="protocol_name" property="protocolName" />
         <result column="ts" property="ts" />
+        <result column="activity_log_id" property="activityLogId"/>
+        <result column="version_log_id" property="versionLogId"/>
     </resultMap>
 
     <!-- 数据库中表名为:t_app的列名,as前是数据库的列明,as后是列的别名用于映射成实体类中的属性,需要注意的是别名必须与resultMap中的column别名一致 -->
@@ -45,6 +47,8 @@
         ,t_app.create_user as create_user
         ,t_app.protocol_name as protocol_name
         ,t_app.ts as ts
+        ,t_app.activity_log_id as activity_log_id
+        ,t_app.version_log_id as version_log_id
     </sql>
 
     <!--获得类名为:App对应的数据库表的数据总行数 -->
@@ -56,7 +60,18 @@
         select 
         <include refid="t_app_Column" /> 
         from t_app
-    </select> 
+    </select>
+
+    <!-- 获得类名为:App对应数据库中表的数据集合 -->
+    <select id="selectAppByIds" resultMap="result_App_Map">
+        select
+        <include refid="t_app_Column" />
+        from t_app
+        where t_app.id in
+        <foreach collection="ids" index="index" item="item" separator="," open="(" close=")">
+            #{item,jdbcType=BIGINT}
+        </foreach>
+    </select>
 
     <!-- 获得一个App对象,以参数App对象中不为空的属性作为条件进行查询-->
     <select id="selectAppByObj" parameterType="com.thinking.update.main.domain.entity.App" resultMap="result_App_Map">
@@ -83,6 +98,8 @@
             <if test="deviceId != null "> and t_app.device_id = #{deviceId}</if>
             <if test="targetVersionName != null "> and t_app.target_version_name = #{targetVersionName}</if>
             <if test="id != null "> and t_app.id = #{id}</if>
+            <if test="activityLogId != null">and t_app.activityLogId = #{activityLogId}</if>
+            <if test="versionLogId != null">and t_app.versionLogId = #{versionLogId}</if>
         </where>
     </select>
     <!-- 获得一个App对象,以参数App对象中不为空的属性作为条件进行查询-->
@@ -136,6 +153,8 @@
             <if test="obj.deviceId != null "> and t_app.device_id like #{obj.deviceId}</if>
             <if test="obj.targetVersionName != null "> and t_app.target_version_name like #{obj.targetVersionName}</if>
             <if test="obj.id != null "> and t_app.id like #{obj.id}</if>
+            <if test="activityLogId != null">and t_app.activityLogId = #{activityLogId}</if>
+            <if test="versionLogId != null">and t_app.versionLogId = #{versionLogId}</if>
             and t_app.device_id in
             <foreach collection="deviceIds" index="index" item="item" separator="," open="(" close=")">
                 #{item,jdbcType=BIGINT}
@@ -198,6 +217,8 @@
             <if test="createUser != null">create_user,</if>
             <if test="protocolName != null">protocol_name,</if>
             <if test="ts != null">ts,</if>
+            <if test="activityLogId != null">activity_log_id,</if>
+            <if test="versionLogId != null">version_log_id,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null"> #{id},</if>
@@ -219,14 +240,22 @@
             <if test="createUser != null"> #{createUser},</if>
             <if test="protocolName != null"> #{protocolName},</if>
             <if test="ts != null"> #{ts},</if>
+            <if test="activityLogId != null">#{activityLogId}</if>
+            <if test="versionLogId != null">#{versionLogId}</if>
         </trim>
     </insert>
 
     <!-- 将App批量插入到对应数据库的表中-->
     <insert id="insertAppByBatch" parameterType="java.util.ArrayList">
-        insert into t_app(id,target_version_name,device_id,create_time,running_state,version_id,protocol_id,running_state_name,app_name,app_type_id,update_time,version_state,version_name,update_user,target_version_id,update_state,create_user,protocol_name,ts) values
+        insert into t_app(id,target_version_name,device_id,create_time,
+        running_state,version_id,protocol_id,running_state_name,app_name,
+        app_type_id,update_time,version_state,version_name,update_user,target_version_id,
+        update_state,create_user,protocol_name,ts,activity_log_id,version_log_id) values
         <foreach collection="list" item="item" index="index" separator="," >
-            (#{item.id},#{item.targetVersionName},#{item.deviceId},#{item.createTime},#{item.runningState},#{item.versionId},#{item.protocolId},#{item.runningStateName},#{item.appName},#{item.appTypeId},#{item.updateTime},#{item.versionState},#{item.versionName},#{item.updateUser},#{item.targetVersionId},#{item.updateState},#{item.createUser},#{item.protocolName},#{item.ts})
+            (#{item.id},#{item.targetVersionName},#{item.deviceId},#{item.createTime},#{item.runningState},
+            #{item.versionId},#{item.protocolId},#{item.runningStateName},#{item.appName},#{item.appTypeId},
+            #{item.updateTime},#{item.versionState},#{item.versionName},#{item.updateUser},#{item.targetVersionId},
+            #{item.updateState},#{item.createUser},#{item.protocolName},#{item.ts},#{activityLogId},#{versionLogId})
         </foreach>
     </insert>
 
@@ -257,9 +286,80 @@
             ,create_user=#{createUser}
             ,protocol_name=#{protocolName}
             ,ts=#{ts}
+            ,activity_log_id=#{activityLogId}
+            ,version_log_id=#{versionLogId}
         where id=#{id}
     </update>
-
+    <!-- 批量更新协议版本-->
+    <update id="batchUpdateApp" parameterType="com.thinking.update.main.domain.entity.App">
+        update t_app
+        <set>
+            <if test="targetVersionName != null">
+                target_version_name=#{targetVersionName},
+            </if>
+            <if test="deviceId != null">
+                device_id=#{deviceId},
+            </if>
+            <if test="createTime != null">
+                create_time=#{createTime},
+            </if>
+            <if test="runningState != null">
+                running_state=#{runningState},
+            </if>
+            <if test="versionId != null">
+                version_id=#{versionId},
+            </if>
+            <if test="protocolId != null">
+                protocol_id=#{protocolId},
+            </if>
+            <if test="runningStateName != null">
+                running_state_name=#{runningStateName},
+            </if>
+            <if test="appName != null">
+                app_name=#{appName},
+            </if>
+            <if test="appTypeId != null">
+                app_type_id=#{appTypeId},
+            </if>
+            <if test="updateTime != null">
+                update_time=#{updateTime},
+            </if>
+            <if test="versionState != null">
+                version_state=#{versionState},
+            </if>
+            <if test="versionName != null">
+                version_name=#{versionName},
+            </if>
+            <if test="updateUser != null">
+                update_user=#{updateUser},
+            </if>
+            <if test="targetVersionId != null">
+                target_version_id=#{targetVersionId},
+            </if>
+            <if test="updateState != null">
+                update_state=#{updateState},
+            </if>
+            <if test="createUser != null">
+                create_user=#{createUser},
+            </if>
+            <if test="protocolName != null">
+                protocol_name=#{protocolName},
+            </if>
+            <if test="ts != null">
+                ts=#{ts},
+            </if>
+            <if test="activityLogId != null">
+                activity_log_id=#{activityLogId},
+            </if>
+            <if test="versionLogId != null">
+                version_log_id=#{versionLogId},
+            </if>
+        </set>
+        where id IN
+        <foreach collection="ids" index="index" item="item" separator="," open="(" close=")">
+            #{item,jdbcType=BIGINT}
+        </foreach>
+    </update>
     <!-- 通过App的id将App中属性值不为null的数据更新到数据库对应的表中-->
     <update id="updateNonEmptyAppById" parameterType="com.thinking.update.main.domain.entity.App">
         update t_app
@@ -317,6 +417,12 @@
             </if>
             <if test="ts != null">
                 ts=#{ts},
+            </if>
+            <if test="activityLogId != null">
+                activity_log_id=#{activityLogId},
+            </if>
+            <if test="versionLogId != null">
+                version_log_id=#{versionLogId},
             </if>
         </set>
         where id=#{id}

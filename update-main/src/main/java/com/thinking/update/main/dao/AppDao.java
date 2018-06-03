@@ -14,6 +14,13 @@ public interface AppDao{
 	 * @return
 	 */
     List<App> selectApp();
+
+	/**
+	 * 根据id获取所有App
+	 * @param ids
+	 * @return
+	 */
+	List<App> selectAppByIds(List<Long> ids);
 	/**
 	 * 获得一个App对象,以参数App对象中不为空的属性作为条件进行查询
 	 * @param obj
@@ -86,4 +93,12 @@ public interface AppDao{
 	 * @return
 	 */
     int updateNonEmptyAppById(App enti);
+
+	/**
+	 * 批量更新协议版本
+	 * @param ids 需要更新的App
+	 * @param app 更新成为目标值
+	 * @return 更新数量
+	 */
+    int batchUpdateApp(@Param("ids") List<Long> ids,@Param("app") App app);
 }

@@ -2,6 +2,7 @@ package com.thinking.update.main.service;
 import java.util.List;
 
 import com.thinking.update.main.domain.entity.App;
+import com.thinking.update.main.domain.model.AbnormalDetailVo;
 import com.thinking.update.main.domain.model.EnumVo;
 import org.springframework.data.domain.Pageable;
 
@@ -78,5 +79,11 @@ public interface AppService{
 	 */
     int updateNonEmptyAppById(App enti);
 
-    List<EnumVo> getDeviceList();
+	/**
+	 * 获取所有终端App的信息
+	 * @return
+	 */
+	List<EnumVo> getDeviceList();
+
+	List<AbnormalDetailVo> getAbnormalDetails(Long id);
 }

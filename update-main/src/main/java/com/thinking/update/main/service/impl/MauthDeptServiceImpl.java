@@ -1,10 +1,16 @@
 package com.thinking.update.main.service.impl;
+import java.util.ArrayList;
 import java.util.List;
 import com.thinking.update.main.dao.MauthDeptDao;
 import com.thinking.update.main.domain.entity.MauthDept;
 import com.thinking.update.main.service.MauthDeptService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+/**
+ * @author Administrator
+ */
 @Service
 public class MauthDeptServiceImpl implements MauthDeptService{
     @Autowired
@@ -48,6 +54,21 @@ public class MauthDeptServiceImpl implements MauthDeptService{
     @Override
     public int updateNonEmptyMauthDeptById(MauthDept enti){
         return mauthDeptDao.updateNonEmptyMauthDeptById(enti);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class, readOnly = true)
+    public List<MauthDept> getMauthUnderById(Integer id) {
+        List<MauthDept> mauthDepts = new ArrayList<>();
+        if (id == null) {
+            MauthDept mauthDept = new MauthDept();
+            mauthDept.setLevel(0);
+            mauthDepts.add(mauthDeptDao.selectMauthDeptByObj(mauthDept));
+        } else {
+            MauthDept mauthDept = mauthDeptDao.selectMauthDeptById(id);
+            mauthDepts = mauthDeptDao.selectBylftAndrgtAndLevel(mauthDept);
+        }
+        return mauthDepts;
     }
 
     public MauthDeptDao getMauthDeptDao() {

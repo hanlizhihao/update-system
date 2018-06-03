@@ -18,6 +18,13 @@ public interface MauthDeptDao{
 	 * @return
 	 */
     MauthDept selectMauthDeptByObj(MauthDept obj);
+
+	/**
+	 * 根据lft和rgt和等级查询符合条件的组织机构
+	 * @param mauthDept
+	 * @return
+	 */
+	List<MauthDept> selectBylftAndrgtAndLevel(MauthDept mauthDept);
 	/**
 	 * 通过MauthDept的id获得MauthDept对象
 	 * @param id
@@ -60,4 +67,6 @@ public interface MauthDeptDao{
 	 * @return
 	 */
     int updateNonEmptyMauthDeptById(MauthDept enti);
+
+    List<MauthDept> getFirstLevelMauth();
 }

@@ -51,8 +51,8 @@ security:
     sso:
       login-path: /login
     client:
-      client-id: acme
-      client-secret: acmesecret
+      client-id: update
+      client-secret: 升级管理系统
       access-token-uri: ${myOAthConfig.hostUrl}/oauth/token
       user-authorization-uri: ${myOAthConfig.hostUrl}/oauth/authorize
       client-authentication-scheme: form

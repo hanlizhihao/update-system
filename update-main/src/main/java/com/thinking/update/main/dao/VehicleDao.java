@@ -1,17 +1,22 @@
 package com.thinking.update.main.dao;
 import com.thinking.update.main.domain.entity.VehicleInfo;
 import java.util.List;
-public interface VehicleinfoDao{
+/**
+ * @author Administrator
+ */
+public interface VehicleDao {
 	/**
 	 * 获得Vehicleinfo数据的总行数
 	 * @return
 	 */
-    long getVehicleinfoRowCount();
+    long getVehicleRowCount();
 	/**
 	 * 获得Vehicleinfo数据集合
 	 * @return
 	 */
-    List<VehicleInfo> selectVehicleinfo();
+    List<VehicleInfo> selectVehicle();
+
+    List<VehicleInfo> selectVehicleByAppIds(List<Long> appIds);
 	/**
 	 * 获得一个Vehicleinfo对象,以参数Vehicleinfo对象中不为空的属性作为条件进行查询
 	 * @param obj
