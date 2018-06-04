@@ -1,7 +1,6 @@
 package com.thinking.update.main.common.enums;
 
 import com.thinking.update.main.common.exception.BDException;
-import com.thinking.update.main.domain.entity.App;
 
 /**
  * @author Administrator

@@ -104,4 +104,19 @@
         where id=#{id}
     </update>
 
+    <update id="updateTaskDetailByBatch" parameterType="com.thinking.update.main.domain.entity.TaskDetail">
+        update t_task_detail
+        <trim prefix="set" suffixOverrides=",">
+            <trim prefix="taskId =case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when id=#{item.id} then #{item.taskId}
+                </foreach>
+            </trim>
+        </trim>
+        where id in
+        <foreach collection="list" index="index" item="item" separator="," open="(" close=")">
+            #{item.id,jdbcType=BIGINT}
+        </foreach>
+    </update>
+
 </mapper>

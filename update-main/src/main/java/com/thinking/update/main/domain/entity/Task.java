@@ -35,4 +35,8 @@ public class Task extends AbstractEntity implements Serializable {
      * 任务完成比例
      */
     private Double percent;
+    /**
+     * 任务状态 0-正在进行，1-已经删除，2-已经完成
+     */
+    private Integer state;
 }

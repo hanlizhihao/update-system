@@ -1,8 +1,7 @@
 package com.thinking.update.main.service.impl;
-import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
-
-import com.thinking.update.main.common.enums.VersionManageStateEnum;
+import com.github.pagehelper.PageHelper;
+import com.thinking.update.main.common.enums.AppLockEnum;
+import com.thinking.update.main.common.enums.TaskStateEnum;
 import com.thinking.update.main.common.exception.BDException;
 import com.thinking.update.main.controller.BaseApplicationController;
 import com.thinking.update.main.dao.AppDao;
@@ -15,7 +14,6 @@ import com.thinking.update.main.domain.entity.TaskDetail;
 import com.thinking.update.main.domain.entity.VehicleInfo;
 import com.thinking.update.main.domain.model.TaskModel;
 import com.thinking.update.main.service.TaskService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +21,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
+import java.util.*;
 
 /**
  * @author Administrator
@@ -87,6 +86,7 @@ public class TaskServiceImpl implements TaskService{
         app.setTs(new Date(System.currentTimeMillis()));
         app.setTargetVersionId(taskModel.getVersionId());
         app.setTargetVersionName(taskModel.getVersionName());
+        app.setIsLock(AppLockEnum.LOCKED.getValue());
         appDao.batchUpdateApp(taskModel.getAppIds(), app);
     }
 
@@ -101,8 +101,8 @@ public class TaskServiceImpl implements TaskService{
 
     @Override
     public List<Task> selectTaskByPageAndFilter(Pageable pageable, Task task) {
-        
-        return null;
+        PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize());
+        return taskDao.filterTaskByObj(task);
     }
 
     private void insertTaskDetail(Long taskId, List<Long> appIds) {
@@ -124,10 +124,21 @@ public class TaskServiceImpl implements TaskService{
     public int insertTaskByBatch(List<Task> value){
         return taskDao.insertTaskByBatch(value);
     }
+
+    /**
+     * 通过id取消任务
+     * @param id
+     * @return
+     */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public int deleteTaskById(Long id){
-        return taskDao.deleteTaskById(id);
+        Task task = taskDao.selectTaskById(id);
+        BaseApplicationController.setCommonFields(task, false);
+        task.setState(TaskStateEnum.DELETE.getValue());
+        return taskDao.updateNonEmptyTaskById(task);
     }
+
     @Override
     public int updateTaskById(Task enti){
         return taskDao.updateTaskById(enti);

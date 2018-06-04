@@ -69,4 +69,9 @@ public class App extends AbstractEntity implements Serializable {
      */
     private Long versionLogId;
 
+    /**
+     * 这个App应用是否处于一个升级任务中，0-没有，1-有
+     */
+    private Integer isLock;
+
 }

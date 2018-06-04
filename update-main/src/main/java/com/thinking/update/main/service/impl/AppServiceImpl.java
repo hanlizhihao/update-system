@@ -62,7 +62,7 @@ public class AppServiceImpl implements AppService{
     @Override
     public List<App> selectAppByPageAndFilter(Pageable pageable, App obj, List<Long> deviceIds){
         PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize());
-        if (deviceIds == null || deviceIds.size() == 0) {
+        if (CollectionUtils.isEmpty(deviceIds)) {
             return appDao.filterAppByObj(obj);
         } else {
             return appDao.getAppForPageByObjAndDeviceIds(obj, deviceIds);

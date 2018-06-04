@@ -16,10 +16,7 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -40,7 +37,7 @@ public class TaskController extends BaseApplicationController {
     @Resource
     private VersionDao versionDao;
 
-    @PrintLog("批量更新App")
+    @PrintLog("基于任务的批量更新App")
     @ApiOperation(value = "创建升级任务，批量更新协议", notes = "创建升级任务", httpMethod = "POST")
     @PostMapping(value = "/create")
     public Task createTask(TaskModel taskModel) {
@@ -90,7 +87,14 @@ public class TaskController extends BaseApplicationController {
     })
     @PrintLog("升级任务列表查询")
     @GetMapping(value = "/list")
-    public PageInfo<Task> appList(Pageable pageable, Task task) {
+    public PageInfo<Task> taskList(Pageable pageable, Task task) {
         return new PageInfo<>(taskService.selectTaskByPageAndFilter(pageable, task));
+    }
+
+    @PrintLog("取消升级任务 By TaskId")
+    @DeleteMapping(value = "/{id}")
+    @ApiOperation(value = "根据Id删除应用 BY hlz", notes = "根据Id删除终端应用 BY hlz", httpMethod = "DELETE")
+    public int deleteTaskById(@PathVariable Long id) {
+        return taskService.deleteTaskById(id);
     }
 }

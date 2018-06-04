@@ -18,6 +18,13 @@ public interface TaskDao{
 	 * @return
 	 */
     Task selectTaskByObj(Task obj);
+
+	/**
+	 * 基于Task做like模糊查询
+	 * @param obj
+	 * @return
+	 */
+	List<Task> filterTaskByObj(Task obj);
 	/**
 	 * 通过Task的id获得Task对象
 	 * @param id

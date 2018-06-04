@@ -2,17 +2,17 @@ package com.thinking.update.main.common.enums;
 
 /**
  * @author Administrator
+ * @create 2018/6/4
  */
-
-public enum VersionTypeEnum{
+public enum AppLockEnum {
     /**
-     * 上传文件分类 0-安装程序，1-协议
+     * 这个App应用是否处于一个升级任务中，0-没有，1-有
      */
-    INSTALL_PACKAGE(0),
-    PROTOCOL(1);
+    NO_LOCK(0),
+    LOCKED(1);
 
     private int value;
-    VersionTypeEnum(int value) {
+    AppLockEnum(int value) {
         this.value = value;
     }
 
@@ -23,4 +23,5 @@ public enum VersionTypeEnum{
     public void setValue(int value) {
         this.value = value;
     }
+
 }

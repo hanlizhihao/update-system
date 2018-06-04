@@ -1,10 +1,6 @@
 package com.thinking.update.main.common.enums;
 
-import org.springframework.util.CollectionUtils;
-
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 /**
