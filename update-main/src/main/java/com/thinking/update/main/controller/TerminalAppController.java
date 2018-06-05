@@ -5,8 +5,10 @@ import com.thinking.update.main.common.annotation.PrintLog;
 import com.thinking.update.main.common.exception.BDException;
 import com.thinking.update.main.common.utils.BeanCopyHelper;
 import com.thinking.update.main.domain.entity.App;
+import com.thinking.update.main.domain.model.AbnormalNumberVo;
 import com.thinking.update.main.domain.model.AppModel;
 import com.thinking.update.main.domain.model.EnumVo;
+import com.thinking.update.main.domain.model.RunningStateDetailVo;
 import com.thinking.update.main.service.AppService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -58,6 +60,18 @@ public class TerminalAppController extends BaseApplicationController {
         return new PageInfo<>(appService.selectAppByPageAndFilter(pageable, app, deviceIds));
     }
 
+    @ApiOperation(value = "根据运行状态查询App", notes = "根据运行状态查询App", httpMethod = "GET")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "page", paramType = "query", value = "查询页号"),
+            @ApiImplicitParam(name = "size", paramType = "query", value = "每页显示记录数"),
+            @ApiImplicitParam(name = "state", paramType = "query", value = "终端运行状态")
+    })
+    @PrintLog("根据运行状态查询App")
+    @GetMapping(value = "/state/list")
+    public PageInfo<App> abnormalAppList(Pageable pageable, Integer state) {
+        return new PageInfo<>(appService.selectAppByPageAndRunningState(pageable, state));
+    }
+
     @PrintLog("更新终端应用")
     @PostMapping(value = "/update")
     @ApiOperation(value = "更新终端应用 BY hlz", notes = "更新终端应用 BY hlz", httpMethod = "POST")
@@ -93,5 +107,24 @@ public class TerminalAppController extends BaseApplicationController {
         return appService.getDeviceList();
     }
 
+    @PrintLog("统计终端运行状态所占比例")
+    @GetMapping(value = "/statics/state")
+    @ApiOperation(value = "统计终端运行状态所占比例 BY hlz", notes = "统计终端运行状态所占比例 BY hlz", httpMethod = "GET")
+    public List<EnumVo> getAppStateStatistics() {
+        return appService.getAppStateStatistics();
+    }
 
+    @PrintLog("各机构异常终端数量")
+    @GetMapping(value = "/statics/abnormal")
+    @ApiOperation(value = "各机构异常终端数量 BY hlz", notes = "各机构异常终端数量 BY hlz", httpMethod = "GET")
+    public AbnormalNumberVo getAbnormalAppNumber() {
+        return appService.getAbnormalAppNumber();
+    }
+
+    @PrintLog("查询终端运行状态详情")
+    @GetMapping(value = "/runningState/detail/{id}")
+    @ApiOperation(value = "终端运行状态详情 BY hlz", notes = "终端运行状态详情 BY hlz", httpMethod = "GET")
+    public RunningStateDetailVo getRunningStateDetail(@PathVariable Long id) {
+        return appService.getStateDetail(id);
+    }
 }

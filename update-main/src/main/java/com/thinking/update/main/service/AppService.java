@@ -3,18 +3,33 @@ import java.util.List;
 
 import com.thinking.update.main.domain.entity.App;
 import com.thinking.update.main.domain.model.AbnormalDetailVo;
+import com.thinking.update.main.domain.model.AbnormalNumberVo;
 import com.thinking.update.main.domain.model.EnumVo;
+import com.thinking.update.main.domain.model.RunningStateDetailVo;
 import org.springframework.data.domain.Pageable;
 
+/**
+ * @author Administrator
+ */
 public interface AppService{
-
-
 
 	/**
 	 * 获得App数据的总行数
-	 * @return
+	 * @return App数量
 	 */
     long getAppRowCount();
+
+	/**
+	 * 获得App运行状态统计
+	 * @return [{value,name}]
+	 */
+	List<EnumVo> getAppStateStatistics();
+
+	/**
+	 * 获取各个机构异常终端App数量
+	 * @return
+	 */
+	AbnormalNumberVo getAbnormalAppNumber();
 	/**
 	 * 获得App数据集合
 	 * @return
@@ -28,6 +43,21 @@ public interface AppService{
 	 * @return
 	 */
 	List<App> selectAppByPageAndFilter(Pageable pageable, App obj, List<Long> deviceIds);
+
+	/**
+	 * 根据运行状态分页查询
+	 * @param pageable
+	 * @param state
+	 * @return
+	 */
+	List<App> selectAppByPageAndRunningState(Pageable pageable, Integer state);
+
+	/**
+	 * 根据AppId获取State详情
+	 * @param appId
+	 * @return
+	 */
+	RunningStateDetailVo getStateDetail(Long appId);
 
 	/**
 	 * 获得一个App对象,以参数App对象中不为空的属性作为条件进行查询

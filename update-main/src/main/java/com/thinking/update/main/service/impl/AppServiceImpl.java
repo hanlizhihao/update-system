@@ -1,19 +1,27 @@
 package com.thinking.update.main.service.impl;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import com.github.pagehelper.PageHelper;
 import com.thinking.update.main.common.enums.AppRunningStateEnum;
 import com.thinking.update.main.common.enums.AppUpdateStateEnum;
 import com.thinking.update.main.common.enums.VersionManageStateEnum;
 import com.thinking.update.main.common.exception.BDException;
+import com.thinking.update.main.common.utils.DateUtils;
 import com.thinking.update.main.dao.*;
 import com.thinking.update.main.domain.entity.App;
 import com.thinking.update.main.domain.entity.AppActivityLog;
+import com.thinking.update.main.domain.entity.AppStateLog;
 import com.thinking.update.main.domain.entity.VehicleInfo;
 import com.thinking.update.main.domain.model.AbnormalDetailVo;
+import com.thinking.update.main.domain.model.AbnormalNumberVo;
 import com.thinking.update.main.domain.model.EnumVo;
+import com.thinking.update.main.domain.model.RunningStateDetailVo;
 import com.thinking.update.main.service.AppService;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -37,15 +45,17 @@ public class AppServiceImpl implements AppService{
     private VehicleDao vehicleDao;
     @Resource
     private AppActivityLogDao appActivityLogDao;
+    @Resource
+    private AppStateLogDao appStateLogDao;
 
-    public void setAppDefaultField(App value) {
+    private void setAppDefaultField(App value) {
         value.setRunningState(AppRunningStateEnum.NORMAL.getValue());
         value.setRunningStateName(AppRunningStateEnum.NORMAL.getName());
         value.setUpdateState(AppUpdateStateEnum.DOWNLOADING.getValue());
         value.setVersionState(VersionManageStateEnum.UNSET_TARGET_VERSION.getValue());
     }
 
-    public void setAppForUpdate(App app) {
+    private void setAppForUpdate(App app) {
         app.setRunningStateName(AppRunningStateEnum.getNameByValue(app.getRunningState()));
         app.setAppName(appTypeDao.selectAppTypeById(app.getAppTypeId()).getTypeName());
         app.setProtocolName(versionDao.selectVersionById(app.getProtocolId()).getVersionName());
@@ -55,11 +65,52 @@ public class AppServiceImpl implements AppService{
     public long getAppRowCount(){
         return appDao.getAppRowCount();
     }
+
+    @Override
+    public List<EnumVo> getAppStateStatistics() {
+        List<EnumVo> result = new ArrayList<>();
+        result.add(EnumVo.builder()
+                .title(AppRunningStateEnum.NORMAL.getName())
+                .value(String.valueOf(appDao.getAppRowCountByRunningState(AppRunningStateEnum.NORMAL.getValue())))
+                .build());
+        result.add(EnumVo.builder()
+                .title(AppRunningStateEnum.ABNORMAL.getName())
+                .value(String.valueOf(appDao.getAppRowCountByRunningState(AppRunningStateEnum.ABNORMAL.getValue())))
+                .build());
+        return result;
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class, readOnly = true)
+    public AbnormalNumberVo getAbnormalAppNumber() {
+        List<App> abnormalApps = appDao.selectAppByObj(App.builder()
+                .runningState(AppRunningStateEnum.ABNORMAL.getValue())
+                .build());
+        List<VehicleInfo> vehicleInfoList = vehicleDao.selectByApps(abnormalApps);
+        List<String> companyNames = new LinkedList<>();
+        List<Long> abnormalNumber = new LinkedList<>();
+        for (VehicleInfo vehicleInfo : vehicleInfoList) {
+            if (!companyNames.contains(vehicleInfo.getCompanyName())) {
+                companyNames.add(vehicleInfo.getCompanyName());
+                abnormalNumber.add(1L);
+            } else {
+                int abnormalNumberIndex = companyNames.indexOf(vehicleInfo.getCompanyName());
+                long number = abnormalNumber.get(abnormalNumberIndex);
+                abnormalNumber.add(abnormalNumberIndex ,++number);
+            }
+        }
+        return AbnormalNumberVo.builder()
+                .abnormalNumber(abnormalNumber)
+                .companyNames(companyNames)
+                .build();
+    }
+
     @Override
     public List<App> selectApp(){
         return appDao.selectApp();
     }
     @Override
+    @Transactional(rollbackFor = Exception.class, readOnly = true)
     public List<App> selectAppByPageAndFilter(Pageable pageable, App obj, List<Long> deviceIds){
         PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize());
         if (CollectionUtils.isEmpty(deviceIds)) {
@@ -67,6 +118,62 @@ public class AppServiceImpl implements AppService{
         } else {
             return appDao.getAppForPageByObjAndDeviceIds(obj, deviceIds);
         }
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class, readOnly = true)
+    public List<App> selectAppByPageAndRunningState(Pageable pageable, Integer state) {
+        PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize());
+        return appDao.selectAppByObj(App.builder().runningState(state).build());
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class, readOnly = true)
+    public RunningStateDetailVo getStateDetail(Long appId) {
+        App app = appDao.selectAppById(appId);
+        VehicleInfo vehicleInfo = new VehicleInfo();
+        vehicleInfo.setDeviceId(String.valueOf(app.getDeviceId()));
+        VehicleInfo vehicleInfoData = vehicleDao.selectVehicleinfoByObj(vehicleInfo);
+        AppStateLog abnormalStateLog = appStateLogDao.selectLatestLastStateIsNormalLogByAppId(appId);
+        AppStateLog lastNormalStateLog = appStateLogDao.selectNormalStateLogByAppId(appId);
+        Duration duration = Duration.between(abnormalStateLog.getTs().toInstant(), Instant.now());
+        long millis = duration.toMillis();
+        return RunningStateDetailVo.builder()
+                .deviceId(String.valueOf(app.getDeviceId()))
+                .appName(app.getAppName())
+                .beginTime(abnormalStateLog.getTs())
+                .currentVersion(app.getVersionName())
+                .department(vehicleInfoData.getCompanyName()+vehicleInfoData.getSubCompanyName()+vehicleInfoData
+                        .getGroupName()+ vehicleInfoData.getLineName()+vehicleInfoData.getVehicleNo())
+                .protocol(app.getProtocolName())
+                .stableVersion(lastNormalStateLog.getVersionName())
+                .stableProtocol(lastNormalStateLog.getProtocolName())
+                .duration(getFormatTime(millis))
+                .log(abnormalStateLog.getLog())
+                .build();
+    }
+
+    private String getFormatTime(long millis) {
+        String result = "";
+        if (millis<60){
+            result = Long.toString(millis);
+            result = result+"秒";
+        } else {
+            if (millis>=3600)
+            {
+                long hour=millis/3600;
+                long minute=millis%3600/60;
+                long second=millis%3600%60;
+                result=Long.toString(hour)+"小时"+Long.toString(minute)+"分钟"+
+                        Long.toString(second)+"秒";
+            }else
+            {
+                long minute=millis/60;
+                long second=millis%60;
+                result=Long.toString(minute)+"分钟"+Long.toString(second)+"秒";
+            }
+        }
+        return result;
     }
 
     @Override

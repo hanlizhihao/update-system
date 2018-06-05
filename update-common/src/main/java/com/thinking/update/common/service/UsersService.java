@@ -1,6 +1,8 @@
 package com.thinking.update.common.service;
 import java.util.List;
 import com.thinking.update.common.entity.Users;
+import org.springframework.data.domain.Pageable;
+
 public interface UsersService{
 	/**
 	 * 获得Users数据的总行数
@@ -12,6 +14,14 @@ public interface UsersService{
 	 * @return
 	 */
     List<Users> selectUsers();
+
+	/**
+	 * 分页查询用户
+	 * @param pageable
+	 * @param users
+	 * @return
+	 */
+	List<Users> selectUsersPageAndFilter(Pageable pageable, Users users);
 	/**
 	 * 获得一个Users对象,以参数Users对象中不为空的属性作为条件进行查询
 	 * @param obj
@@ -35,7 +45,7 @@ public interface UsersService{
 	 * @param value
 	 * @return
 	 */
-    int insertNonEmptyUsers(Users value);
+    Users insertNonEmptyUsers(Users value);
 	/**
 	 * 批量插入Users到数据库
 	 * @param value

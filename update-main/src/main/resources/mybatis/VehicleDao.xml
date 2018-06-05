@@ -146,8 +146,23 @@
         </foreach>
             )
     </select>
+    <select id="selectByApps" resultMap="result_Vehicleinfo_Map">
+        select
+        v_vehicleinfo.companyName as companyName
+        ,v_vehicleinfo.deviceId as deviceId
+        FROM
+        v_vehicleinfo
+        WHERE
+        deptId IN (
+        SELECT distinct device_id
+        FROM t_app
+        WHERE id IN
+        <foreach collection="apps" index="index" item="item" separator="," open="(" close=")">
+            #{item.id,jdbcType=BIGINT}
+        </foreach>
+        )
+    </select>
     <!-- 将Vehicleinfo插入到对应数据库的表中,包括属性值为null的数据-->
-
     <insert id="insertVehicleinfo" parameterType="com.thinking.update.main.domain.entity.VehicleInfo">
         insert into v_vehicleinfo(deviceFactoryNo,companyName,brakeshoreModel,wiperSupplier,deviceId,tireModel,dayRunTime,lineInfo,motorSupplier,vehicleType,companyDeptId,isReparing,fsbSupplier,lineDeptId,batteryModel,deptId,oilCost,lastAlarmTime,vehicleNo,groupName,paymentExpiredDate,dynamoModel,doorpumpModel,producer,batteryCap,vehicleSN,motorType,status,lastDataUpTime,lightswitchsupplier,purchaseDate,wheelaxlesModel,electricboxModel,lineName,groupDeptId,tirepressureSupplier,gearBoxModel,subCompanyName,sim,alarm,gasCost,expireDate,vehicleId,eleCost,paymentStatus,engineModel,oilBoxCap,seatSupplier,subCompanyDeptId,heaterSupplier,absModel,online,engineVinNo,airBottleCap) 
         values(#{deviceFactoryNo},#{companyName},#{brakeshoreModel},#{wiperSupplier},#{deviceId},#{tireModel},#{dayRunTime},#{lineInfo},#{motorSupplier},#{vehicleType},#{companyDeptId},#{isReparing},#{fsbSupplier},#{lineDeptId},#{batteryModel},#{deptId},#{oilCost},#{lastAlarmTime},#{vehicleNo},#{groupName},#{paymentExpiredDate},#{dynamoModel},#{doorpumpModel},#{producer},#{batteryCap},#{vehicleSN},#{motorType},#{status},#{lastDataUpTime},#{lightswitchsupplier},#{purchaseDate},#{wheelaxlesModel},#{electricboxModel},#{lineName},#{groupDeptId},#{tirepressureSupplier},#{gearBoxModel},#{subCompanyName},#{sim},#{alarm},#{gasCost},#{expireDate},#{vehicleId},#{eleCost},#{paymentStatus},#{engineModel},#{oilBoxCap},#{seatSupplier},#{subCompanyDeptId},#{heaterSupplier},#{absModel},#{online},#{engineVinNo},#{airBottleCap})

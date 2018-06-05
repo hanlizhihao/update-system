@@ -45,7 +45,21 @@
             <if test="password != null "> and users.password = #{password}</if>
             <if test="id != null "> and users.id = #{id}</if>
         </where>
-    </select> 
+    </select>
+
+    <select id="filterUsersByUser" parameterType="com.thinking.update.common.entity.Users" resultMap="result_Users_Map">
+        select
+        <include refid="users_Column" />
+        from users
+        <where>
+            <if test="username != null "> and users.username like #{username}"%"</if>
+            <if test="picture != null "> and users.picture like #{picture}"%"</if>
+            <if test="enabled != null "> and users.enabled like #{enabled}"%"</if>
+            <if test="realName != null "> and users.real_name like #{realName}"%"</if>
+            <if test="password != null "> and users.password like #{password}"%"</if>
+            <if test="id != null "> and users.id like #{id}"%"</if>
+        </where>
+    </select>
 
     <!-- 通过Users的id获得对应数据库中表的数据对象-->
     <select id="selectUsersById" parameterType="java.lang.Long" resultMap="result_Users_Map">

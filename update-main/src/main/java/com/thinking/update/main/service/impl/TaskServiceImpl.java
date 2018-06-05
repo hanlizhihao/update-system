@@ -46,7 +46,7 @@ public class TaskServiceImpl implements TaskService{
         return taskDao.selectTask();
     }
     @Override
-    public Task selectTaskByObj(Task obj){
+    public List<Task> selectTaskByObj(Task obj){
         return taskDao.selectTaskByObj(obj);
     }
     @Override

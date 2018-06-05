@@ -9,6 +9,13 @@ public interface AppDao{
 	 * @return
 	 */
     long getAppRowCount();
+
+	/**
+	 * 安装运行状态统计数量
+	 * @param state
+	 * @return
+	 */
+	long getAppRowCountByRunningState(Integer state);
 	/**
 	 * 获得App数据集合
 	 * @return

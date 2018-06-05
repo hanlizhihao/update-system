@@ -22,7 +22,7 @@ public interface TaskService{
 	 * @param obj
 	 * @return
 	 */
-    Task selectTaskByObj(Task obj);
+    List<Task> selectTaskByObj(Task obj);
 	/**
 	 * 通过Task的id获得Task对象
 	 * @param id

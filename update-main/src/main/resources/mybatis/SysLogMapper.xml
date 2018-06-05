@@ -35,7 +35,7 @@
     <select id="selectSysLog" resultMap="result_SysLog_Map">
         select 
         <include refid="sys_log_Column" /> 
-        from sys_log
+        from sys_log order by gmt_create desc
     </select> 
 
     <!-- 获得一个SysLog对象,以参数SysLog对象中不为空的属性作为条件进行查询-->

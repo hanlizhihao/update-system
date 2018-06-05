@@ -1,4 +1,5 @@
 package com.thinking.update.main.dao;
+import com.thinking.update.main.domain.entity.App;
 import com.thinking.update.main.domain.entity.VehicleInfo;
 import java.util.List;
 /**
@@ -17,6 +18,13 @@ public interface VehicleDao {
     List<VehicleInfo> selectVehicle();
 
     List<VehicleInfo> selectVehicleByAppIds(List<Long> appIds);
+
+	/**
+	 * 通过app获取车辆信息列表
+	 * @param apps
+	 * @return
+	 */
+	List<VehicleInfo> selectByApps(List<App> apps);
 	/**
 	 * 获得一个Vehicleinfo对象,以参数Vehicleinfo对象中不为空的属性作为条件进行查询
 	 * @param obj

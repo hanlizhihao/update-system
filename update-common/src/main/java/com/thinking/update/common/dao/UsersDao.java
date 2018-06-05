@@ -19,6 +19,12 @@ public interface UsersDao{
 	 */
     Users selectUsersByObj(Users obj);
 	/**
+	 * 带过滤条件的分页查询
+	 * @param user
+	 * @return
+	 */
+	List<Users> filterUsersByUser(Users user);
+	/**
 	 * 通过Users的id获得Users对象
 	 * @param id
 	 * @return

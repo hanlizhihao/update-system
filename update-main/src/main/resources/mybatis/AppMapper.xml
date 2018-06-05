@@ -57,6 +57,9 @@
     <select id="getAppRowCount" resultType="java.lang.Long">
         select count(id) from t_app
     </select>
+    <select id="getAppRowCountByRunningState" resultType="java.lang.Long" parameterType="java.lang.Integer">
+        select count(id) from t_app where t_app.running_state = #{state}
+    </select>
     <!-- 获得类名为:App对应数据库中表的数据集合 -->
     <select id="selectApp" resultMap="result_App_Map">
         select 
