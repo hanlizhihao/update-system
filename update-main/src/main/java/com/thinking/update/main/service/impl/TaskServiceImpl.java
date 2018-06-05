@@ -87,13 +87,13 @@ public class TaskServiceImpl implements TaskService{
         app.setTargetVersionId(taskModel.getVersionId());
         app.setTargetVersionName(taskModel.getVersionName());
         app.setIsLock(AppLockEnum.LOCKED.getValue());
-        appDao.batchUpdateApp(taskModel.getAppIds(), app);
+        appDao.batchUpdateAppsForIdsByApp(taskModel.getAppIds(), app);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void batchUpdateAppProtocol(App app, List<Long> appIds) {
-        int result = appDao.batchUpdateApp(appIds, app);
+        int result = appDao.batchUpdateAppsForIdsByApp(appIds, app);
         if (result != appIds.size()) {
             throw new BDException("批量更新App协议失败");
         }

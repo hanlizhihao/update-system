@@ -1,5 +1,8 @@
 package com.thinking.update.main.dao;
+import com.thinking.update.main.domain.entity.Task;
 import com.thinking.update.main.domain.entity.TaskDetail;
+import org.apache.ibatis.annotations.Param;
+
 import java.util.List;
 public interface TaskDetailDao{
 	/**
@@ -18,6 +21,13 @@ public interface TaskDetailDao{
 	 * @return
 	 */
     List<TaskDetail> selectTaskDetailByObj(TaskDetail obj);
+
+	/**
+	 * 获取正在进行的任务的所有详情
+	 * @param ids
+	 * @return
+	 */
+	List<TaskDetail> selectByTaskIds(@Param("ids") List<Task> ids);
 	/**
 	 * 通过TaskDetail的id获得TaskDetail对象
 	 * @param id
@@ -61,5 +71,11 @@ public interface TaskDetailDao{
 	 */
     int updateNonEmptyTaskDetailById(TaskDetail enti);
 
-    int updateTaskDetailByBatch(List<TaskDetail> list);
+	/**
+	 * 批量更新Detail
+	 * @param list
+	 * @return
+	 */
+	int updateTaskDetailByBatch(List<TaskDetail> list);
+
 }

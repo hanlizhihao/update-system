@@ -17,7 +17,7 @@ public interface TaskDao{
 	 * @param obj
 	 * @return
 	 */
-    Task selectTaskByObj(Task obj);
+    List<Task> selectTaskByObj(Task obj);
 
 	/**
 	 * 基于Task做like模糊查询

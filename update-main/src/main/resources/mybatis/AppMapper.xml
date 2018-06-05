@@ -311,8 +311,144 @@
             ,is_lock=#{isLock}
         where id=#{id}
     </update>
+
+    <!-- 批量更新Update-->
+    <update id="batchUpdate" parameterType="com.thinking.update.main.domain.entity.App">
+        update t_app
+            ,device_id=#{}
+            ,create_time=#{}
+            ,running_state=#{}
+            ,version_id=#{}
+            ,protocol_id=#{}
+            ,running_state_name=#{}
+            ,app_name=#{}
+            ,app_type_id=#{}
+            ,update_time=#{}
+            ,version_state=#{}
+            ,version_name=#{}
+            ,update_user=#{}
+            ,target_version_id=#{}
+            ,update_state=#{}
+            ,create_user=#{}
+            ,protocol_name=#{}
+            ,ts=#{}
+            ,activity_log_id=#{}
+            ,version_log_id=#{}
+            ,is_lock=#{}
+        <trim prefix="set" suffixOverrides=",">
+            <trim prefix="targetVersionName =case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when id=#{item.id} then #{item.targetVersionName}
+                </foreach>
+            </trim>
+            <trim prefix="deviceId =case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when id=#{item.id} then #{item.deviceId}
+                </foreach>
+            </trim>
+            <trim prefix="createTime =case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when id=#{item.id} then #{item.createTime}
+                </foreach>
+            </trim>
+            <trim prefix="runningState =case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when id=#{item.id} then #{item.runningState}
+                </foreach>
+            </trim>
+            <trim prefix="versionId =case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when id=#{item.id} then #{item.versionId}
+                </foreach>
+            </trim>
+            <trim prefix="protocolId =case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when id=#{item.id} then #{item.protocolId}
+                </foreach>
+            </trim>
+            <trim prefix="runningStateName =case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when id=#{item.id} then #{item.runningStateName}
+                </foreach>
+            </trim>
+            <trim prefix="appName =case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when id=#{item.id} then #{item.appName}
+                </foreach>
+            </trim>
+            <trim prefix="appTypeId =case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when id=#{item.id} then #{item.appTypeId}
+                </foreach>
+            </trim>
+            <trim prefix="updateTime =case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when id=#{item.id} then #{item.updateTime}
+                </foreach>
+            </trim>
+            <trim prefix="versionState =case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when id=#{item.id} then #{item.versionState}
+                </foreach>
+            </trim>
+            <trim prefix="versionName =case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when id=#{item.id} then #{item.versionName}
+                </foreach>
+            </trim>
+            <trim prefix="updateUser =case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when id=#{item.id} then #{item.updateUser}
+                </foreach>
+            </trim>
+            <trim prefix="targetVersionId =case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when id=#{item.id} then #{item.targetVersionId}
+                </foreach>
+            </trim>
+            <trim prefix="updateState =case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when id=#{item.id} then #{item.updateState}
+                </foreach>
+            </trim>
+            <trim prefix="createUser =case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when id=#{item.id} then #{item.createUser}
+                </foreach>
+            </trim>
+            <trim prefix="protocolName =case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when id=#{item.id} then #{item.protocolName}
+                </foreach>
+            </trim>
+            <trim prefix="ts =case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when id=#{item.id} then #{item.ts}
+                </foreach>
+            </trim>
+            <trim prefix="activityLogId =case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when id=#{item.id} then #{item.activityLogId}
+                </foreach>
+            </trim>
+            <trim prefix="versionLogId =case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when id=#{item.id} then #{item.versionLogId}
+                </foreach>
+            </trim>
+            <trim prefix="isLock =case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    when id=#{item.id} then #{item.isLock}
+                </foreach>
+            </trim>
+        </trim>
+        where id in
+        <foreach collection="list" index="index" item="item" separator="," open="(" close=")">
+            #{item.id,jdbcType=BIGINT}
+        </foreach>
+    </update>
     <!-- 批量更新协议版本-->
-    <update id="batchUpdateApp" parameterType="com.thinking.update.main.domain.entity.App">
+    <update id="batchUpdateAppsForIdsByApp" parameterType="com.thinking.update.main.domain.entity.App">
         update t_app
         <set>
             <if test="targetVersionName != null">

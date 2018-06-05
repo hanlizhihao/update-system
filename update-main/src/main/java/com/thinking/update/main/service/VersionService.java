@@ -2,6 +2,9 @@ package com.thinking.update.main.service;
 import java.util.List;
 import com.thinking.update.main.domain.entity.Version;
 import com.thinking.update.main.domain.model.EnumVo;
+import com.thinking.update.main.domain.model.FileVo;
+import org.springframework.data.domain.Pageable;
+import org.springframework.web.multipart.MultipartFile;
 
 public interface VersionService{
 	/**
@@ -31,7 +34,7 @@ public interface VersionService{
 	 * @param value
 	 * @return
 	 */
-    int insertNonEmptyVersion(Version value);
+	Version insertNonEmptyVersion(Version value);
 	/**
 	 * 批量插入Version到数据库
 	 * @param value
@@ -57,7 +60,24 @@ public interface VersionService{
 	 */
     int updateNonEmptyVersionById(Version enti);
 
-    List<EnumVo> getPackageList();
+	/**
+	 * 查询安装程序分页枚举列表
+	 * @return
+	 */
+	List<EnumVo> getPackageList();
 
+	/**
+	 * 查询协议枚举列表
+	 * @return
+	 */
     List<EnumVo> getProtocolList();
+
+	/**
+	 * 分页查询安装程序
+	 * @param pageable
+	 * @return
+	 */
+	List<Version> selectPackageByPage(Pageable pageable);
+
+	FileVo uploadFile(FileVo fileVo, MultipartFile file);
 }

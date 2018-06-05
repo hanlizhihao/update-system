@@ -37,7 +37,7 @@ pagehelper:
     offsetAsPageNum: true
 app:
  swaggerEnabled: true
- zkServer: 118.190.82.242:2181
+ uploadDirectory: /uploadDirectory
 myOAthConfig:
   hostUrl: http://localhost:5678/auth
   logoutUrl: ${myOAthConfig.hostUrl}/logout

@@ -24,7 +24,17 @@
         select 
         <include refid="t_task_detail_Column" /> 
         from t_task_detail
-    </select> 
+    </select>
+
+    <select id="selectByTaskIds" resultMap="result_TaskDetail_Map">
+        select
+        <include refid="t_task_detail_Column" />
+        from t_task_detail
+        where task_id in
+        <foreach collection="ids" index="index" item="item" separator="," open="(" close=")">
+            #{item.id,jdbcType=BIGINT}
+        </foreach>
+    </select>
 
     <!-- 获得一个TaskDetail对象,以参数TaskDetail对象中不为空的属性作为条件进行查询-->
     <select id="selectTaskDetailByObj" parameterType="com.thinking.update.main.domain.entity.TaskDetail" resultMap="result_TaskDetail_Map">

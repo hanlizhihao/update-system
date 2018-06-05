@@ -100,5 +100,12 @@ public interface AppDao{
 	 * @param app 更新成为目标值
 	 * @return 更新数量
 	 */
-    int batchUpdateApp(@Param("ids") List<Long> ids,@Param("app") App app);
+    int batchUpdateAppsForIdsByApp(@Param("ids") List<Long> ids, @Param("app") App app);
+
+	/**
+	 * 批量更新
+	 * @param list
+	 * @return
+	 */
+	int batchUpdate(List<App> list);
 }

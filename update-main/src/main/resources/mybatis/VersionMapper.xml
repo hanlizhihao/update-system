@@ -4,7 +4,6 @@
     <!-- Version的resultMap,column是给数据库列起的别名,它对应property类的属性-->
     <resultMap id="result_Version_Map" type="com.thinking.update.main.domain.entity.Version">
         <id column="id" property="id" />
-        <result column="create_user_id" property="createUserId" />
         <result column="md5_name" property="md5Name" />
         <result column="create_time" property="createTime" />
         <result column="file_name" property="fileName" />
@@ -16,7 +15,6 @@
         <result column="update_time" property="updateTime" />
         <result column="version_name" property="versionName" />
         <result column="update_user" property="updateUser" />
-        <result column="update_user_id" property="updateUserId" />
         <result column="create_user" property="createUser" />
         <result column="ts" property="ts" />
     </resultMap>
@@ -24,7 +22,6 @@
     <!-- 数据库中表名为:t_version的列名,as前是数据库的列明,as后是列的别名用于映射成实体类中的属性,需要注意的是别名必须与resultMap中的column别名一致 -->
     <sql id="t_version_Column">
         t_version.id as id
-        ,t_version.create_user_id as create_user_id
         ,t_version.md5_name as md5_name
         ,t_version.create_time as create_time
         ,t_version.file_name as file_name
@@ -36,7 +33,6 @@
         ,t_version.update_time as update_time
         ,t_version.version_name as version_name
         ,t_version.update_user as update_user
-        ,t_version.update_user_id as update_user_id
         ,t_version.create_user as create_user
         ,t_version.ts as ts
     </sql>
@@ -60,7 +56,6 @@
         <where>
             <if test="ts != null "> and t_version.ts = #{ts}</if>
             <if test="createUser != null "> and t_version.create_user = #{createUser}</if>
-            <if test="updateUserId != null "> and t_version.update_user_id = #{updateUserId}</if>
             <if test="updateUser != null "> and t_version.update_user = #{updateUser}</if>
             <if test="versionName != null "> and t_version.version_name = #{versionName}</if>
             <if test="updateTime != null "> and t_version.update_time = #{updateTime}</if>
@@ -72,7 +67,6 @@
             <if test="fileName != null "> and t_version.file_name = #{fileName}</if>
             <if test="createTime != null "> and t_version.create_time = #{createTime}</if>
             <if test="md5Name != null "> and t_version.md5_name = #{md5Name}</if>
-            <if test="createUserId != null "> and t_version.create_user_id = #{createUserId}</if>
             <if test="id != null "> and t_version.id = #{id}</if>
         </where>
     </select> 
@@ -88,8 +82,10 @@
     <!-- 将Version插入到对应数据库的表中,包括属性值为null的数据-->
 
     <insert id="insertVersion" parameterType="com.thinking.update.main.domain.entity.Version">
-        insert into t_version(id,create_user_id,md5_name,create_time,file_name,md5_code,remark,type,url,file_size,update_time,version_name,update_user,update_user_id,create_user,ts) 
-        values(#{id},#{createUserId},#{md5Name},#{createTime},#{fileName},#{md5Code},#{remark},#{type},#{url},#{fileSize},#{updateTime},#{versionName},#{updateUser},#{updateUserId},#{createUser},#{ts})
+        insert into t_version(id,md5_name,create_time,file_name,md5_code,remark,type,url,file_size,update_time,
+                              version_name,update_user,create_user,ts)
+        values(#{id},#{md5Name},#{createTime},#{fileName},#{md5Code},#{remark},#{type},#{url},#{fileSize},
+                     #{updateTime},#{versionName},#{updateUser},#{createUser},#{ts})
     </insert>
 
     <!-- 将Version中属性值不为null的数据,插入到对应数据库的表中-->
@@ -97,7 +93,6 @@
         insert into t_version
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">id,</if>
-            <if test="createUserId != null">create_user_id,</if>
             <if test="md5Name != null">md5_name,</if>
             <if test="createTime != null">create_time,</if>
             <if test="fileName != null">file_name,</if>
@@ -109,13 +104,11 @@
             <if test="updateTime != null">update_time,</if>
             <if test="versionName != null">version_name,</if>
             <if test="updateUser != null">update_user,</if>
-            <if test="updateUserId != null">update_user_id,</if>
             <if test="createUser != null">create_user,</if>
             <if test="ts != null">ts,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null"> #{id},</if>
-            <if test="createUserId != null"> #{createUserId},</if>
             <if test="md5Name != null"> #{md5Name},</if>
             <if test="createTime != null"> #{createTime},</if>
             <if test="fileName != null"> #{fileName},</if>
@@ -127,7 +120,6 @@
             <if test="updateTime != null"> #{updateTime},</if>
             <if test="versionName != null"> #{versionName},</if>
             <if test="updateUser != null"> #{updateUser},</if>
-            <if test="updateUserId != null"> #{updateUserId},</if>
             <if test="createUser != null"> #{createUser},</if>
             <if test="ts != null"> #{ts},</if>
         </trim>
@@ -135,9 +127,12 @@
 
     <!-- 将Version批量插入到对应数据库的表中-->
     <insert id="insertVersionByBatch" parameterType="java.util.ArrayList">
-        insert into t_version(id,create_user_id,md5_name,create_time,file_name,md5_code,remark,type,url,file_size,update_time,version_name,update_user,update_user_id,create_user,ts) values
+        insert into t_version(id,md5_name,create_time,file_name,md5_code,remark,type,url,
+        file_size,update_time,version_name,update_user,create_user,ts) values
         <foreach collection="list" item="item" index="index" separator="," >
-            (#{item.id},#{item.createUserId},#{item.md5Name},#{item.createTime},#{item.fileName},#{item.md5Code},#{item.remark},#{item.type},#{item.url},#{item.fileSize},#{item.updateTime},#{item.versionName},#{item.updateUser},#{item.updateUserId},#{item.createUser},#{item.ts})
+            (#{item.id},#{item.md5Name},#{item.createTime},#{item.fileName},#{item.md5Code},
+            #{item.remark},#{item.type},#{item.url},#{item.fileSize},#{item.updateTime},#{item.versionName},
+            #{item.updateUser},#{item.createUser},#{item.ts})
         </foreach>
     </insert>
 
@@ -150,7 +145,6 @@
     <!-- 通过Version的id将Version的数据更新到数据库中对应的表,包括值null的数据-->
     <update id="updateVersionById" parameterType="com.thinking.update.main.domain.entity.Version">
         update t_version set
-            create_user_id=#{createUserId}
             ,md5_name=#{md5Name}
             ,create_time=#{createTime}
             ,file_name=#{fileName}
@@ -162,7 +156,6 @@
             ,update_time=#{updateTime}
             ,version_name=#{versionName}
             ,update_user=#{updateUser}
-            ,update_user_id=#{updateUserId}
             ,create_user=#{createUser}
             ,ts=#{ts}
         where id=#{id}
@@ -172,9 +165,6 @@
     <update id="updateNonEmptyVersionById" parameterType="com.thinking.update.main.domain.entity.Version">
         update t_version
         <set>
-            <if test="createUserId != null">
-                create_user_id=#{createUserId},
-            </if>
             <if test="md5Name != null">
                 md5_name=#{md5Name},
             </if>
@@ -207,9 +197,6 @@
             </if>
             <if test="updateUser != null">
                 update_user=#{updateUser},
-            </if>
-            <if test="updateUserId != null">
-                update_user_id=#{updateUserId},
             </if>
             <if test="createUser != null">
                 create_user=#{createUser},

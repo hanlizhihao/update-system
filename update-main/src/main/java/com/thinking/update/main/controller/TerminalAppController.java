@@ -13,7 +13,6 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.data.domain.Pageable;
 import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
@@ -35,7 +34,7 @@ public class TerminalAppController extends BaseApplicationController {
     @Resource
     private AppService appService;
 
-    @PrintLog("创建App应用")
+    @PrintLog("添加终端App应用")
     @ApiOperation(value = "创建App应用", notes = "创建App应用", httpMethod = "POST")
     @PostMapping(value = "/create")
     @Validated
