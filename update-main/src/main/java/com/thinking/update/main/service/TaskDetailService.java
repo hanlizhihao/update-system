@@ -17,7 +17,7 @@ public interface TaskDetailService{
 	 * @param obj
 	 * @return
 	 */
-    TaskDetail selectTaskDetailByObj(TaskDetail obj);
+    List<TaskDetail> selectTaskDetailByObj(TaskDetail obj);
 	/**
 	 * 通过TaskDetail的id获得TaskDetail对象
 	 * @param id

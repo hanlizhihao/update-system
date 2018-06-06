@@ -182,7 +182,7 @@
             <if test="@Ognl@isNotEmpty(states)">
                 and t_app.update_state in
                 <foreach collection="states" index="index" item="item" separator="," open="(" close=")">
-                    #{item,jdbcType=INT}
+                    #{item,jdbcType=INTEGER}
                 </foreach>
             </if>
             <if test="@Ognl@isNotEmpty(deviceIds)">

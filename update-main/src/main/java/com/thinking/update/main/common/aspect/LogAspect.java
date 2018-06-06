@@ -1,11 +1,15 @@
 package com.thinking.update.main.common.aspect;
 
+import com.thinking.update.common.dao.UsersDao;
+import com.thinking.update.common.entity.Users;
 import com.thinking.update.main.common.annotation.PrintLog;
 import com.thinking.update.main.common.utils.HttpContextUtils;
 import com.thinking.update.main.common.utils.IPUtils;
 import com.thinking.update.main.common.utils.JSONUtils;
+import com.thinking.update.main.controller.BaseApplicationController;
 import com.thinking.update.main.dao.LogDao;
-import com.thinking.update.main.domain.entity.Log;
+import com.thinking.update.main.domain.entity.SysLog;
+import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -16,13 +20,21 @@ import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
+import java.security.Principal;
 import java.util.Date;
 
+/**
+ * @author Administrator
+ */
 @Aspect
 @Component
+@Slf4j
 public class LogAspect {
     @Resource
-    LogDao logMapper;
+    private LogDao logMapper;
+
+    @Resource
+    private UsersDao usersDao;
 
     @Pointcut("@annotation(com.thinking.update.main.common.annotation.PrintLog)")
     public void logPointCut() {
@@ -43,7 +55,7 @@ public class LogAspect {
     private void saveLog(ProceedingJoinPoint joinPoint, long time) {
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         Method method = signature.getMethod();
-        Log sysLog = new Log();
+        SysLog sysLog = new SysLog();
         PrintLog syslog = method.getAnnotation(PrintLog.class);
         if (syslog != null) {
             // 注解上的描述
@@ -56,23 +68,23 @@ public class LogAspect {
         // 请求的参数
         Object[] args = joinPoint.getArgs();
         try {
-            String params = JSONUtils.beanToJson(args[0]).substring(0, 4999);
-            sysLog.setParams(params);
+            String jsonParam = JSONUtils.beanToJson(args[0]);
+            if (jsonParam.length() >= 5000) {
+                jsonParam = jsonParam.substring(0, 4999);
+            }
+            sysLog.setParams(jsonParam);
         } catch (Exception e) {
-
+            log.error("切面打印日志异常", e);
         }
         // 获取request
         HttpServletRequest request = HttpContextUtils.getHttpServletRequest();
         // 设置IP地址
         sysLog.setIp(IPUtils.getIpAddr(request));
-
-        if (null != sysLog.getParams()) {
-            sysLog.setUserId(-1L);
-            sysLog.setUsername(sysLog.getParams());
-        } else {
-            sysLog.setUserId(-1L);
-            sysLog.setUsername("获取用户信息为空");
-        }
+        sysLog.setUsername(BaseApplicationController.currentUserName());
+        Users users = new Users();
+        users.setUsername(BaseApplicationController.currentUserName());
+        users = usersDao.selectUsersByObj(users);
+        sysLog.setUserId(users.getId());
         sysLog.setTime((int) time);
         // 系统当前时间
         Date date = new Date();

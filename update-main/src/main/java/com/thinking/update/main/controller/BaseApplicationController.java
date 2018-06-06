@@ -6,10 +6,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.propertyeditors.CustomBooleanEditor;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 
@@ -26,12 +24,10 @@ import java.util.Objects;
 @Slf4j
 public abstract class BaseApplicationController {
 
-    public static UserDetails currentUserDetails() {
-        SecurityContext securityContext = SecurityContextHolder.getContext();
-        Authentication authentication = securityContext.getAuthentication();
-        if (authentication != null) {
-            Object principal = authentication.getPrincipal();
-            return principal instanceof UserDetails ? (UserDetails) principal : null;
+    public static String currentUserName() {
+        OAuth2Authentication oAuth2Authentication = (OAuth2Authentication) SecurityContextHolder.getContext().getAuthentication();
+        if (oAuth2Authentication != null) {
+            return (String)oAuth2Authentication.getPrincipal();
         }
         return null;
     }
@@ -44,15 +40,14 @@ public abstract class BaseApplicationController {
             MethodHandle updateTimeHandle = lookup.findSetter(clazz, "updateTime", Date.class);
             MethodHandle updateUserHandle = lookup.findSetter(clazz, "updateUser", String.class);
             Date currentTime = new Date(System.currentTimeMillis());
-            String username = Objects.requireNonNull(currentUserDetails()).getUsername();
             tsHandle.invoke(object, currentTime);
             updateTimeHandle.invoke(object, currentTime);
-            updateUserHandle.invoke(object, username);
+            updateUserHandle.invoke(object, currentUserName());
             if (isCreate) {
                 MethodHandle createTimeHandle = lookup.findSetter(clazz,"createTime",Date.class);
                 MethodHandle createUserHandle = lookup.findSetter(clazz, "createUser", String.class);
                 createTimeHandle.invoke(object, currentTime);
-                createUserHandle.invoke(object, username);
+                createUserHandle.invoke(object, currentUserName());
             }
 
         } catch (Throwable throwable) {
@@ -60,11 +55,6 @@ public abstract class BaseApplicationController {
             throw new BDException("不能设置通用创建属性");
         }
         return object;
-    }
-
-    private String getUserName() {
-        UserDetails userDetails = currentUserDetails();
-        return userDetails == null? null: userDetails.getUsername();
     }
 
     @InitBinder
@@ -81,9 +71,9 @@ public abstract class BaseApplicationController {
      */
     protected void setCommonCreateFields(AbstractEntity entity) {
         Date date = new Date(System.currentTimeMillis());
-        entity.setCreateUser(this.getUserName());
+        entity.setCreateUser(currentUserName());
         entity.setCreateTime(date);
-        entity.setUpdateUser(this.getUserName());
+        entity.setUpdateUser(currentUserName());
         entity.setUpdateTime(date);
         entity.setTs(date);
     }
@@ -94,7 +84,7 @@ public abstract class BaseApplicationController {
      */
     protected void setCommonUpdateFields(AbstractEntity entity) {
         Date date = new Date(System.currentTimeMillis());
-        entity.setUpdateUser(this.getUserName());
+        entity.setUpdateUser(currentUserName());
         entity.setUpdateTime(date);
         entity.setTs(date);
     }

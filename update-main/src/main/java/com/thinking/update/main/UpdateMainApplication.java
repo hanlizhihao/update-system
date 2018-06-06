@@ -10,6 +10,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.web.servlet.ErrorPage;
 import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -46,9 +47,10 @@ import static com.google.common.collect.Sets.newHashSet;
 @EnableTransactionManagement
 @ServletComponentScan
 @EnableSwagger2
-@MapperScan(basePackages = {"com.thinking.update.dao","com.thinking.update.*.dao"})
+@MapperScan(basePackages = {"com.thinking.update.main.dao", "com.thinking.update.common.dao","com.thinking.update.*.dao"})
 @SpringBootApplication
 @ConfigurationProperties(prefix = "app")
+@ComponentScan(basePackages = {"com.thinking.update.main", "com.thinking.update.common"})
 public class UpdateMainApplication extends WebMvcConfigurerAdapter {
 
 	private static final String LANGUAGE = "language";

@@ -4,6 +4,7 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,12 +20,9 @@ import java.util.UUID;
 @SpringBootApplication
 @RestController
 @MapperScan(basePackages = {"com.thinking.update.sso.dao","com.thinking.update.*.dao"})
+@ComponentScan(basePackages = {"com.thinking.update.sso","com.thinking.update.common"})
 public class AuthorizationServerApplication extends WebMvcConfigurerAdapter {
 
-    @RequestMapping("/")
-    public Message home() {
-        return new Message("Hello World");
-    }
     public static void main(String[] args) {
         SpringApplication.run(AuthorizationServerApplication.class, args);
     }
@@ -36,23 +34,4 @@ public class AuthorizationServerApplication extends WebMvcConfigurerAdapter {
     }
 }
 
-class Message {
-    private String id = UUID.randomUUID().toString();
-    private String content;
-
-    Message() {
-    }
-
-    public Message(String content) {
-        this.content = content;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public String getContent() {
-        return content;
-    }
-}
 

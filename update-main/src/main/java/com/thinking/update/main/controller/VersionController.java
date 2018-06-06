@@ -112,7 +112,7 @@ public class VersionController extends BaseApplicationController {
     }
 
     @PrintLog("删除版本 By id")
-    @DeleteMapping(value = "/{id}")
+    @DeleteMapping(value = "/version/{id}")
     @ApiOperation(value = "根据Id删除版本 BY hlz", notes = "根据Id删除版本 BY hlz", httpMethod = "DELETE")
     public int deleteAppById(@PathVariable Long id) {
         return versionService.deleteVersionById(id);

@@ -23,7 +23,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/css/**","/js/**","/img/**","/docs/**", "common/**", "error/**", "system/**");
+        web.ignoring().antMatchers("/css/**","/js/**","/img/**","/docs/**",
+                "common/**", "error/**", "system/**", "swagger-ui.html");
     }
 //    @Override
 //    public void configure(AuthenticationManagerBuilder auth) throws Exception {

@@ -5,6 +5,9 @@ import com.thinking.update.main.domain.entity.TaskDetail;
 import com.thinking.update.main.service.TaskDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+/**
+ * @author Administrator
+ */
 @Service
 public class TaskDetailServiceImpl implements TaskDetailService{
     @Autowired
@@ -18,7 +21,7 @@ public class TaskDetailServiceImpl implements TaskDetailService{
         return taskDetailDao.selectTaskDetail();
     }
     @Override
-    public TaskDetail selectTaskDetailByObj(TaskDetail obj){
+    public List<TaskDetail> selectTaskDetailByObj(TaskDetail obj){
         return taskDetailDao.selectTaskDetailByObj(obj);
     }
     @Override

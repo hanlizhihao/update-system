@@ -18,7 +18,7 @@ public class AppActivityLogServiceImpl implements AppActivityLogService{
         return appActivityLogDao.selectAppActivityLog();
     }
     @Override
-    public AppActivityLog selectAppActivityLogByObj(AppActivityLog obj){
+    public List<AppActivityLog> selectAppActivityLogByObj(AppActivityLog obj){
         return appActivityLogDao.selectAppActivityLogByObj(obj);
     }
     @Override

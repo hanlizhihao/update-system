@@ -1,10 +1,8 @@
 package com.thinking.update.sso.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
@@ -31,7 +29,10 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         clients.inMemory().withClient("acme").secret("acmesecret")
-                .authorizedGrantTypes("authorization_code", "refresh_token").scopes("openid");
+                .authorizedGrantTypes("authorization_code", "refresh_token").scopes("all")
+                .and()
+                .withClient("UpdateManagementSystem").secret("secret")
+                .authorizedGrantTypes("authorization_code", "refresh_token").scopes("all");
     }
 
     @Override

@@ -17,7 +17,7 @@ public interface AppActivityLogService{
 	 * @param obj
 	 * @return
 	 */
-    AppActivityLog selectAppActivityLogByObj(AppActivityLog obj);
+    List<AppActivityLog> selectAppActivityLogByObj(AppActivityLog obj);
 	/**
 	 * 通过AppActivityLog的id获得AppActivityLog对象
 	 * @param id

@@ -12,7 +12,6 @@ import lombok.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 @ApiModel("上传的文件")
 public class VersionModel extends FileVo{
 

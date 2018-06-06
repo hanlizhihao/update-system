@@ -27,7 +27,7 @@ mybatis:
   configuration:
     map-underscore-to-camel-case: true
   mapper-locations: mybatis/**/*Mapper.xml
-  typeAliasesPackage: com.thinking.update.main.domain.entity
+  typeAliasesPackage: com.thinking.update.main.domain.entity,com.thinking.update.common.entity
 pagehelper:
     helperDialect: mysql
     reasonable: true #分页参数合理化，最小值不能小于0，最大值不能超过行数
@@ -51,12 +51,12 @@ security:
     sso:
       login-path: /login
     client:
-      client-id: update
-      client-secret: 升级管理系统
+      client-id: UpdateManagementSystem
+      client-secret: secret
       access-token-uri: ${myOAthConfig.hostUrl}/oauth/token
       user-authorization-uri: ${myOAthConfig.hostUrl}/oauth/authorize
       client-authentication-scheme: form
     resource:
       jwt:
        key-uri: ${myOAthConfig.hostUrl}/oauth/token_key
-#      user-info-uri: ${myOAthConfig.hostUrl}/user
+      user-info-uri: ${myOAthConfig.hostUrl}/user

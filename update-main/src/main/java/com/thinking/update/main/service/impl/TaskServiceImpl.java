@@ -82,7 +82,7 @@ public class TaskServiceImpl implements TaskService{
     private void updateAppsByIds(TaskModel taskModel) {
         App app = new App();
         app.setUpdateTime(new Date(System.currentTimeMillis()));
-        app.setUpdateUser(Objects.requireNonNull(BaseApplicationController.currentUserDetails()).getUsername());
+        app.setUpdateUser(BaseApplicationController.currentUserName());
         app.setTs(new Date(System.currentTimeMillis()));
         app.setTargetVersionId(taskModel.getVersionId());
         app.setTargetVersionName(taskModel.getVersionName());

@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -43,7 +44,7 @@ public class AbnormalController extends BaseApplicationController {
     })
     @PrintLog("异常终端App列表查询")
     @GetMapping(value = "/list")
-    public PageInfo<App> appList(Pageable pageable, AppModel appModel, @Param("deviceIds") List<Long> deviceIds) {
+    public PageInfo<App> appList(Pageable pageable, AppModel appModel, @Param("deviceIds") ArrayList<Long> deviceIds) {
         App app = new App();
         BeanCopyHelper.copy(appModel, app);
         return new PageInfo<>(appService.selectAbnormalPageBydeviceIds(pageable, deviceIds));

@@ -65,8 +65,8 @@
         <include refid="mauth_dept_Column" />
         from mauth_dept
         <where>
-            <if test="rgt != null "> and mauth_dept.rgt <= #{mauthDept.rgt}</if>
-            <if test="lft != null "> and mauth_dept.lft >= #{mauthDept.lft}</if>
+            <if test="rgt != null "> and mauth_dept.rgt &lt;= #{mauthDept.rgt}</if>
+            <if test="lft != null "> and mauth_dept.lft &gt;= #{mauthDept.lft}</if>
             <if test="level != null "> and mauth_dept.level = #{mauthDept.level}</if>
         </where>
     </select>

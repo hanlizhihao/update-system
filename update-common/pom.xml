@@ -11,12 +11,6 @@
 
     <artifactId>update-common</artifactId>
     <packaging>jar</packaging>
-    <dependencies>
-        <dependency>
-            <groupId>com.thinking.update</groupId>
-            <artifactId>update-main</artifactId>
-        </dependency>
-    </dependencies>
     <build>
         <plugins>
             <plugin>

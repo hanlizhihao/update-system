@@ -1,14 +1,13 @@
 package com.thinking.update.common.service.impl;
-import java.util.List;
-
 import com.github.pagehelper.PageHelper;
 import com.thinking.update.common.dao.UsersDao;
 import com.thinking.update.common.entity.Users;
 import com.thinking.update.common.service.UsersService;
-import com.thinking.update.main.common.exception.BDException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 /**
  * @author Administrator
  */
@@ -48,7 +47,7 @@ public class UsersServiceImpl implements UsersService{
         if (usersDao.insertNonEmptyUsers(value) == 1) {
             return value;
         }
-        throw new BDException("添加用户");
+        throw new RuntimeException("添加用户");
     }
     @Override
     public int insertUsersByBatch(List<Users> value){

@@ -38,6 +38,6 @@ security:
 #      id: acme
 #      client-secret: acmesecret
 #      authorized-grant-types: authorization_code,refresh_token,password
-#      scope: user_info, openid
+#      scope: all
   user:
     password: password
