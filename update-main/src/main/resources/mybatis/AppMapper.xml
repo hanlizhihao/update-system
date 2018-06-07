@@ -90,6 +90,39 @@
         </where>
     </select>
 
+    <select id="getByObjAndTaskDetails" resultMap="result_App_Map">
+        select <include refid="t_app_Column" />
+        from t_app
+        <where>
+            <if test="app.ts != null "> and t_app.ts = #{app.ts}</if>
+            <if test="app.protocolName != null "> and t_app.protocol_name = #{app.protocolName}</if>
+            <if test="app.createUser != null "> and t_app.create_user = #{app.createUser}</if>
+            <if test="app.updateState != null "> and t_app.update_state = #{app.updateState}</if>
+            <if test="app.targetVersionId != null "> and t_app.target_version_id = #{app.targetVersionId}</if>
+            <if test="app.updateUser != null "> and t_app.update_user = #{app.updateUser}</if>
+            <if test="app.versionName != null "> and t_app.version_name = #{app.versionName}</if>
+            <if test="app.versionState != null "> and t_app.version_state = #{app.versionState}</if>
+            <if test="app.updateTime != null "> and t_app.update_time = #{app.updateTime}</if>
+            <if test="app.appTypeId != null "> and t_app.app_type_id = #{app.appTypeId}</if>
+            <if test="app.appName != null "> and t_app.app_name = #{app.appName}</if>
+            <if test="app.runningStateName != null "> and t_app.running_state_name = #{app.runningStateName}</if>
+            <if test="app.protocolId != null "> and t_app.protocol_id = #{app.protocolId}</if>
+            <if test="app.versionId != null "> and t_app.version_id = #{app.versionId}</if>
+            <if test="app.runningState != null "> and t_app.running_state = #{app.runningState}</if>
+            <if test="app.createTime != null "> and t_app.create_time = #{app.createTime}</if>
+            <if test="app.deviceId != null "> and t_app.device_id = #{app.deviceId}</if>
+            <if test="app.targetVersionName != null "> and t_app.target_version_name = #{app.targetVersionName}</if>
+            <if test="app.activityLogId != null">and t_app.activityLogId = #{app.activityLogId}</if>
+            <if test="app.versionLogId != null">and t_app.versionLogId = #{app.versionLogId}</if>
+            <if test="taskDetails != null">
+                and t_app.id in
+                <foreach collection="taskDetails" index="index" item="item" separator="," open="(" close=")">
+                    #{item.appId,jdbcType=BIGINT}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
     <select id="getAppRowCountByRunningState" resultType="java.lang.Long" parameterType="java.lang.Integer">
         select count(id) from t_app where t_app.running_state = #{state}
     </select>

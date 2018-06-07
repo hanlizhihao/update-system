@@ -19,6 +19,8 @@ public interface AppDao{
 	 */
     long getCountByObjAndTaskDetails(@Param("app") App app,@Param("taskDetails") List<TaskDetail> taskDetails);
 
+    List<App> getByObjAndTaskDetails(@Param("app") App app,@Param("taskDetails") List<TaskDetail> taskDetails);
+
 	/**
 	 * 安装运行状态统计数量
 	 * @param state

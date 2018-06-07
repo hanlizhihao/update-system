@@ -131,5 +131,5 @@ public interface AppService{
 	 * @param activityModel
 	 * @return
 	 */
-	String versionActive(VersionActivityModel activityModel);
+	ActivityVo versionActive(VersionActivityModel activityModel);
 }

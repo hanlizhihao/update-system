@@ -1,5 +1,6 @@
 package com.thinking.update.main.common.utils;
 
+import com.thinking.update.main.common.enums.AppLockEnum;
 import com.thinking.update.main.common.enums.AppUpdateStateEnum;
 import com.thinking.update.main.common.enums.TaskStateEnum;
 import com.thinking.update.main.dao.AppDao;
@@ -22,7 +23,7 @@ public class AppTaskUtil {
     private static ExecutorService executorService = new ThreadPoolExecutor(1,1,
             1L,TimeUnit.SECONDS,blockingQueue, (ThreadFactory) Thread::new);
     public static void checkAppInTask(App app) {
-        blockingQueue.add(() -> {
+        executorService.submit(() -> {
             TaskDao taskDao = SpringContextHolder.getBean(TaskDao.class);
             TaskDetailDao taskDetailDao = SpringContextHolder.getBean(TaskDetailDao.class);
             AppDao appDao = SpringContextHolder.getBean(AppDao.class);
@@ -41,6 +42,10 @@ public class AppTaskUtil {
                 task.setPercent(percent);
                 if (percent == 1.0) {
                     task.setState(TaskStateEnum.FINISHED.getValue());
+                    List<App> finishedApps = appDao.getByObjAndTaskDetails(App.builder().updateState(
+                            AppUpdateStateEnum.FINISHED.getValue()).build(), taskDetails);
+                    finishedApps.parallelStream().forEach(app1 -> app1.setIsLock(AppLockEnum.NO_LOCK.getValue()));
+                    appDao.batchUpdate(finishedApps);
                 } else {
                     task.setState(TaskStateEnum.NO_FINISHED.getValue());
                 }

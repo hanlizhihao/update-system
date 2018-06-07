@@ -392,7 +392,8 @@ public class AppServiceImpl implements AppService {
     }
 
     @Override
-    public String versionActive(VersionActivityModel activityModel) {
+    @Transactional(rollbackFor = Exception.class)
+    public ActivityVo versionActive(VersionActivityModel activityModel) {
         App app = appDao.selectAppById(activityModel.getAppId());
         if (!app.getRunningState().equals(activityModel.getRunningState())) {
             insertAppRunningStateLog(app, DeviceModel.builder()
@@ -404,9 +405,39 @@ public class AppServiceImpl implements AppService {
             );
         }
         if (!app.getUpdateState().equals(activityModel.getVersionActivityState())) {
-
+            processUpdateState(app,activityModel);
         }
-        return null;
+        processUpdateTaskAndVersionLog(app, activityModel);
+        appDao.updateNonEmptyAppById(app);
+        return ActivityVo.builder().updateChange(false).build();
+    }
+
+    private void processUpdateTaskAndVersionLog(App app, VersionActivityModel activityModel) {
+        if (activityModel.getVersionActivityState().equals(AppUpdateStateEnum.FINISHED.getValue())) {
+            app.setVersionLogId(activityModel.getTargetVersionId());
+            app.setVersionName(versionDao.selectVersionById(activityModel.getTargetVersionId()).getVersionName());
+            AppVersionLog appVersionLog = getVersionLog(app, activityModel.getTargetVersionId(),
+                    VersionLogStateEnum.UPDATE_FINISHED);
+            versionLogDao.insertNonEmptyAppVersionLog(appVersionLog);
+            app.setVersionLogId(appVersionLog.getId());
+            AppTaskUtil.checkAppInTask(app);
+        }
+    }
+
+    private void processUpdateState(App app, VersionActivityModel model) {
+        if (app.getUpdateState().equals(AppUpdateStateEnum.FINISHED.getValue())) {
+            throw new BDException("这个应用的升级已经完成，升级状态不能再更改");
+        }
+        AppVersionLog logParam = new AppVersionLog();
+        logParam.setTargetVersionId(model.getTargetVersionId());
+        logParam.setVersionId(model.getCurrentVersionId());
+        logParam.setAppId(app.getId());
+        AppVersionLog appVersionLog = versionLogDao.selectOneByObj(logParam);
+        AppActivityLog activityLog = new AppActivityLog();
+        setCommonActiveLog(app, app, activityLog);
+        activityLog.setVersionLogId(appVersionLog.getId());
+        appActivityLogDao.insertNonEmptyAppActivityLog(activityLog);
+        app.setActivityLogId(activityLog.getId());
     }
 
     private void processState(App app, DeviceModel deviceModel) {
