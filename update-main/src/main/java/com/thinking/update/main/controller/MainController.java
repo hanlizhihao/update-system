@@ -3,6 +3,7 @@ package com.thinking.update.main.controller;
 import com.thinking.update.main.common.exception.BDException;
 import com.thinking.update.main.domain.entity.App;
 import com.thinking.update.main.domain.model.DeviceModel;
+import com.thinking.update.main.domain.model.VersionActivityModel;
 import com.thinking.update.main.domain.model.VersionVo;
 import com.thinking.update.main.service.AppService;
 import io.swagger.annotations.Api;
@@ -36,5 +37,12 @@ public class MainController {
         return appService.getVersionInfo(deviceModel);
     }
 
-    
+    @ApiOperation(value = "终端发送版本变更信息", notes = "终端发送版本变更信息", httpMethod = "POST")
+    @PostMapping(value = "/versionActivity")
+    public String versionActive(@Validated VersionActivityModel activityModel, Errors errors) {
+        if (errors.hasErrors()) {
+            throw new BDException("参数校验失败");
+        }
+        return appService.versionActive(activityModel);
+    }
 }

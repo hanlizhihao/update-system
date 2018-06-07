@@ -119,5 +119,17 @@ public interface AppService{
 	 */
 	List<AbnormalDetailVo> getAbnormalDetails(Long id);
 
+	/**
+	 * 获取终端版本信息
+	 * @param deviceModel
+	 * @return
+	 */
 	VersionVo getVersionInfo(DeviceModel deviceModel);
+
+	/**
+	 * 版本活动
+	 * @param activityModel
+	 * @return
+	 */
+	String versionActive(VersionActivityModel activityModel);
 }

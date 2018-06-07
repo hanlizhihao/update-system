@@ -42,8 +42,8 @@
 
     <!-- 获得一个AppVersionLog对象,以参数AppVersionLog对象中不为空的属性作为条件进行查询-->
     <select id="selectAppVersionLogByObj" parameterType="com.thinking.update.main.domain.entity.AppVersionLog" resultMap="result_AppVersionLog_Map">
-        select 
-            <include refid="t_app_version_log_Column" /> 
+        select
+        <include refid="t_app_version_log_Column" />
         from t_app_version_log
         <where>
             <if test="ts != null "> and t_app_version_log.ts = #{ts}</if>
@@ -57,7 +57,26 @@
             <if test="appName != null "> and t_app_version_log.app_name = #{appName}</if>
             <if test="id != null "> and t_app_version_log.id = #{id}</if>
         </where>
-    </select> 
+    </select>
+
+    <select id="selectOneByObj" parameterType="com.thinking.update.main.domain.entity.AppVersionLog" resultMap="result_AppVersionLog_Map">
+        select
+        distinct id
+        from t_app_version_log
+        <where>
+            <if test="ts != null "> and t_app_version_log.ts = #{ts}</if>
+            <if test="targetVersion != null "> and t_app_version_log.target_version = #{targetVersion}</if>
+            <if test="version != null "> and t_app_version_log.version = #{version}</if>
+            <if test="appId != null "> and t_app_version_log.app_id = #{appId}</if>
+            <if test="state != null "> and t_app_version_log.state = #{state}</if>
+            <if test="versionId != null "> and t_app_version_log.version_id = #{versionId}</if>
+            <if test="targetVersionId != null "> and t_app_version_log.target_version_id = #{targetVersionId}</if>
+            <if test="stateName != null "> and t_app_version_log.state_name = #{stateName}</if>
+            <if test="appName != null "> and t_app_version_log.app_name = #{appName}</if>
+            <if test="id != null "> and t_app_version_log.id = #{id}</if>
+        </where>
+        order by ts desc
+    </select>
 
     <!-- 通过AppVersionLog的id获得对应数据库中表的数据对象-->
     <select id="selectAppVersionLogById" parameterType="java.lang.Long" resultMap="result_AppVersionLog_Map">

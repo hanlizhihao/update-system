@@ -78,12 +78,12 @@ public class TerminalAppController extends BaseApplicationController {
     public int updateApp(@Validated AppModel model, Errors errors) {
         if (errors.hasErrors() || model.getId() == null) {
             throw new BDException("参数校验失败");
-        } else {
-            App app = new App();
-            setCommonUpdateFields(app);
-            BeanCopyHelper.copy(model, app);
-            return appService.updateNonEmptyAppById(app);
         }
+        App app = new App();
+        setCommonUpdateFields(app);
+        BeanCopyHelper.copy(model, app);
+        app.setTargetVersionId(app.getVersionId());
+        return appService.updateNonEmptyAppById(app);
     }
 
     @PrintLog("根据Id获取终端应用")

@@ -1,4 +1,5 @@
 package com.thinking.update.main.dao;
+import com.thinking.update.main.domain.entity.App;
 import com.thinking.update.main.domain.entity.AppVersionLog;
 import java.util.List;
 public interface AppVersionLogDao{
@@ -18,6 +19,8 @@ public interface AppVersionLogDao{
 	 * @return
 	 */
     AppVersionLog selectAppVersionLogByObj(AppVersionLog obj);
+
+    AppVersionLog selectOneByObj(AppVersionLog log);
 	/**
 	 * 通过AppVersionLog的id获得AppVersionLog对象
 	 * @param id

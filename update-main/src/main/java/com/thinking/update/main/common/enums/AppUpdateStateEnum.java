@@ -1,5 +1,7 @@
 package com.thinking.update.main.common.enums;
 
+import com.thinking.update.main.common.exception.BDException;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -69,5 +71,14 @@ public enum AppUpdateStateEnum {
                 CHECK_FAILED.getValue(), CHECK_UPLOAD_FAIL.getValue(), REINSTALL.getValue(), ROLLBACK_VERSION.getValue()
         };
         return Arrays.asList(abnormalList);
+    }
+
+    public static String getNameByValue(Integer value) {
+        for (AppUpdateStateEnum appUpdateStateEnum: AppUpdateStateEnum.values()) {
+            if (appUpdateStateEnum.getValue() == value) {
+                return appUpdateStateEnum.getName();
+            }
+        }
+        throw new BDException("未知的升级状态标识,枚举类中没有与其对应的值");
     }
 }

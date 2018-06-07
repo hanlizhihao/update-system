@@ -1,4 +1,5 @@
 package com.thinking.update.main.service.impl;
+
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -27,7 +28,7 @@ import javax.annotation.Resource;
  */
 @Service
 @Slf4j
-public class AppServiceImpl implements AppService{
+public class AppServiceImpl implements AppService {
     @Resource
     private AppDao appDao;
     @Resource
@@ -56,8 +57,9 @@ public class AppServiceImpl implements AppService{
         app.setProtocolName(versionDao.selectVersionById(app.getProtocolId()).getVersionName());
         app.setTargetVersionName(versionDao.selectVersionById(app.getVersionId()).getVersionName());
     }
+
     @Override
-    public long getAppRowCount(){
+    public long getAppRowCount() {
         return appDao.getAppRowCount();
     }
 
@@ -91,7 +93,7 @@ public class AppServiceImpl implements AppService{
             } else {
                 int abnormalNumberIndex = companyNames.indexOf(vehicleInfo.getCompanyName());
                 long number = abnormalNumber.get(abnormalNumberIndex);
-                abnormalNumber.add(abnormalNumberIndex ,++number);
+                abnormalNumber.add(abnormalNumberIndex, ++number);
             }
         }
         return AbnormalNumberVo.builder()
@@ -101,12 +103,13 @@ public class AppServiceImpl implements AppService{
     }
 
     @Override
-    public List<App> selectApp(){
+    public List<App> selectApp() {
         return appDao.selectApp();
     }
+
     @Override
     @Transactional(rollbackFor = Exception.class, readOnly = true)
-    public List<App> selectAppByPageAndFilter(Pageable pageable, App obj, List<Long> deviceIds){
+    public List<App> selectAppByPageAndFilter(Pageable pageable, App obj, List<Long> deviceIds) {
         PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize());
         if (CollectionUtils.isEmpty(deviceIds)) {
             return appDao.filterAppByObj(obj);
@@ -132,14 +135,14 @@ public class AppServiceImpl implements AppService{
         AppStateLog abnormalStateLog = appStateLogDao.selectLatestLastStateIsNormalLogByAppId(appId);
         AppStateLog lastNormalStateLog = appStateLogDao.selectNormalStateLogByAppId(appId);
         Duration duration = Duration.between(abnormalStateLog.getTs().toInstant(), Instant.now());
-        long seconds = duration.toMillis()/1000;
+        long seconds = duration.toMillis() / 1000;
         return RunningStateDetailVo.builder()
                 .deviceId(String.valueOf(app.getDeviceId()))
                 .appName(app.getAppName())
                 .beginTime(abnormalStateLog.getTs())
                 .currentVersion(app.getVersionName())
-                .department(vehicleInfoData.getCompanyName()+vehicleInfoData.getSubCompanyName()+vehicleInfoData
-                        .getGroupName()+ vehicleInfoData.getLineName()+vehicleInfoData.getVehicleNo())
+                .department(vehicleInfoData.getCompanyName() + vehicleInfoData.getSubCompanyName() + vehicleInfoData
+                        .getGroupName() + vehicleInfoData.getLineName() + vehicleInfoData.getVehicleNo())
                 .protocol(app.getProtocolName())
                 .stableVersion(lastNormalStateLog.getVersionName())
                 .stableProtocol(lastNormalStateLog.getProtocolName())
@@ -150,20 +153,20 @@ public class AppServiceImpl implements AppService{
 
     private String getFormatTime(long millis) {
         String result;
-        if (millis < 60){
+        if (millis < 60) {
             result = Long.toString(millis);
-            result = result+"秒";
+            result = result + "秒";
         } else {
             if (millis >= 3600) {
-                long hour=millis / 3600;
-                long minute=millis % 3600 / 60;
-                long second=millis % 3600 % 60;
-                result=Long.toString(hour)+"小时"+Long.toString(minute)+"分钟"+
-                        Long.toString(second)+"秒";
-            }else {
-                long minute=millis / 60;
-                long second=millis % 60;
-                result=Long.toString(minute)+"分钟"+Long.toString(second)+"秒";
+                long hour = millis / 3600;
+                long minute = millis % 3600 / 60;
+                long second = millis % 3600 % 60;
+                result = Long.toString(hour) + "小时" + Long.toString(minute) + "分钟" +
+                        Long.toString(second) + "秒";
+            } else {
+                long minute = millis / 60;
+                long second = millis % 60;
+                result = Long.toString(minute) + "分钟" + Long.toString(second) + "秒";
             }
         }
         return result;
@@ -176,12 +179,13 @@ public class AppServiceImpl implements AppService{
     }
 
     @Override
-    public App selectAppById(Long id){
+    public App selectAppById(Long id) {
         return appDao.selectAppById(id);
     }
+
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public App insertApp(App value){
+    public App insertApp(App value) {
         value.setAppName(appTypeDao.selectAppTypeById(value.getAppTypeId()).getTypeName());
         value.setProtocolName(versionDao.selectVersionById(value.getProtocolId()).getVersionName());
         value.setTargetVersionName(versionDao.selectVersionById(value.getVersionId()).getVersionName());
@@ -191,31 +195,128 @@ public class AppServiceImpl implements AppService{
         }
         throw new BDException("添加App记录失败");
     }
+
     @Override
-    public int insertNonEmptyApp(App value){
+    public int insertNonEmptyApp(App value) {
         return appDao.insertNonEmptyApp(value);
     }
+
     @Override
-    public int insertAppByBatch(List<App> value){
+    public int insertAppByBatch(List<App> value) {
         return appDao.insertAppByBatch(value);
     }
+
     @Override
-    public int deleteAppById(Long id){
+    public int deleteAppById(Long id) {
         return appDao.deleteAppById(id);
     }
+
     @Override
-    public int updateAppById(App enti){
+    public int updateAppById(App enti) {
         return appDao.updateAppById(enti);
     }
+
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public int updateNonEmptyAppById(App enti){
+    public int updateNonEmptyAppById(App enti) {
         setAppForUpdate(enti);
+        App app = appDao.selectAppById(enti.getId());
+        AppVersionLog versionLog = insertAppVersionLog(app, enti);
+        if (versionLog != null) {
+            enti.setVersionLogId(versionLog.getId());
+        }
+        AppActivityLog activityLog = insertActivityLog(app, enti, versionLog);
+        if (activityLog != null) {
+            enti.setActivityLogId(activityLog.getId());
+        }
+        if (!app.getRunningState().equals(enti.getRunningState())) {
+            insertAppRunningStateLog(app, DeviceModel.builder()
+                    .runningState(enti.getRunningState())
+                    .currentVersionId(enti.getVersionId())
+                    .currentProtocolId(app.getProtocolId())
+                    .build()
+            );
+        }
         int result = appDao.updateNonEmptyAppById(enti);
         if (result == 0) {
             throw new BDException("更新终端应用异常");
         }
         return result;
+    }
+
+    private AppActivityLog insertActivityLog(App app, App targetApp, AppVersionLog createAppLog) {
+        if (!app.getUpdateState().equals(targetApp.getUpdateState())) {
+            AppVersionLog versionLog = new AppVersionLog();
+            versionLog.setAppId(app.getId());
+            versionLog.setVersionId(targetApp.getVersionId());
+            versionLog.setTargetVersionId(targetApp.getTargetVersionId());
+            AppVersionLog appVersionLog = versionLogDao.selectOneByObj(versionLog);
+            AppActivityLog activityLog = new AppActivityLog();
+            setCommonActiveLog(app, targetApp, activityLog);
+            if (appVersionLog != null) {
+                activityLog.setVersionLogId(appVersionLog.getId());
+            } else {
+                activityLog.setVersionLogId(createAppLog.getId());
+            }
+            appActivityLogDao.insertNonEmptyAppActivityLog(activityLog);
+            return activityLog;
+        }
+        return null;
+    }
+
+    private void setCommonActiveLog(App app, App targetApp, AppActivityLog activityLog) {
+        activityLog.setVersionId(targetApp.getVersionId());
+        activityLog.setVersion(versionDao.selectVersionById(targetApp.getVersionId()).getVersionName());
+        activityLog.setAppId(app.getId());
+        activityLog.setAppName(app.getAppName());
+        activityLog.setLastUpdateState(AppUpdateStateEnum.getNameByValue(app.getUpdateState()));
+        activityLog.setTargetVersion(versionDao.selectVersionById(targetApp.getTargetVersionId()).getVersionName());
+        activityLog.setTargetVersionId(targetApp.getTargetVersionId());
+        activityLog.setTs(new Date(System.currentTimeMillis()));
+        activityLog.setUpdateState(AppUpdateStateEnum.getNameByValue(targetApp.getUpdateState()));
+    }
+
+    /**
+     * 当前版本发生变化时，添加新的日志记录
+     *
+     * @param targetApp
+     * @return
+     */
+    private AppVersionLog insertAppVersionLog(App app, App targetApp) {
+        if (app.getTargetVersionId() == 0 || !app.getVersionId().equals(targetApp.getVersionId())) {
+            AppVersionLog appVersionLog = new AppVersionLog();
+            appVersionLog.setTs(new Date(System.currentTimeMillis()));
+            if (targetApp.getVersionId().equals(targetApp.getTargetVersionId())) {
+                appVersionLog.setState(VersionLogStateEnum.UPDATE_FINISHED.getValue());
+                appVersionLog.setStateName(VersionLogStateEnum.UPDATE_FINISHED.getName());
+            } else {
+                appVersionLog.setState(VersionLogStateEnum.UPDATING.getValue());
+                appVersionLog.setStateName(VersionLogStateEnum.UPDATING.getName());
+            }
+            appVersionLog.setTargetVersionId(targetApp.getTargetVersionId());
+            appVersionLog.setTargetVersion(versionDao.selectVersionById(targetApp.getTargetVersionId()).getVersionName());
+            appVersionLog.setVersionId(targetApp.getVersionId());
+            appVersionLog.setVersion(versionDao.selectVersionById(targetApp.getVersionId()).getVersionName());
+            appVersionLog.setAppName(app.getAppName());
+            appVersionLog.setAppId(app.getId());
+            versionLogDao.insertNonEmptyAppVersionLog(appVersionLog);
+            return appVersionLog;
+        }
+        if (!targetApp.getVersionId().equals(targetApp.getTargetVersionId())) {
+            AppVersionLog appVersionLog = new AppVersionLog();
+            appVersionLog.setTs(new Date(System.currentTimeMillis()));
+            appVersionLog.setState(VersionLogStateEnum.UPDATING.getValue());
+            appVersionLog.setStateName(VersionLogStateEnum.UPDATING.getName());
+            appVersionLog.setTargetVersionId(targetApp.getTargetVersionId());
+            appVersionLog.setTargetVersion(versionDao.selectVersionById(targetApp.getTargetVersionId()).getVersionName());
+            appVersionLog.setVersionId(targetApp.getVersionId());
+            appVersionLog.setVersion(versionDao.selectVersionById(targetApp.getVersionId()).getVersionName());
+            appVersionLog.setAppName(app.getAppName());
+            appVersionLog.setAppId(app.getId());
+            versionLogDao.insertNonEmptyAppVersionLog(appVersionLog);
+            return appVersionLog;
+        }
+        return null;
     }
 
     @Override
@@ -274,7 +375,7 @@ public class AppServiceImpl implements AppService{
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.append("异常参数:设备Id").append(deviceModel.getDeviceId()).append("应用类型:")
                     .append(deviceModel.getAppTypeId()).append("应用Id:").append(deviceModel.getAppId());
-            throw new BDException("通过远程设备传递的参数没有找到对应的终端应用，需要在管理端添加指定的应用"+stringBuilder.toString());
+            throw new BDException("通过远程设备传递的参数没有找到对应的终端应用，需要在管理端添加指定的应用" + stringBuilder.toString());
         }
         App app = apps.get(0);
         processState(app, deviceModel);
@@ -290,12 +391,34 @@ public class AppServiceImpl implements AppService{
         return versionVo;
     }
 
+    @Override
+    public String versionActive(VersionActivityModel activityModel) {
+        App app = appDao.selectAppById(activityModel.getAppId());
+        if (!app.getRunningState().equals(activityModel.getRunningState())) {
+            insertAppRunningStateLog(app, DeviceModel.builder()
+                    .currentProtocolId(activityModel.getProtocolId())
+                    .currentVersionId(activityModel.getCurrentVersionId())
+                    .runningState(activityModel.getRunningState())
+                    .log(activityModel.getLog())
+                    .build()
+            );
+        }
+        if (!app.getUpdateState().equals(activityModel.getVersionActivityState())) {
+
+        }
+        return null;
+    }
+
     private void processState(App app, DeviceModel deviceModel) {
         if (deviceModel.getRunningState() == null || deviceModel.getRunningState().equals(app.getRunningState())) {
             return;
         }
         app.setRunningState(deviceModel.getRunningState());
         app.setRunningStateName(AppRunningStateEnum.getNameByValue(deviceModel.getRunningState()));
+        insertAppRunningStateLog(app, deviceModel);
+    }
+
+    private void insertAppRunningStateLog(App app, DeviceModel deviceModel) {
         AppStateLog appStateLog = new AppStateLog();
         appStateLog.setAppId(app.getId());
         appStateLog.setAppName(app.getAppName());
@@ -303,12 +426,12 @@ public class AppServiceImpl implements AppService{
         appStateLog.setLastState(app.getRunningState());
         appStateLog.setTs(new Date(System.currentTimeMillis()));
         appStateLog.setLog(deviceModel.getLog());
-        appStateLog.setProtocolId(deviceModel.getCurrentProtocolId() == null? app.getProtocolId():
+        appStateLog.setProtocolId(deviceModel.getCurrentProtocolId() == null ? app.getProtocolId() :
                 deviceModel.getCurrentProtocolId());
         if (appStateLog.getProtocolId() != null) {
             appStateLog.setProtocolName(versionDao.selectVersionById(appStateLog.getProtocolId()).getVersionName());
         }
-        appStateLog.setVersionId(deviceModel.getCurrentVersionId() == null? app.getVersionId(): deviceModel.getCurrentVersionId());
+        appStateLog.setVersionId(deviceModel.getCurrentVersionId() == null ? app.getVersionId() : deviceModel.getCurrentVersionId());
         if (appStateLog.getVersionId() != null) {
             appStateLog.setVersionName(versionDao.selectVersionById(appStateLog.getVersionId()).getVersionName());
         }
@@ -369,7 +492,7 @@ public class AppServiceImpl implements AppService{
         versionLogDao.insertNonEmptyAppVersionLog(appVersionLog);
     }
 
-    private AppVersionLog getVersionLog(App app, Long id, VersionLogStateEnum logStateEnum){
+    private AppVersionLog getVersionLog(App app, Long id, VersionLogStateEnum logStateEnum) {
         AppVersionLog appVersionLog = new AppVersionLog();
         appVersionLog.setAppId(app.getId());
         appVersionLog.setAppName(app.getAppName());
@@ -377,7 +500,7 @@ public class AppServiceImpl implements AppService{
         appVersionLog.setVersionId(app.getVersionId());
         Version version = versionDao.selectVersionById(id);
         if (version == null) {
-            throw new BDException("未知的VersionId"+id.toString());
+            throw new BDException("未知的VersionId" + id.toString());
         }
         appVersionLog.setTargetVersion(version.getVersionName());
         appVersionLog.setTargetVersionId(id);
