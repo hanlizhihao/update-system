@@ -8,7 +8,7 @@ public class AppVersionLog implements Serializable {
     private String stateName;
     private Long targetVersionId;//目标版本id
     private Long versionId;//当前版本id
-    private Long state;//版本变更状态0-升级中，1-升级完成，2-升级失败
+    private Integer state;//版本变更状态0-升级中，1-升级完成，2-升级失败
     private Long appId;
     private String version;//当前版本名称
     private String targetVersion;//目标升级版本
@@ -16,7 +16,7 @@ public class AppVersionLog implements Serializable {
     public AppVersionLog() {
         super();
     }
-    public AppVersionLog(Long id,String appName,String stateName,Long targetVersionId,Long versionId,Long state,Long appId,String version,String targetVersion,java.util.Date ts) {
+    public AppVersionLog(Long id, String appName, String stateName, Long targetVersionId, Long versionId, Integer state, Long appId, String version, String targetVersion, java.util.Date ts) {
         super();
         this.id = id;
         this.appName = appName;
@@ -69,11 +69,11 @@ public class AppVersionLog implements Serializable {
         this.versionId = versionId;
     }
 
-    public Long getState() {
+    public Integer getState() {
         return this.state;
     }
 
-    public void setState(Long state) {
+    public void setState(Integer state) {
         this.state = state;
     }
 

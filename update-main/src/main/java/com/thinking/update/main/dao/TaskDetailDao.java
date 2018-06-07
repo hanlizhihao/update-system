@@ -4,6 +4,9 @@ import com.thinking.update.main.domain.entity.TaskDetail;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+/**
+ * @author Administrator
+ */
 public interface TaskDetailDao{
 	/**
 	 * 获得TaskDetail数据的总行数
@@ -28,6 +31,13 @@ public interface TaskDetailDao{
 	 * @return
 	 */
 	List<TaskDetail> selectByTaskIds(@Param("ids") List<Task> ids);
+
+	/**
+	 * 查询正在进行的Task是否包含指定id的App
+	 * @param id
+	 * @return
+	 */
+	List<TaskDetail> selectRunningTaskDetailByAppId(Long id);
 	/**
 	 * 通过TaskDetail的id获得TaskDetail对象
 	 * @param id

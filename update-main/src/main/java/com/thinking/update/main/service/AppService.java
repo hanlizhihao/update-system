@@ -2,10 +2,7 @@ package com.thinking.update.main.service;
 import java.util.List;
 
 import com.thinking.update.main.domain.entity.App;
-import com.thinking.update.main.domain.model.AbnormalDetailVo;
-import com.thinking.update.main.domain.model.AbnormalNumberVo;
-import com.thinking.update.main.domain.model.EnumVo;
-import com.thinking.update.main.domain.model.RunningStateDetailVo;
+import com.thinking.update.main.domain.model.*;
 import org.springframework.data.domain.Pageable;
 
 /**
@@ -115,5 +112,12 @@ public interface AppService{
 	 */
 	List<EnumVo> getDeviceList();
 
+	/**
+	 * 获得异常详情
+	 * @param id
+	 * @return
+	 */
 	List<AbnormalDetailVo> getAbnormalDetails(Long id);
+
+	VersionVo getVersionInfo(DeviceModel deviceModel);
 }

@@ -1,6 +1,9 @@
 package com.thinking.update.main.dao;
 import com.thinking.update.main.domain.entity.Task;
 import java.util.List;
+/**
+ * @author Administrator
+ */
 public interface TaskDao{
 	/**
 	 * 获得Task数据的总行数

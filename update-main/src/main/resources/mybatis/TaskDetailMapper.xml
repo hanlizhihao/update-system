@@ -36,6 +36,12 @@
         </foreach>
     </select>
 
+    <select id="selectRunningTaskDetailByAppId" resultMap="result_TaskDetail_Map">
+        SELECT <include refid="t_task_detail_Column" />
+        FROM t_task_detail
+        WHERE app_id = 1 AND task_id in (SELECT id FROM t_task WHERE state = 0)
+    </select>
+
     <!-- 获得一个TaskDetail对象,以参数TaskDetail对象中不为空的属性作为条件进行查询-->
     <select id="selectTaskDetailByObj" parameterType="com.thinking.update.main.domain.entity.TaskDetail" resultMap="result_TaskDetail_Map">
         select 

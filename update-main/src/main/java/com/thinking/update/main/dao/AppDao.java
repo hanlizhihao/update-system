@@ -1,5 +1,6 @@
 package com.thinking.update.main.dao;
 import com.thinking.update.main.domain.entity.App;
+import com.thinking.update.main.domain.entity.TaskDetail;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -9,6 +10,14 @@ public interface AppDao{
 	 * @return
 	 */
     long getAppRowCount();
+
+	/**
+	 * 获得符合条件的app数量
+	 * @param app
+	 * @param taskDetails
+	 * @return
+	 */
+    long getCountByObjAndTaskDetails(@Param("app") App app,@Param("taskDetails") List<TaskDetail> taskDetails);
 
 	/**
 	 * 安装运行状态统计数量
