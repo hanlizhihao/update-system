@@ -18,12 +18,6 @@ public interface VehicleService {
 	 */
     List<VehicleInfo> selectVehicle();
 	/**
-	 * 获得一个Vehicleinfo对象,以参数Vehicleinfo对象中不为空的属性作为条件进行查询
-	 * @param obj
-	 * @return
-	 */
-    VehicleInfo selectVehicleByObj(VehicleInfo obj);
-	/**
 	 * 通过Vehicleinfo的id获得Vehicleinfo对象
 	 * @param id
 	 * @return

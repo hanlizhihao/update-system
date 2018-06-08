@@ -18,7 +18,7 @@ public class App extends AbstractEntity implements Serializable {
     /**
      * 设备id
      */
-    private Long deviceId;
+    private String deviceId;
 
     private Integer runningState;
     private Long versionId;

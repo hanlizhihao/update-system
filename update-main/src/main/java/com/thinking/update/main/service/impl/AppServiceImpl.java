@@ -11,6 +11,7 @@ import com.github.pagehelper.PageHelper;
 import com.thinking.update.main.common.enums.*;
 import com.thinking.update.main.common.exception.BDException;
 import com.thinking.update.main.common.utils.AppTaskUtil;
+import com.thinking.update.main.common.utils.BeanCopyHelper;
 import com.thinking.update.main.dao.*;
 import com.thinking.update.main.domain.entity.*;
 import com.thinking.update.main.domain.model.*;
@@ -129,9 +130,7 @@ public class AppServiceImpl implements AppService {
     @Transactional(rollbackFor = Exception.class, readOnly = true)
     public RunningStateDetailVo getStateDetail(Long appId) {
         App app = appDao.selectAppById(appId);
-        VehicleInfo vehicleInfo = new VehicleInfo();
-        vehicleInfo.setDeviceId(String.valueOf(app.getDeviceId()));
-        VehicleInfo vehicleInfoData = vehicleDao.selectVehicleinfoByObj(vehicleInfo);
+        VehicleInfo vehicleInfoData = vehicleDao.selectByApp(app);
         AppStateLog abnormalStateLog = appStateLogDao.selectLatestLastStateIsNormalLogByAppId(appId);
         AppStateLog lastNormalStateLog = appStateLogDao.selectNormalStateLogByAppId(appId);
         Duration duration = Duration.between(abnormalStateLog.getTs().toInstant(), Instant.now());
@@ -173,9 +172,23 @@ public class AppServiceImpl implements AppService {
     }
 
     @Override
-    public List<App> selectAbnormalPageBydeviceIds(Pageable pageable, List<Long> deviceIds) {
+    public List<AbnormalAppVo> selectAbnormalPageByDeviceIds(Pageable pageable, List<Integer> deviceIds) {
         PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize());
-        return appDao.getAppForPageByDeviceIdsAndStateList(AppUpdateStateEnum.getAbnormalStateList(), deviceIds);
+        List<App> apps = appDao.getAppForPageByDeviceIdsAndStateList(AppUpdateStateEnum.getAbnormalStateList(), deviceIds);
+        List<AbnormalAppVo> abnormalAppVos = new LinkedList<>();
+        List<VehicleInfo> vehicleInfoList = vehicleDao.selectAllColumnByApps(apps);
+        apps.forEach(app -> {
+            AbnormalAppVo abnormalAppVo = new AbnormalAppVo();
+            BeanCopyHelper.copy(app, abnormalAppVo);
+            vehicleInfoList.parallelStream().filter(vehicleInfo -> vehicleInfo.getDeviceId().equals(app.getDeviceId()))
+                    .forEach(vehicleInfo -> {
+                        abnormalAppVo.setDepartment(vehicleInfo.getCompanyName() + vehicleInfo.getSubCompanyName()
+                        + vehicleInfo.getGroupName() + vehicleInfo.getLineName());
+                        abnormalAppVo.setPlateNumber(vehicleInfo.getVehicleNo());
+                    });
+            abnormalAppVos.add(abnormalAppVo);
+        });
+        return abnormalAppVos;
     }
 
     @Override
@@ -367,7 +380,7 @@ public class AppServiceImpl implements AppService {
     public VersionVo getVersionInfo(DeviceModel deviceModel) {
         VersionVo versionVo = new VersionVo();
         List<App> apps = appDao.selectAppByObj(App.builder()
-                .deviceId(deviceModel.getDeviceId())
+                .deviceId(String.valueOf(deviceModel.getDeviceId()))
                 .appTypeId(deviceModel.getAppTypeId())
                 .id(deviceModel.getAppId())
                 .build());

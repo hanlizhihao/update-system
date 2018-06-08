@@ -68,7 +68,7 @@ public interface AppDao{
 	 * @return
 	 */
 	List<App> getAppForPageByDeviceIdsAndStateList(@Param("states") List<Integer> states,
-												   @Param("deviceIds") List<Long> deviceIds);
+												   @Param("deviceIds") List<Integer> deviceIds);
 	/**
 	 * 通过App的id获得App对象
 	 * @param id

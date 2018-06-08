@@ -4,6 +4,7 @@ import com.github.pagehelper.PageInfo;
 import com.thinking.update.main.common.annotation.PrintLog;
 import com.thinking.update.main.common.utils.BeanCopyHelper;
 import com.thinking.update.main.domain.entity.App;
+import com.thinking.update.main.domain.model.AbnormalAppVo;
 import com.thinking.update.main.domain.model.AbnormalDetailVo;
 import com.thinking.update.main.domain.model.AppModel;
 import com.thinking.update.main.service.AppService;
@@ -12,12 +13,8 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.data.domain.Pageable;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -44,10 +41,11 @@ public class AbnormalController extends BaseApplicationController {
     })
     @PrintLog("异常终端App列表查询")
     @GetMapping(value = "/list")
-    public PageInfo<App> appList(Pageable pageable, AppModel appModel, @Param("deviceIds") ArrayList<Long> deviceIds) {
+    public PageInfo<AbnormalAppVo> appList(Pageable pageable, AppModel appModel
+            ,@RequestParam("deviceIds") ArrayList<Integer> deviceIds) {
         App app = new App();
         BeanCopyHelper.copy(appModel, app);
-        return new PageInfo<>(appService.selectAbnormalPageBydeviceIds(pageable, deviceIds));
+        return new PageInfo<>(appService.selectAbnormalPageByDeviceIds(pageable, deviceIds));
     }
 
     @PrintLog("查询异常升级的异常活动列表即异常详情")

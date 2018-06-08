@@ -24,13 +24,21 @@ public interface VehicleDao {
 	 * @param apps
 	 * @return
 	 */
+
 	List<VehicleInfo> selectByApps(List<App> apps);
 	/**
 	 * 获得一个Vehicleinfo对象,以参数Vehicleinfo对象中不为空的属性作为条件进行查询
-	 * @param obj
+	 * @param apps 参数app
 	 * @return
 	 */
-    VehicleInfo selectVehicleinfoByObj(VehicleInfo obj);
+    List<VehicleInfo> selectAllColumnByApps(List<App> apps);
+
+	/**
+	 * 根据App查询车辆信息
+	 * @param app
+	 * @return
+	 */
+	VehicleInfo selectByApp(App app);
 	/**
 	 * 通过Vehicleinfo的id获得Vehicleinfo对象
 	 * @param id
