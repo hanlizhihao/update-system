@@ -52,12 +52,12 @@
         <include refid="users_Column" />
         from users
         <where>
-            <if test="username != null "> and users.username like #{username}"%"</if>
-            <if test="picture != null "> and users.picture like #{picture}"%"</if>
-            <if test="enabled != null "> and users.enabled like #{enabled}"%"</if>
-            <if test="realName != null "> and users.real_name like #{realName}"%"</if>
-            <if test="password != null "> and users.password like #{password}"%"</if>
-            <if test="id != null "> and users.id like #{id}"%"</if>
+            <if test="username != null "> and users.username like CONCAT('%',#{username},'%')</if>
+            <if test="picture != null "> and users.picture like CONCAT('%',#{picture},'%')</if>
+            <if test="enabled != null "> and users.enabled like CONCAT('%',#{enabled},'%')</if>
+            <if test="realName != null "> and users.real_name like CONCAT('%',#{realName},'%')</if>
+            <if test="password != null "> and users.password like CONCAT('%',#{password},'%')</if>
+            <if test="id != null "> and users.id like CONCAT('%',#{id},'%')</if>
         </where>
     </select>
 

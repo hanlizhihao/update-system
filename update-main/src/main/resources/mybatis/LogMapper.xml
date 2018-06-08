@@ -3,34 +3,49 @@
 
 <mapper namespace="com.thinking.update.main.dao.LogDao">
 
-	<select id="get" resultType="com.thinking.update.main.dao.LogDao">
-		select `id`,`user_id`,`username`,`operation`,`time`,`method`,`params`,`ip`,`gmt_create` from sys_log where id = #{value}
+	<select id="get" resultType="com.thinking.update.main.domain.entity.SysLog">
+		select `id`,`user_id`,`username`,`operation`,`time`,`method`,`params`,`ip`,`gmt_create` from sys_log where id = #{id}
 	</select>
 
-	<select id="list" resultType="com.thinking.update.main.dao.LogDao">
+	<select id="list" resultType="com.thinking.update.main.domain.entity.SysLog">
 		select `id`,`user_id`,`username`,`operation`,`time`,`method`,`params`,`ip`,`gmt_create` from sys_log
         <where>  
-		  		  <if test="id != null and id != ''"> and id = #{id} </if>
-		  		  <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
-		  		  <if test="username != null and username != ''"> and username = #{username} </if>
-		  		  <if test="operation != null and operation != ''"> and operation = #{operation} </if>
-		  		  <if test="time != null and time != ''"> and time = #{time} </if>
-		  		  <if test="method != null and method != ''"> and method = #{method} </if>
-		  		  <if test="params != null and params != ''"> and params = #{params} </if>
-		  		  <if test="ip != null and ip != ''"> and ip = #{ip} </if>
-		  		  <if test="gmtCreate != null and gmtCreate != ''"> and gmt_create = #{gmtCreate} </if>
+		  		  <if test="sysLog.id != null and sysLog.id != ''">
+					  and id like CONCAT('%',#{sysLog.id},'%')
+				  </if>
+		  		  <if test="sysLog.userId != null and sysLog.userId != ''">
+					  and user_id like CONCAT('%',#{sysLog.userId},'%')
+				  </if>
+		  		  <if test="sysLog.username != null and sysLog.username != ''">
+		  		   and username like CONCAT('%',#{sysLog.username},'%')
+				  </if>
+		  		  <if test="sysLog.operation != null and sysLog.operation != ''">
+					  and operation like CONCAT('%',#{sysLog.operation},'%')
+				  </if>
+		  		  <if test="sysLog.time != null and sysLog.time != ''">
+		  		   and time like CONCAT('%',#{sysLog.time},'%')
+				  </if>
+		  		  <if test="sysLog.method != null and sysLog.method != ''">
+					  and method like CONCAT('%',#{sysLog.method},'%')
+				  </if>
+		  		  <if test="sysLog.params != null and sysLog.params != ''">
+					  and params like CONCAT('%',#{sysLog.params},'%')
+				  </if>
+		  		  <if test="sysLog.ip != null and sysLog.ip != ''">
+					  and ip like CONCAT('%',#{sysLog.ip},'%')
+				  </if>
+		  		  <if test="sysLog.gmtCreate != null and sysLog.gmtCreate != ''">
+					  and gmt_create like CONCAT('%',#{sysLog.gmtCreate},'%')
+				  </if>
 		  		</where>
         <choose>
-            <when test="sort != null and sort.trim() != ''">
-                order by ${sort} ${order}
+            <when test="map != null and map.sort != null and map.sort.trim() != ''">
+                order by ${map.sort} ${map.order}
             </when>
 			<otherwise>
                 order by id desc
 			</otherwise>
         </choose>
-		<if test="offset != null and limit != null">
-			limit #{offset}, #{limit}
-		</if>
 	</select>
 	
  	<select id="count" resultType="int">
@@ -73,7 +88,7 @@
 		)
 	</insert>
 	 
-	<update id="update" parameterType="com.thinking.update.main.dao.LogDao">
+	<update id="update" parameterType="com.thinking.update.main.domain.entity.SysLog">
 		update sys_log 
 		<set>
 			<if test="userId != null">`user_id` = #{userId}, </if>

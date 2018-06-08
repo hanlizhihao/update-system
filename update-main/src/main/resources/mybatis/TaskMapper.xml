@@ -74,19 +74,19 @@
         <include refid="t_task_Column" />
         from t_task
         <where>
-            <if test="ts != null "> and t_task.ts like #{ts}"%"</if>
-            <if test="percent != null "> and t_task.percent like #{percent}"%"</if>
-            <if test="createUser != null "> and t_task.create_user like #{createUser}"%"</if>
-            <if test="departments != null "> and t_task.departments like #{departments}"%"</if>
-            <if test="remark != null "> and t_task.remark like #{remark}"%"</if>
-            <if test="finishedNumber != null "> and t_task.finished_number like #{finishedNumber}"%"</if>
-            <if test="appNumber != null "> and t_task.app_number like #{appNumber}"%"</if>
-            <if test="createTime != null "> and t_task.create_time like #{createTime}"%"</if>
-            <if test="updateUser != null "> and t_task.update_user like #{updateUser}"%"</if>
-            <if test="updateTime != null "> and t_task.update_time like #{updateTime}"%"</if>
-            <if test="taskName != null "> and t_task.task_name like #{taskName}"%"</if>
-            <if test="id != null "> and t_task.id like #{id}"%"</if>
-            <if test="state != null">and t_task.state like #{state}"%"</if>
+            <if test="ts != null "> and t_task.ts like CONCAT('%',#{ts},'%')</if>
+            <if test="percent != null "> and t_task.percent like CONCAT('%',#{percent},'%')</if>
+            <if test="createUser != null "> and t_task.create_user like CONCAT('%',#{createUser},'%')</if>
+            <if test="departments != null "> and t_task.departments like CONCAT('%',#{departments},'%')</if>
+            <if test="remark != null "> and t_task.remark like CONCAT('%',#{remark},'%')</if>
+            <if test="finishedNumber != null "> and t_task.finished_number like CONCAT('%',#{finishedNumber},'%')</if>
+            <if test="appNumber != null "> and t_task.app_number like CONCAT('%',#{appNumber},'%')</if>
+            <if test="createTime != null "> and t_task.create_time like CONCAT('%',#{createTime},'%')</if>
+            <if test="updateUser != null "> and t_task.update_user like CONCAT('%',#{updateUser},'%')</if>
+            <if test="updateTime != null "> and t_task.update_time like CONCAT('%',#{updateTime},'%')</if>
+            <if test="taskName != null "> and t_task.task_name like CONCAT('%',#{taskName},'%')</if>
+            <if test="id != null "> and t_task.id like CONCAT('%',#{id},'%')</if>
+            <if test="state != null">and t_task.state like CONCAT('%',#{state},'%')</if>
         </where>
     </select>
 

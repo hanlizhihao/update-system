@@ -1,9 +1,11 @@
 package com.thinking.update.main.controller;
 
+import com.github.pagehelper.PageInfo;
 import com.thinking.update.main.domain.entity.SysLog;
 import com.thinking.update.main.service.SysLogService;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,7 +27,7 @@ public class HistoryController {
     private SysLogService service;
 
     @GetMapping(value = "/list")
-    public List<SysLog> getSysLog() {
-        return service.selectSysLog();
+    public PageInfo<SysLog> getSysLog(Pageable pageable, SysLog sysLog) {
+        return new PageInfo<>(service.selectSysLog(pageable, sysLog));
     }
 }

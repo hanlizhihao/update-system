@@ -1,6 +1,9 @@
 package com.thinking.update.main.dao;
 import com.thinking.update.main.domain.entity.AppType;
 import java.util.List;
+/**
+ * @author Administrator
+ */
 public interface AppTypeDao{
 	/**
 	 * 获得AppType数据的总行数

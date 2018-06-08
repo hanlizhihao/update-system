@@ -409,7 +409,9 @@ public class AppServiceImpl implements AppService {
         }
         processUpdateTaskAndVersionLog(app, activityModel);
         appDao.updateNonEmptyAppById(app);
-        return ActivityVo.builder().updateChange(false).build();
+        ActivityVo activityVo = new ActivityVo();
+        activityVo.setUpdateChange(false);
+        return activityVo;
     }
 
     private void processUpdateTaskAndVersionLog(App app, VersionActivityModel activityModel) {

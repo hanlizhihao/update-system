@@ -67,14 +67,16 @@ public class LogAspect {
         sysLog.setMethod(className + "." + methodName + "()");
         // 请求的参数
         Object[] args = joinPoint.getArgs();
-        try {
-            String jsonParam = JSONUtils.beanToJson(args[0]);
-            if (jsonParam.length() >= 5000) {
-                jsonParam = jsonParam.substring(0, 4999);
+        if (args != null && args.length != 0) {
+            try {
+                String jsonParam = JSONUtils.beanToJson(args[0]);
+                if (jsonParam.length() >= 5000) {
+                    jsonParam = jsonParam.substring(0, 4999);
+                }
+                sysLog.setParams(jsonParam);
+            } catch (Exception e) {
+                log.error("切面打印日志异常", e);
             }
-            sysLog.setParams(jsonParam);
-        } catch (Exception e) {
-            log.error("切面打印日志异常", e);
         }
         // 获取request
         HttpServletRequest request = HttpContextUtils.getHttpServletRequest();

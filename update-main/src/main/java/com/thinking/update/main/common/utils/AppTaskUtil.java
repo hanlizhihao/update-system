@@ -19,9 +19,14 @@ import java.util.concurrent.*;
  */
 public class AppTaskUtil {
 
-    private static BlockingQueue<Runnable> blockingQueue = new ArrayBlockingQueue<>(10);
+    private static BlockingQueue<Runnable> blockingQueue = new ArrayBlockingQueue<>(30);
     private static ExecutorService executorService = new ThreadPoolExecutor(1,1,
             1L,TimeUnit.SECONDS,blockingQueue, (ThreadFactory) Thread::new);
+
+    /**
+     * 检查App所在任务的完成情况
+     * @param app
+     */
     public static void checkAppInTask(App app) {
         executorService.submit(() -> {
             TaskDao taskDao = SpringContextHolder.getBean(TaskDao.class);

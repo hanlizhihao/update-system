@@ -2,6 +2,7 @@ package com.thinking.update.main.dao;
 
 
 import com.thinking.update.main.domain.entity.SysLog;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -17,7 +18,7 @@ public interface LogDao {
 
 	SysLog get(Long id);
 	
-	List<SysLog> list(Map<String, Object> map);
+	List<SysLog> list(@Param("sysLog") SysLog sysLog,@Param("map") Map<String, Object> map);
 
 	int count(Map<String, Object> map);
 	
