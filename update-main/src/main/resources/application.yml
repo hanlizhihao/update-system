@@ -38,6 +38,7 @@ pagehelper:
 app:
  swaggerEnabled: true
  uploadDirectory: /uploadDirectory
+ logDirectory: /logDirectory
 myOAthConfig:
   hostUrl: http://localhost:5678/auth
   logoutUrl: ${myOAthConfig.hostUrl}/logout

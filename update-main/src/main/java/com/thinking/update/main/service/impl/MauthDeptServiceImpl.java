@@ -66,6 +66,8 @@ public class MauthDeptServiceImpl implements MauthDeptService{
             mauthDepts.add(mauthDeptDao.selectMauthDeptByObj(mauthDept));
         } else {
             MauthDept mauthDept = mauthDeptDao.selectMauthDeptById(id);
+            Integer level = mauthDept.getLevel() + 1;
+            mauthDept.setLevel(level);
             mauthDepts = mauthDeptDao.selectBylftAndrgtAndLevel(mauthDept);
         }
         return mauthDepts;

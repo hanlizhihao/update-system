@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import com.github.pagehelper.PageHelper;
 import com.thinking.update.main.common.enums.*;
 import com.thinking.update.main.common.exception.BDException;
+import com.thinking.update.main.common.utils.FileUtil;
 import com.thinking.update.main.dao.AppDao;
 import com.thinking.update.main.dao.TaskDao;
 import com.thinking.update.main.dao.TaskDetailDao;
@@ -130,18 +131,7 @@ public class VersionServiceImpl implements VersionService{
 
     @Override
     public FileVo uploadFile(FileVo fileVo, MultipartFile file) {
-        String fileType = fileVo.getFileName().substring(fileVo.getFileName().lastIndexOf("."));
-        String realFileName = fileVo.getMd5() + fileType;
-        try {
-            FileUtils.writeByteArrayToFile(new File(uploadDirectory,
-                    realFileName),file.getBytes());
-        } catch (IOException e) {
-            log.error("上传文件失败", e);
-            throw new BDException("上传文件发生IO异常");
-        }
-        fileVo.setPath(uploadDirectory+realFileName);
-        fileVo.setRealName(realFileName);
-        return fileVo;
+        return FileUtil.getFileVo(fileVo, file, uploadDirectory);
     }
 
     private List<EnumVo> getVersionList(int versionType) {

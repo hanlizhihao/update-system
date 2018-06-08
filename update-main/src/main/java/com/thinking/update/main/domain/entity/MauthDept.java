@@ -2,6 +2,9 @@ package com.thinking.update.main.domain.entity;
 
 import java.io.Serializable;
 
+/**
+ * @author Administrator
+ */
 public class MauthDept implements Serializable {
     private Integer deptId;//机构主键
     private Integer code;//机构编号

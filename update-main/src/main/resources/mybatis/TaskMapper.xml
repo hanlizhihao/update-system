@@ -149,7 +149,7 @@
         <foreach collection="list" item="item" index="index" separator="," >
             (#{item.id},#{item.taskName},#{item.updateTime},#{item.updateUser},#{item.createTime},#{item.appNumber},
             #{item.finishedNumber},#{item.remark},#{item.departments},#{item.createUser},#{item.percent},#{item.ts},
-            #{state})
+            #{item.state})
         </foreach>
     </insert>
 

@@ -1,6 +1,9 @@
 package com.thinking.update.main.service;
 import java.util.List;
 import com.thinking.update.main.domain.entity.AppActivityLog;
+import com.thinking.update.main.domain.model.FileVo;
+import org.springframework.web.multipart.MultipartFile;
+
 public interface AppActivityLogService{
 	/**
 	 * 获得AppActivityLog数据的总行数
@@ -60,4 +63,13 @@ public interface AppActivityLogService{
 	 * @return
 	 */
     int updateNonEmptyAppActivityLogById(AppActivityLog enti);
+
+
+	/**
+	 *
+	 * @param fileVo
+	 * @param file
+	 * @return
+	 */
+	FileVo uploadLogFile(FileVo fileVo, MultipartFile file);
 }

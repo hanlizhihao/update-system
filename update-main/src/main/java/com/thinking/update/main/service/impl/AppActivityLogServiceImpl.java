@@ -1,14 +1,33 @@
 package com.thinking.update.main.service.impl;
-import java.util.List;
+import com.thinking.update.main.common.exception.BDException;
+import com.thinking.update.main.common.utils.FileUtil;
 import com.thinking.update.main.dao.AppActivityLogDao;
 import com.thinking.update.main.domain.entity.AppActivityLog;
+import com.thinking.update.main.domain.model.FileVo;
 import com.thinking.update.main.service.AppActivityLogService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FileUtils;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.annotation.Resource;
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
+
+/**
+ * @author Administrator
+ */
 @Service
+@Slf4j
+@ConfigurationProperties(prefix = "app")
 public class AppActivityLogServiceImpl implements AppActivityLogService{
-    @Autowired
+    @Resource
     private AppActivityLogDao appActivityLogDao;
+    @lombok.Setter
+    private String logDirectory;
+
     @Override
     public long getAppActivityLogRowCount(){
         return appActivityLogDao.getAppActivityLogRowCount();
@@ -49,6 +68,12 @@ public class AppActivityLogServiceImpl implements AppActivityLogService{
     public int updateNonEmptyAppActivityLogById(AppActivityLog enti){
         return appActivityLogDao.updateNonEmptyAppActivityLogById(enti);
     }
+
+    @Override
+    public FileVo uploadLogFile(FileVo fileVo, MultipartFile file) {
+        return FileUtil.getFileVo(fileVo, file, logDirectory);
+    }
+
 
     public AppActivityLogDao getAppActivityLogDao() {
         return this.appActivityLogDao;
