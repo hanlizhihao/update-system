@@ -163,7 +163,8 @@
         )
     </select>
     <select id="selectAllColumnByApps" resultMap="result_Vehicleinfo_Map">
-        select <include refid="v_vehicleinfo_Column" />
+        select
+        <include refid="v_vehicleinfo_Column" />
         from v_vehicleinfo
         where deviceId IN (
         SELECT distinct device_id

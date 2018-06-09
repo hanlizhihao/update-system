@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.propertyeditors.CustomBooleanEditor;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.web.bind.WebDataBinder;
@@ -26,17 +27,9 @@ public abstract class BaseApplicationController {
 
     public static String currentUserName() {
         OAuth2Authentication oAuth2Authentication;
-        try {
-            oAuth2Authentication = (OAuth2Authentication) SecurityContextHolder
-                    .getContext().getAuthentication();
-        } catch (Exception e) {
-            log.error("获取OAuth认证信息",e);
-            return "system";
-        }
-        if (oAuth2Authentication != null) {
-            if (oAuth2Authentication.getPrincipal() == null) {
-                return "system";
-            }
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (OAuth2Authentication.class.isAssignableFrom(Authentication.class)) {
+            oAuth2Authentication = (OAuth2Authentication) authentication;
             return (String)oAuth2Authentication.getPrincipal();
         }
         return "system";
@@ -54,7 +47,7 @@ public abstract class BaseApplicationController {
             updateTimeHandle.invoke(object, currentTime);
             updateUserHandle.invoke(object, currentUserName());
             if (isCreate) {
-                MethodHandle createTimeHandle = lookup.findSetter(clazz,"createTime",Date.class);
+                MethodHandle createTimeHandle = lookup.findSetter(clazz, "createTime", Date.class);
                 MethodHandle createUserHandle = lookup.findSetter(clazz, "createUser", String.class);
                 createTimeHandle.invoke(object, currentTime);
                 createUserHandle.invoke(object, currentUserName());
@@ -70,13 +63,12 @@ public abstract class BaseApplicationController {
     @InitBinder
     protected void initBinder(WebDataBinder binder) {
         binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
-        binder.registerCustomEditor(Boolean.class,new CustomBooleanEditor(true));
+        binder.registerCustomEditor(Boolean.class, new CustomBooleanEditor(true));
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        binder.registerCustomEditor(Date.class,new CustomDateEditor(format,true));
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(format, true));
     }
 
     /**
-     *
      * @param entity
      */
     protected void setCommonCreateFields(AbstractEntity entity) {
@@ -90,6 +82,7 @@ public abstract class BaseApplicationController {
 
     /**
      * 设置通用更新字段值
+     *
      * @param entity
      */
     protected void setCommonUpdateFields(AbstractEntity entity) {

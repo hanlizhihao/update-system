@@ -176,6 +176,9 @@ public class AppServiceImpl implements AppService {
         PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize());
         List<App> apps = appDao.getAppForPageByDeviceIdsAndStateList(AppUpdateStateEnum.getAbnormalStateList(), deviceIds);
         List<AbnormalAppVo> abnormalAppVos = new LinkedList<>();
+        if (CollectionUtils.isEmpty(apps)) {
+            return abnormalAppVos;
+        }
         List<VehicleInfo> vehicleInfoList = vehicleDao.selectAllColumnByApps(apps);
         apps.forEach(app -> {
             AbnormalAppVo abnormalAppVo = new AbnormalAppVo();

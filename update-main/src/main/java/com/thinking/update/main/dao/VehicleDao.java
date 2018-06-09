@@ -3,6 +3,7 @@ import com.thinking.update.main.common.utils.MybatisRedisCache;
 import com.thinking.update.main.domain.entity.App;
 import com.thinking.update.main.domain.entity.VehicleInfo;
 import org.apache.ibatis.annotations.CacheNamespace;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 /**
@@ -35,7 +36,7 @@ public interface VehicleDao {
 	 * @param apps 参数app
 	 * @return
 	 */
-    List<VehicleInfo> selectAllColumnByApps(List<App> apps);
+    List<VehicleInfo> selectAllColumnByApps(@Param("apps") List<App> apps);
 
 	/**
 	 * 根据App查询车辆信息
