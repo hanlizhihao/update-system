@@ -182,7 +182,7 @@
         FROM t_app
         WHERE id = #{id})
     </select>
-    <select id="selectVehicleByDeptId" resultMap="result_Vehicleinfo_Map">
+    <select id="selectVehicleByDeptId" parameterType="java.lang.Integer" resultMap="result_Vehicleinfo_Map">
         select <include refid="v_vehicleinfo_Column" />
         from v_vehicleinfo
         where v_vehicleinfo.deptId = #{id}
