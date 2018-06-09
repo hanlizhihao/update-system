@@ -27,9 +27,12 @@ public abstract class BaseApplicationController {
     public static String currentUserName() {
         OAuth2Authentication oAuth2Authentication = (OAuth2Authentication) SecurityContextHolder.getContext().getAuthentication();
         if (oAuth2Authentication != null) {
+            if (oAuth2Authentication.getPrincipal() == null) {
+                return "system";
+            }
             return (String)oAuth2Authentication.getPrincipal();
         }
-        return null;
+        return "system";
     }
 
     public static Object setCommonFields(Object object, boolean isCreate) {

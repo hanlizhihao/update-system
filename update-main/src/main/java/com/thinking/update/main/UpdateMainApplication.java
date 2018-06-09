@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.method.support.HandlerMethodReturnValueHandler;
 import org.springframework.web.servlet.LocaleResolver;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
@@ -75,10 +76,18 @@ public class UpdateMainApplication extends WebMvcConfigurerAdapter {
         registry.addViewController("error/500").setViewName("500.html");
     }
 
-    //	@Bean
-//	public RequestContextListener requestContextListener() {
-//		return new RequestContextListener();
-//	}
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**").allowedOrigins("*")
+                .allowedMethods("GET", "HEAD", "POST","PUT", "DELETE", "OPTIONS")
+                .allowCredentials(true).maxAge(3600);
+    }
+
+
+    /**
+     * 同一结果包装
+     * @return
+     */
     @Bean
     public InitializingBean apiSupport() {
         return new InitializingBean() {
