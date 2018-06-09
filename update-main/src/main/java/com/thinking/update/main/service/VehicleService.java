@@ -17,12 +17,7 @@ public interface VehicleService {
 	 * @return
 	 */
     List<VehicleInfo> selectVehicle();
-	/**
-	 * 通过Vehicleinfo的id获得Vehicleinfo对象
-	 * @param id
-	 * @return
-	 */
-    VehicleInfo selectVehicleById(Object id);
+
 	/**
 	 * 插入Vehicleinfo到数据库,包括null值
 	 * @param value

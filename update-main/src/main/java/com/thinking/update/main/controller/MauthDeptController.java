@@ -2,6 +2,7 @@ package com.thinking.update.main.controller;
 
 import com.thinking.update.main.common.annotation.PrintLog;
 import com.thinking.update.main.domain.entity.MauthDept;
+import com.thinking.update.main.domain.model.TreeVo;
 import com.thinking.update.main.service.MauthDeptService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -33,5 +34,12 @@ public class MauthDeptController {
     @GetMapping(value = "/tree/{id}")
     public List<MauthDept> getTreeDepartList(@PathVariable Integer id) {
         return mauthDeptService.getMauthUnderById(id);
+    }
+
+    @PrintLog("查询树形菜单全部节点")
+    @ApiOperation(value = "查询组织菜单全部节点", notes = "查询组织菜单全部节点", httpMethod = "GET")
+    @GetMapping(value = "/all/tree")
+    public TreeVo getAllTree() {
+        return mauthDeptService.getAllTreeVo();
     }
 }

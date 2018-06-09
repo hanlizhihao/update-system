@@ -44,7 +44,7 @@ public interface VehicleDao {
 	 * @param id
 	 * @return
 	 */
-    VehicleInfo selectVehicleinfoById(Object id);
+    List<VehicleInfo> selectVehicleByDeptId(Integer id);
 	/**
 	 * 插入Vehicleinfo到数据库,包括null值
 	 * @param value

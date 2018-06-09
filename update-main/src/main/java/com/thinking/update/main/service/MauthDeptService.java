@@ -1,6 +1,8 @@
 package com.thinking.update.main.service;
 import java.util.List;
 import com.thinking.update.main.domain.entity.MauthDept;
+import com.thinking.update.main.domain.model.TreeVo;
+
 public interface MauthDeptService{
 	/**
 	 * 获得MauthDept数据的总行数
@@ -60,6 +62,12 @@ public interface MauthDeptService{
 	 * @return
 	 */
     int updateNonEmptyMauthDeptById(MauthDept enti);
+
+	/**
+	 * 获得全部属性节点
+	 * @return
+	 */
+	TreeVo getAllTreeVo();
 
     List<MauthDept> getMauthUnderById(Integer id);
 }

@@ -29,7 +29,12 @@ public class MybatisRedisCache implements Cache {
     private final ReadWriteLock readWriteLock = new ReentrantReadWriteLock();
 
     private String id;
-    //用于读取配置文件
+
+    /**
+     * 用于读取配置文件
+     * @param id
+     * @throws IOException
+     */
     public MybatisRedisCache(final String id) throws IOException {
         JedisPool pool = new JedisPool(new JedisPoolConfig(),redisConfig.getRedis().get("host"));
         redisClient = pool.getResource();

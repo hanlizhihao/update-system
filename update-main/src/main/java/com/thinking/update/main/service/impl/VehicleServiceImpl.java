@@ -24,10 +24,6 @@ public class VehicleServiceImpl implements VehicleService {
         return vehicleDao.selectVehicle();
     }
     @Override
-    public VehicleInfo selectVehicleById(Object id){
-        return vehicleDao.selectVehicleinfoById(id);
-    }
-    @Override
     public int insertVehicle(VehicleInfo value){
         return vehicleDao.insertVehicleinfo(value);
     }

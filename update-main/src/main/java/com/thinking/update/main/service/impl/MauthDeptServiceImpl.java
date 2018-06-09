@@ -1,20 +1,48 @@
 package com.thinking.update.main.service.impl;
+import java.time.Instant;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+
+import com.thinking.update.main.common.utils.SerializeUtil;
+import com.thinking.update.main.config.RedisConfig;
 import com.thinking.update.main.dao.MauthDeptDao;
+import com.thinking.update.main.dao.VehicleDao;
 import com.thinking.update.main.domain.entity.MauthDept;
+import com.thinking.update.main.domain.entity.VehicleInfo;
+import com.thinking.update.main.domain.model.TreeVo;
 import com.thinking.update.main.service.MauthDeptService;
+import lombok.extern.slf4j.Slf4j;
+import org.bouncycastle.jcajce.provider.asymmetric.ec.KeyFactorySpi;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.JedisPoolConfig;
+
+import javax.annotation.Resource;
 
 /**
  * @author Administrator
  */
 @Service
-public class MauthDeptServiceImpl implements MauthDeptService{
-    @Autowired
+@Slf4j
+public class MauthDeptServiceImpl implements MauthDeptService, InitializingBean {
+    @Resource
     private MauthDeptDao mauthDeptDao;
+    @Resource
+    private VehicleDao vehicleDao;
+    @Resource
+    private RedisConfig redisConfig;
+
+    private Jedis redisClient;
+
+    private TreeVo treeVo;
+
     @Override
     public long getMauthDeptRowCount(){
         return mauthDeptDao.getMauthDeptRowCount();
@@ -57,6 +85,70 @@ public class MauthDeptServiceImpl implements MauthDeptService{
     }
 
     @Override
+    public TreeVo getAllTreeVo() {
+        try {
+            this.treeVo = getTreeVoFromCache();
+        } catch (Exception e) {
+            log.error("从缓存中取数据异常", e);
+            this.treeVo = null;
+        }
+        if (this.treeVo != null) {
+            return this.treeVo;
+        }
+        MauthDept firstDepart = new MauthDept();
+        firstDepart.setLevel(0);
+        firstDepart = mauthDeptDao.selectMauthDeptByObj(firstDepart);
+        this.treeVo = getTree(firstDepart);
+        if (putCache(this.treeVo)) {
+            log.info("缓存全部属性菜单成功");
+        }
+        return this.treeVo;
+    }
+
+    private TreeVo getTreeVoFromCache() {
+        return (TreeVo) SerializeUtil.unserialize(redisClient.get(SerializeUtil.serialize("departmentTree")));
+    }
+
+    private boolean putCache(TreeVo vo) {
+        try {
+            long second = 108000;
+            if (vo != null) {
+                redisClient.set(SerializeUtil.serialize("departmentTree"), SerializeUtil.serialize(vo),
+                        SerializeUtil.serialize("NX"), SerializeUtil.serialize("EX"), second);
+            }
+        } catch (Exception e) {
+            log.error("cache异常", e);
+            return false;
+        }
+        return true;
+    }
+
+    private TreeVo getTree(MauthDept dept) {
+        TreeVo treeVo = new TreeVo();
+        treeVo.setLabel(dept.getName());
+        treeVo.setData(dept.getDeptId().toString());
+        List<TreeVo> childes = new LinkedList<>();
+        List<MauthDept> mauthDepts = getMauthUnderById(dept.getDeptId());
+        if (!CollectionUtils.isEmpty(mauthDepts)) {
+            for (MauthDept mauthDept: mauthDepts) {
+                childes.add(getTree(mauthDept));
+            }
+        } else {
+            if (dept.getLevel() == 4) {
+                List<VehicleInfo> vehicleInfoList = vehicleDao.selectVehicleByDeptId(dept.getDeptId());
+                vehicleInfoList.parallelStream().forEach(vehicleInfo -> {
+                    TreeVo children = new TreeVo();
+                    children.setData(vehicleInfo.getDeviceId());
+                    children.setLabel(vehicleInfo.getVehicleNo());
+                    childes.add(children);
+                });
+            }
+        }
+        treeVo.setChildren(childes);
+        return treeVo;
+    }
+
+    @Override
     @Transactional(rollbackFor = Exception.class, readOnly = true)
     public List<MauthDept> getMauthUnderById(Integer id) {
         List<MauthDept> mauthDepts = new ArrayList<>();
@@ -81,4 +173,9 @@ public class MauthDeptServiceImpl implements MauthDeptService{
         this.mauthDeptDao = mauthDeptDao;
     }
 
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        JedisPool pool = new JedisPool(new JedisPoolConfig(),redisConfig.getRedis().get("host"));
+        redisClient = pool.getResource();
+    }
 }

@@ -210,11 +210,6 @@
             <artifactId>thymeleaf-spring4</artifactId>
             <version>${thymeleaf.version}</version>
         </dependency>
-        <dependency>
-            <groupId>com.alibaba.otter</groupId>
-            <artifactId>canal.client</artifactId>
-            <version>${canal.version}</version>
-        </dependency>
     </dependencies>
     <build>
         <plugins>
