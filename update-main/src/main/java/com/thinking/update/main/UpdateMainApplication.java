@@ -71,9 +71,10 @@ public class UpdateMainApplication extends WebMvcConfigurerAdapter {
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/index").setViewName("index");
         registry.addViewController("/").setViewName("index");
-        registry.addViewController("error/403").setViewName("403.html");
-        registry.addViewController("error/404").setViewName("404.html");
-        registry.addViewController("error/500").setViewName("500.html");
+        registry.addViewController("/error/403.html").setViewName("403.html");
+        registry.addViewController("/error/404.html").setViewName("404.html");
+        registry.addViewController("/error/500.html").setViewName("500.html");
+        registry.addViewController("/error/401.html").setViewName("401.html");
     }
 
     @Override

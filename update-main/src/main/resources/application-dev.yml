@@ -13,7 +13,7 @@ spring:
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
       driverClassName: com.mysql.jdbc.Driver
-      url: jdbc:mysql://localhost:3306/update?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull
+      url: jdbc:mysql://10.10.64.146:3306/update?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull
       username: root
       password: root
       initialSize: 1
@@ -41,7 +41,7 @@ spring:
   session:
     store-type: redis
   redis:
-    host: localhost
+    host: 10.10.64.146
     port: 6379
     jedis:
       pool:

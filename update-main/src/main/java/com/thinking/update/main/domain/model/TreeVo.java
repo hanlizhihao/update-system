@@ -3,6 +3,8 @@ package com.thinking.update.main.domain.model;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -16,5 +18,5 @@ public class TreeVo implements Serializable {
 
     private String data;
 
-    private List<TreeVo> children;
+    private LinkedList<TreeVo> children;
 }

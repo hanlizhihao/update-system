@@ -25,7 +25,14 @@ import java.util.Objects;
 public abstract class BaseApplicationController {
 
     public static String currentUserName() {
-        OAuth2Authentication oAuth2Authentication = (OAuth2Authentication) SecurityContextHolder.getContext().getAuthentication();
+        OAuth2Authentication oAuth2Authentication;
+        try {
+            oAuth2Authentication = (OAuth2Authentication) SecurityContextHolder
+                    .getContext().getAuthentication();
+        } catch (Exception e) {
+            log.error("获取OAuth认证信息",e);
+            return "system";
+        }
         if (oAuth2Authentication != null) {
             if (oAuth2Authentication.getPrincipal() == null) {
                 return "system";

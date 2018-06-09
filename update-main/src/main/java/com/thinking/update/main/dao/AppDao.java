@@ -1,9 +1,15 @@
 package com.thinking.update.main.dao;
+import com.thinking.update.main.common.utils.MybatisRedisCache;
 import com.thinking.update.main.domain.entity.App;
 import com.thinking.update.main.domain.entity.TaskDetail;
+import org.apache.ibatis.annotations.CacheNamespace;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+/**
+ * @author Administrator
+ */
+@CacheNamespace(implementation = MybatisRedisCache.class)
 public interface AppDao{
 	/**
 	 * 获得App数据的总行数

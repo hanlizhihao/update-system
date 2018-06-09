@@ -4,6 +4,7 @@ package com.thinking.update.main.common.utils;
 import com.thinking.update.main.config.RedisConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.cache.Cache;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
@@ -18,7 +19,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
  * @create 2017-10-25 14:34
  */
 @Slf4j
-public class MybatisRedisCache implements Cache {
+public class MybatisRedisCache implements Cache, InitializingBean {
 
     @Autowired
     private RedisConfig redisConfig;
@@ -36,8 +37,6 @@ public class MybatisRedisCache implements Cache {
      * @throws IOException
      */
     public MybatisRedisCache(final String id) throws IOException {
-        JedisPool pool = new JedisPool(new JedisPoolConfig(),redisConfig.getRedis().get("host"));
-        redisClient = pool.getResource();
         if (id == null) {
             throw new IllegalArgumentException("Cache instances require an ID");
         }
@@ -80,5 +79,11 @@ public class MybatisRedisCache implements Cache {
     @Override
     public ReadWriteLock getReadWriteLock() {
         return readWriteLock;
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        JedisPool pool = new JedisPool(new JedisPoolConfig(),redisConfig.getRedis().get("host"));
+        redisClient = pool.getResource();
     }
 }

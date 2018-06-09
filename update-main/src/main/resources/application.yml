@@ -40,7 +40,7 @@ app:
  uploadDirectory: /uploadDirectory
  logDirectory: /logDirectory
 myOAthConfig:
-  hostUrl: http://10.10.64.146:5678/auth
+  hostUrl: http://localhost:5678/auth
   logoutUrl: ${myOAthConfig.hostUrl}/logout
 security:
   basic:

@@ -1,6 +1,13 @@
 package com.thinking.update.main.dao;
+import com.thinking.update.main.common.utils.MybatisRedisCache;
 import com.thinking.update.main.domain.entity.Version;
+import org.apache.ibatis.annotations.CacheNamespace;
+
 import java.util.List;
+/**
+ * @author Administrator
+ */
+@CacheNamespace(implementation = MybatisRedisCache.class)
 public interface VersionDao{
 	/**
 	 * 获得Version数据的总行数

@@ -86,62 +86,33 @@ public class MauthDeptServiceImpl implements MauthDeptService, InitializingBean 
 
     @Override
     public TreeVo getAllTreeVo() {
-        try {
-            this.treeVo = getTreeVoFromCache();
-        } catch (Exception e) {
-            log.error("从缓存中取数据异常", e);
-            this.treeVo = null;
-        }
-        if (this.treeVo != null) {
-            return this.treeVo;
-        }
         MauthDept firstDepart = new MauthDept();
         firstDepart.setLevel(0);
         firstDepart = mauthDeptDao.selectMauthDeptByObj(firstDepart);
         this.treeVo = getTree(firstDepart);
-        if (putCache(this.treeVo)) {
-            log.info("缓存全部属性菜单成功");
-        }
         return this.treeVo;
-    }
-
-    private TreeVo getTreeVoFromCache() {
-        return (TreeVo) SerializeUtil.unserialize(redisClient.get(SerializeUtil.serialize("departmentTree")));
-    }
-
-    private boolean putCache(TreeVo vo) {
-        try {
-            long second = 108000;
-            if (vo != null) {
-                redisClient.set(SerializeUtil.serialize("departmentTree"), SerializeUtil.serialize(vo),
-                        SerializeUtil.serialize("NX"), SerializeUtil.serialize("EX"), second);
-            }
-        } catch (Exception e) {
-            log.error("cache异常", e);
-            return false;
-        }
-        return true;
     }
 
     private TreeVo getTree(MauthDept dept) {
         TreeVo treeVo = new TreeVo();
         treeVo.setLabel(dept.getName());
         treeVo.setData(dept.getDeptId().toString());
-        List<TreeVo> childes = new LinkedList<>();
+        LinkedList<TreeVo> childes = new LinkedList<>();
+        if (dept.getLevel() == 4) {
+            List<VehicleInfo> vehicleInfoList = vehicleDao.selectVehicleByDeptId(dept.getDeptId());
+            for (VehicleInfo info: vehicleInfoList) {
+                TreeVo children = new TreeVo();
+                children.setData(info.getDeviceId());
+                children.setLabel(info.getVehicleNo());
+                childes.add(children);
+            }
+            treeVo.setChildren(childes);
+            return treeVo;
+        }
         List<MauthDept> mauthDepts = getMauthUnderById(dept.getDeptId());
         if (!CollectionUtils.isEmpty(mauthDepts)) {
             for (MauthDept mauthDept: mauthDepts) {
                 childes.add(getTree(mauthDept));
-            }
-        } else {
-            if (dept.getLevel() == 4) {
-                List<VehicleInfo> vehicleInfoList = vehicleDao.selectVehicleByDeptId(dept.getDeptId());
-                vehicleInfoList.parallelStream().forEach(vehicleInfo -> {
-                    TreeVo children = new TreeVo();
-                    children.setData(vehicleInfo.getDeviceId());
-                    children.setLabel(vehicleInfo.getVehicleNo());
-                    childes.add(children);
-                });
             }
         }
         treeVo.setChildren(childes);
