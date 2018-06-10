@@ -359,10 +359,11 @@ public class AppServiceImpl implements AppService {
 
     @Override
     public List<AbnormalDetailVo> getAbnormalDetails(Long id) {
-        Long appVersionLogId = appDao.selectAppById(id).getVersionLogId();
+        App app = appDao.selectAppById(id);
+        Long appVersionLogId = app.getVersionLogId();
         AppActivityLog activityLog = new AppActivityLog();
         activityLog.setAppId(id);
-        activityLog.setVersionId(appVersionLogId);
+        activityLog.setVersionLogId(appVersionLogId);
         List<AppActivityLog> activityLogs = appActivityLogDao.selectAppActivityLogByObj(activityLog);
         List<AbnormalDetailVo> result = new ArrayList<>();
         activityLogs.forEach(logItem -> {

@@ -43,5 +43,5 @@ public class AbnormalDetailVo implements Serializable {
 
     private Integer logType;
 
-
+    private String logUrl;
 }

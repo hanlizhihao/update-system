@@ -1,5 +1,8 @@
 package com.thinking.update.main.domain.entity;
-public class AppStateLog {
+
+import java.io.Serializable;
+
+public class AppStateLog implements Serializable {
     private Long id;
     private String appName;
     private Integer lastState;//上一个状态
