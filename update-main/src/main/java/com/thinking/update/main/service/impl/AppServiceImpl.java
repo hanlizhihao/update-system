@@ -172,7 +172,7 @@ public class AppServiceImpl implements AppService {
     }
 
     @Override
-    public List<AbnormalAppVo> selectAbnormalPageByDeviceIds(Pageable pageable, List<Integer> deviceIds) {
+    public List<AbnormalAppVo> selectAbnormalPageByDeviceIds(Pageable pageable, List<Long> deviceIds) {
         PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize());
         List<App> apps = appDao.getAppForPageByDeviceIdsAndStateList(AppUpdateStateEnum.getAbnormalStateList(), deviceIds);
         List<AbnormalAppVo> abnormalAppVos = new LinkedList<>();

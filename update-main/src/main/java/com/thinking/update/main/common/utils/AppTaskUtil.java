@@ -9,7 +9,10 @@ import com.thinking.update.main.dao.TaskDetailDao;
 import com.thinking.update.main.domain.entity.App;
 import com.thinking.update.main.domain.entity.Task;
 import com.thinking.update.main.domain.entity.TaskDetail;
+import com.thinking.update.main.domain.model.AppModel;
+import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.*;
 
@@ -57,5 +60,16 @@ public class AppTaskUtil {
                 taskDao.updateNonEmptyTaskById(task);
             });
         });
+    }
+    public static ArrayList<Long> paramConverter(AppModel appModel) {
+        ArrayList<Long> deviceIds = new ArrayList<>();
+        if (!StringUtils.isEmpty(appModel.getDeviceIds())) {
+            deviceIds = new ArrayList<>();
+            String[] ids = appModel.getDeviceIds().split(",");
+            for (String s: ids) {
+                deviceIds.add(Long.valueOf(s));
+            }
+        }
+        return deviceIds;
     }
 }

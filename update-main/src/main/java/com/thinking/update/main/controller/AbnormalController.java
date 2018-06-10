@@ -14,11 +14,14 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.thinking.update.main.common.utils.AppTaskUtil.paramConverter;
 
 /**
  * @author Administrator
@@ -42,10 +45,13 @@ public class AbnormalController extends BaseApplicationController {
     @PrintLog("异常终端App列表查询")
     @GetMapping(value = "/list")
     public PageInfo<AbnormalAppVo> appList(Pageable pageable, AppModel appModel) {
+        ArrayList<Long> deviceIds = paramConverter(appModel);
         App app = new App();
         BeanCopyHelper.copy(appModel, app);
-        return new PageInfo<>(appService.selectAbnormalPageByDeviceIds(pageable, appModel.getDeviceIds()));
+        return new PageInfo<>(appService.selectAbnormalPageByDeviceIds(pageable, deviceIds));
     }
+
+
 
     @PrintLog("查询异常升级的异常活动列表即异常详情")
     @GetMapping(value = "/detail/{id}")

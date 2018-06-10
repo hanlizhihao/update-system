@@ -3,6 +3,7 @@ package com.thinking.update.main.controller;
 import com.github.pagehelper.PageInfo;
 import com.thinking.update.main.common.annotation.PrintLog;
 import com.thinking.update.main.common.exception.BDException;
+import com.thinking.update.main.common.utils.AppTaskUtil;
 import com.thinking.update.main.common.utils.BeanCopyHelper;
 import com.thinking.update.main.domain.entity.App;
 import com.thinking.update.main.domain.model.AbnormalNumberVo;
@@ -16,11 +17,13 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -56,7 +59,8 @@ public class TerminalAppController extends BaseApplicationController {
     })
     @PrintLog("终端app列表查询")
     @GetMapping(value = "/list")
-    public PageInfo<App> appList(Pageable pageable, AppModel appModel, @RequestParam("deviceIds") List<Long> deviceIds) {
+    public PageInfo<App> appList(Pageable pageable, AppModel appModel) {
+        ArrayList<Long> deviceIds = AppTaskUtil.paramConverter(appModel);
         App app = new App();
         BeanCopyHelper.copy(appModel, app);
         return new PageInfo<>(appService.selectAppByPageAndFilter(pageable, app, deviceIds));

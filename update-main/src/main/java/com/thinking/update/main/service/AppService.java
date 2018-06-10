@@ -62,7 +62,7 @@ public interface AppService{
 	 * @param deviceIds 树形菜单选择的设备Id数组
 	 * @return
 	 */
-	List<AbnormalAppVo> selectAbnormalPageByDeviceIds(Pageable pageable, List<Integer> deviceIds);
+	List<AbnormalAppVo> selectAbnormalPageByDeviceIds(Pageable pageable, List<Long> deviceIds);
 	/**
 	 * 通过App的id获得App对象
 	 * @param id

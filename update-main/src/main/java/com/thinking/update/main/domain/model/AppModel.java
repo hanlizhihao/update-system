@@ -49,5 +49,5 @@ public class AppModel implements Serializable {
     private Integer updateState;
 
     @ApiModelProperty("树形菜单选择的id")
-    private ArrayList<Integer> deviceIds;
+    private String deviceIds;
 }
