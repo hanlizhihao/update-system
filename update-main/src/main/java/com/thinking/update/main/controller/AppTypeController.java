@@ -28,11 +28,18 @@ public class AppTypeController  {
     @Resource
     private AppTypeService appTypeService;
 
-    @PrintLog("应用分类查询")
+    @PrintLog("应用类别查询枚举值")
     @GetMapping(value = "/list")
     @ApiOperation(value = "终端应用类型列表", notes = "终端应用类型列表", httpMethod = "GET")
     public List<EnumVo> getAppTypeList() {
         return appTypeService.getAppTypeList();
+    }
+
+    @PrintLog("应用类别全部信息")
+    @GetMapping(value = "/all/list")
+    @ApiOperation(value = "应用类别全部信息", notes = "应用类别全部信息", httpMethod = "GET")
+    public List<AppType> getAppTypeAll() {
+        return appTypeService.selectAppType();
     }
 
     @PrintLog("创建分类")

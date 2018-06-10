@@ -80,4 +80,5 @@ public interface AppTypeService{
 	 */
 	@Transactional(rollbackFor = Exception.class, readOnly = true)
     List<EnumVo> getAppTypeList();
+
 }
