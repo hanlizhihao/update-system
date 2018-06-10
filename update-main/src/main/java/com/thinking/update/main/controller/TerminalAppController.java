@@ -39,8 +39,10 @@ public class TerminalAppController extends BaseApplicationController {
     @PrintLog("添加终端App应用")
     @ApiOperation(value = "创建App应用", notes = "创建App应用", httpMethod = "POST")
     @PostMapping(value = "/create")
-    @Validated
-    public App createApp(AppModel appModel) {
+    public App createApp(@Validated AppModel appModel, Errors errors) {
+        if (errors.hasErrors()) {
+            throw new BDException("参数校验失败");
+        }
         App app = new App();
         BeanCopyHelper.copy(appModel, app);
         setCommonCreateFields(app);
@@ -75,7 +77,7 @@ public class TerminalAppController extends BaseApplicationController {
     @PrintLog("更新终端应用")
     @PostMapping(value = "/update")
     @ApiOperation(value = "更新终端应用 BY hlz", notes = "更新终端应用 BY hlz", httpMethod = "POST")
-    public int updateApp(@Validated AppModel model, Errors errors) {
+    public int updateApp(@Validated @RequestBody AppModel model, Errors errors) {
         if (errors.hasErrors() || model.getId() == null) {
             throw new BDException("参数校验失败");
         }

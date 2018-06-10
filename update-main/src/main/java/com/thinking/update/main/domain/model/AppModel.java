@@ -6,6 +6,7 @@ import lombok.*;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  * @author Administrator
@@ -46,4 +47,7 @@ public class AppModel implements Serializable {
     private Long targetVersionId;
     @ApiModelProperty("升级状态")
     private Integer updateState;
+
+    @ApiModelProperty("树形菜单选择的id")
+    private ArrayList<Integer> deviceIds;
 }

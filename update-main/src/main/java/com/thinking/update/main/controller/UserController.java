@@ -41,14 +41,14 @@ public class UserController {
     @PrintLog("添加User")
     @ApiOperation(value = "添加App", notes = "添加App", httpMethod = "POST")
     @PostMapping(value = "/create")
-    public Users createUser(Users users) {
+    public Users createUser(@RequestBody Users users) {
         return usersService.insertNonEmptyUsers(users);
     }
 
     @PrintLog("更新User")
     @PostMapping(value = "/update")
     @ApiOperation(value = "更新User BY hlz", notes = "更新User BY hlz", httpMethod = "POST")
-    public int updateApp(Users users) {
+    public int updateApp(@RequestBody Users users) {
         return usersService.updateNonEmptyUsersById(users);
     }
 

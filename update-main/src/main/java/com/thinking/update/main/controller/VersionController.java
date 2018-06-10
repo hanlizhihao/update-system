@@ -83,7 +83,7 @@ public class VersionController extends BaseApplicationController {
     @PrintLog("创建版本(安装程序或者协议)")
     @ApiOperation(value = "创建安装程序或者协议", notes = "创建安装程序或者协议", httpMethod = "POST")
     @PostMapping(value = "/version/create")
-    public Version createVersion(VersionModel versionModel) {
+    public Version createVersion(@RequestBody VersionModel versionModel) {
         Version version = getVersion(versionModel);
         setCommonCreateFields(version);
         return versionService.insertNonEmptyVersion(version);
@@ -105,7 +105,7 @@ public class VersionController extends BaseApplicationController {
     @PrintLog("更新版本(安装程序或者协议)")
     @ApiOperation(value = "更新安装程序或协议", notes = "更新安装程序或协议", httpMethod = "POST")
     @PostMapping(value = "/version/update")
-    public int updateVersion(VersionModel versionModel) {
+    public int updateVersion(@RequestBody VersionModel versionModel) {
         Version version = getVersion(versionModel);
         setCommonUpdateFields(version);
         return versionService.updateNonEmptyVersionById(version);

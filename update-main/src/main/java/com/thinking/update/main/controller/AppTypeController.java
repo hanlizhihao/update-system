@@ -45,7 +45,7 @@ public class AppTypeController  {
     @PrintLog("创建分类")
     @ApiOperation(value = "创建App分类", notes = "创建App分类", httpMethod = "POST")
     @PostMapping(value = "/create")
-    public AppType createAppType(@Validated AppType type, Errors errors) {
+    public AppType createAppType(@Validated @RequestBody AppType type, Errors errors) {
         if (errors.hasErrors()) {
             throw new BDException("appType参数校验失败");
         }
@@ -55,7 +55,7 @@ public class AppTypeController  {
     @PrintLog("更新终端应用分类")
     @PostMapping(value = "/update")
     @ApiOperation(value = "更新终端应用分类 BY hlz", notes = "更新终端应用分类 BY hlz", httpMethod = "POST")
-    public int updateAppType(@Validated AppType appType, Errors errors) {
+    public int updateAppType(@Validated @RequestBody AppType appType, Errors errors) {
         if (errors.hasErrors() || appType.getId() == null) {
             throw new BDException("参数校验失败");
         } else {

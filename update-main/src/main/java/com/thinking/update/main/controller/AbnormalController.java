@@ -41,11 +41,10 @@ public class AbnormalController extends BaseApplicationController {
     })
     @PrintLog("异常终端App列表查询")
     @GetMapping(value = "/list")
-    public PageInfo<AbnormalAppVo> appList(Pageable pageable, AppModel appModel
-            , ArrayList<Integer> deviceIds) {
+    public PageInfo<AbnormalAppVo> appList(Pageable pageable, AppModel appModel) {
         App app = new App();
         BeanCopyHelper.copy(appModel, app);
-        return new PageInfo<>(appService.selectAbnormalPageByDeviceIds(pageable, deviceIds));
+        return new PageInfo<>(appService.selectAbnormalPageByDeviceIds(pageable, appModel.getDeviceIds()));
     }
 
     @PrintLog("查询异常升级的异常活动列表即异常详情")

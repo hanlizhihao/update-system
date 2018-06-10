@@ -40,7 +40,7 @@ public class TaskController extends BaseApplicationController {
     @PrintLog("基于任务的批量更新App")
     @ApiOperation(value = "创建升级任务，批量更新协议", notes = "创建升级任务", httpMethod = "POST")
     @PostMapping(value = "/create")
-    public Task createTask(TaskModel taskModel) {
+    public Task createTask(@RequestBody TaskModel taskModel) {
         Version version = versionDao.selectVersionById(taskModel.getVersionId());
         taskModel.setVersionName(version.getVersionName());
         if (version.getType() == VersionTypeEnum.INSTALL_PACKAGE.getValue()) {
@@ -65,7 +65,7 @@ public class TaskController extends BaseApplicationController {
     @PrintLog("Web端更新任务")
     @ApiOperation(value = "Web端更新任务", notes = "Web端更新任务", httpMethod = "POST")
     @PostMapping(value = "/update")
-    public int updateTask(TaskModel taskModel) {
+    public int updateTask(@RequestBody TaskModel taskModel) {
         if (taskModel.getTaskId() == null) {
             throw new BDException("参数校验失败");
         }
