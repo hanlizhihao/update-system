@@ -20,15 +20,9 @@ public class VersionVo implements Serializable {
 
     private Long appId;
 
-    private Boolean needUpdate;
-
     /**
      * 需要更新的版本
      */
     private List<Version> version;
 
-    /**
-     * 版本需要共同升级成功
-     */
-    private Boolean transactional;
 }

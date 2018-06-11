@@ -502,7 +502,6 @@ public class AppServiceImpl implements AppService {
                     app.setProtocolName(version.getVersionName());
                 } else {
                     versionVo.setAppId(app.getId());
-                    versionVo.setNeedUpdate(true);
                     List<Version> versions = versionVo.getVersion();
                     if (CollectionUtils.isEmpty(versions)) {
                         versions = new ArrayList<>();
@@ -524,7 +523,6 @@ public class AppServiceImpl implements AppService {
             appVersionLog = getVersionLog(app, version.getId(), VersionLogStateEnum.UPDATE_FINISHED);
             AppTaskUtil.checkAppInTask(app);
             versionVo = VersionVo.builder()
-                    .needUpdate(false)
                     .appId(app.getId())
                     .build();
         } else {
@@ -534,7 +532,6 @@ public class AppServiceImpl implements AppService {
             targetVersions.add(targetVersion);
             versionVo = VersionVo.builder()
                     .appId(app.getId())
-                    .needUpdate(true)
                     .version(targetVersions)
                     .build();
             appVersionLog = getVersionLog(app, version.getId(), VersionLogStateEnum.UPDATING);

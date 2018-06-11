@@ -4,9 +4,11 @@ import com.github.pagehelper.PageInfo;
 import com.thinking.update.main.common.annotation.PrintLog;
 import com.thinking.update.main.common.utils.BeanCopyHelper;
 import com.thinking.update.main.domain.entity.App;
+import com.thinking.update.main.domain.entity.AppActivityLog;
 import com.thinking.update.main.domain.model.AbnormalAppVo;
 import com.thinking.update.main.domain.model.AbnormalDetailVo;
 import com.thinking.update.main.domain.model.AppModel;
+import com.thinking.update.main.service.AppActivityLogService;
 import com.thinking.update.main.service.AppService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -36,6 +38,8 @@ public class AbnormalController extends BaseApplicationController {
 
     @Resource
     private AppService appService;
+    @Resource
+    private AppActivityLogService logService;
 
     @ApiOperation(value = "异常终端App列表查询", notes = "异常终端App列表查询", httpMethod = "GET")
     @ApiImplicitParams({
@@ -58,6 +62,13 @@ public class AbnormalController extends BaseApplicationController {
     @ApiOperation(value = "异常升级活动的列表 BY hlz", notes = "异常升级活动的列表 BY hlz", httpMethod = "GET")
     public List<AbnormalDetailVo> getAbnormalDetailByAppId(@PathVariable Long id) {
         return appService.getAbnormalDetails(id);
+    }
+
+    @PrintLog("通过版本活动日志Id查找活动Id详情")
+    @GetMapping(value = "/activity/log/{id}")
+    @ApiOperation(value = "通过Id查询活动日志详情", notes = "通过Id查询活动日志详情", httpMethod = "GET")
+    public AppActivityLog getActivityLogById(@PathVariable Long id) {
+        return logService.selectAppActivityLogById(id);
     }
 
 }

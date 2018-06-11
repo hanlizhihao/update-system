@@ -1,5 +1,6 @@
 package com.thinking.update.main.controller;
 
+import com.fasterxml.jackson.core.TreeNode;
 import com.thinking.update.main.common.annotation.PrintLog;
 import com.thinking.update.main.domain.entity.MauthDept;
 import com.thinking.update.main.domain.model.TreeVo;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -39,7 +41,10 @@ public class MauthDeptController {
     @PrintLog("查询树形菜单全部节点")
     @ApiOperation(value = "查询组织菜单全部节点", notes = "查询组织菜单全部节点", httpMethod = "GET")
     @GetMapping(value = "/all/tree")
-    public TreeVo getAllTree() {
-        return mauthDeptService.getAllTreeVo();
+    public List<TreeVo> getAllTree() {
+        TreeVo treeNode = mauthDeptService.getAllTreeVo();
+        List<TreeVo> treeVoList = new ArrayList<>();
+        treeVoList.add(treeNode);
+        return treeVoList;
     }
 }
