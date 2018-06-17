@@ -5,10 +5,7 @@ import com.thinking.update.main.common.annotation.PrintLog;
 import com.thinking.update.main.common.utils.BeanCopyHelper;
 import com.thinking.update.main.domain.entity.App;
 import com.thinking.update.main.domain.entity.Version;
-import com.thinking.update.main.domain.model.AppModel;
-import com.thinking.update.main.domain.model.EnumVo;
-import com.thinking.update.main.domain.model.FileVo;
-import com.thinking.update.main.domain.model.VersionModel;
+import com.thinking.update.main.domain.model.*;
 import com.thinking.update.main.service.VersionService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -62,7 +59,7 @@ public class VersionController extends BaseApplicationController {
     })
     @PrintLog("安装程序分页列表查询")
     @GetMapping(value = "/package/list")
-    public PageInfo<Version> getVersionPageList(Pageable pageable) {
+    public PageInfo<PageVersionVo> getVersionPageList(Pageable pageable) {
         return new PageInfo<>(versionService.selectPackageByPage(pageable));
     }
 

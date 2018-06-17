@@ -1,6 +1,7 @@
 package com.thinking.update.main.dao;
 import com.thinking.update.main.common.utils.MybatisRedisCache;
 import com.thinking.update.main.domain.entity.Version;
+import com.thinking.update.main.domain.model.PageVersionVo;
 import org.apache.ibatis.annotations.CacheNamespace;
 
 import java.util.List;
@@ -24,7 +25,8 @@ public interface VersionDao{
 	 * @param obj
 	 * @return
 	 */
-    List<Version> selectVersionByObj(Version obj);
+    List<PageVersionVo> selectVersionPageByObj(Version obj);
+	List<Version> selectVersionByObj(Version obj);
 	/**
 	 * 通过Version的id获得Version对象
 	 * @param id

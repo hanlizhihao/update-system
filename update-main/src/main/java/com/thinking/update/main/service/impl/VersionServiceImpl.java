@@ -19,6 +19,7 @@ import com.thinking.update.main.domain.entity.TaskDetail;
 import com.thinking.update.main.domain.entity.Version;
 import com.thinking.update.main.domain.model.EnumVo;
 import com.thinking.update.main.domain.model.FileVo;
+import com.thinking.update.main.domain.model.PageVersionVo;
 import com.thinking.update.main.service.VersionService;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -122,11 +123,15 @@ public class VersionServiceImpl implements VersionService{
     }
 
     @Override
-    public List<Version> selectPackageByPage(Pageable pageable) {
+    public List<PageVersionVo> selectPackageByPage(Pageable pageable) {
         PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize());
         Version version = new Version();
         version.setType(VersionTypeEnum.INSTALL_PACKAGE.getValue());
-        return versionDao.selectVersionByObj(version);
+        List<PageVersionVo> versions = versionDao.selectVersionPageByObj(version);
+        versions.parallelStream().forEach(version1 -> {
+            version1.setFileSizeString(version1.getFileSize() + "MB");
+        });
+        return versions;
     }
 
     @Override

@@ -17,6 +17,21 @@
         <result column="ts" property="ts" />
         <result column="state" property="state"/>
     </resultMap>
+    <resultMap id="result_vo_Map" type="com.thinking.update.main.domain.model.TaskVo">
+        <id column="id" property="id" />
+        <result column="task_name" property="taskName" />
+        <result column="update_time" property="updateTime" />
+        <result column="update_user" property="updateUser" />
+        <result column="create_time" property="createTime" />
+        <result column="app_number" property="appNumber" />
+        <result column="finished_number" property="finishedNumber" />
+        <result column="remark" property="remark" />
+        <result column="departments" property="departments" />
+        <result column="create_user" property="createUser" />
+        <result column="percent" property="percent" />
+        <result column="ts" property="ts" />
+        <result column="state" property="state"/>
+    </resultMap>
 
     <!-- 数据库中表名为:t_task的列名,as前是数据库的列明,as后是列的别名用于映射成实体类中的属性,需要注意的是别名必须与resultMap中的column别名一致 -->
     <sql id="t_task_Column">
@@ -69,7 +84,8 @@
     </select>
 
     <!-- 获得一个Task对象,以参数Task对象中不为空的属性作为条件进行查询-->
-    <select id="filterTaskByObj" parameterType="com.thinking.update.main.domain.entity.Task" resultMap="result_Task_Map">
+    <select id="filterTaskByObj" parameterType="com.thinking.update.main.domain.entity.Task"
+            resultMap="result_vo_Map">
         select
         <include refid="t_task_Column" />
         from t_task

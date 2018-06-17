@@ -18,6 +18,22 @@
         <result column="create_user" property="createUser" />
         <result column="ts" property="ts" />
     </resultMap>
+    <resultMap id="result_PageVersionVo_Map" type="com.thinking.update.main.domain.model.PageVersionVo">
+        <id column="id" property="id" />
+        <result column="md5_name" property="md5Name" />
+        <result column="create_time" property="createTime" />
+        <result column="file_name" property="fileName" />
+        <result column="md5_code" property="md5Code" />
+        <result column="remark" property="remark" />
+        <result column="type" property="versionType" />
+        <result column="url" property="url" />
+        <result column="file_size" property="fileSize" />
+        <result column="update_time" property="updateTime" />
+        <result column="version_name" property="versionName" />
+        <result column="update_user" property="updateUser" />
+        <result column="create_user" property="createUser" />
+        <result column="ts" property="ts" />
+    </resultMap>
 
     <!-- 数据库中表名为:t_version的列名,as前是数据库的列明,as后是列的别名用于映射成实体类中的属性,需要注意的是别名必须与resultMap中的column别名一致 -->
     <sql id="t_version_Column">
@@ -49,7 +65,8 @@
     </select> 
 
     <!-- 获得一个Version对象,以参数Version对象中不为空的属性作为条件进行查询-->
-    <select id="selectVersionByObj" parameterType="com.thinking.update.main.domain.entity.Version" resultMap="result_Version_Map">
+    <select id="selectVersionByObj" parameterType="com.thinking.update.main.domain.entity.Version"
+            resultMap="result_Version_Map">
         select 
             <include refid="t_version_Column" /> 
         from t_version
@@ -69,7 +86,30 @@
             <if test="md5Name != null "> and t_version.md5_name = #{md5Name}</if>
             <if test="id != null "> and t_version.id = #{id}</if>
         </where>
-    </select> 
+    </select>
+
+    <select id="selectVersionPageByObj" parameterType="com.thinking.update.main.domain.entity.Version"
+            resultMap="result_PageVersionVo_Map">
+        select
+        <include refid="t_version_Column" />
+        from t_version
+        <where>
+            <if test="ts != null "> and t_version.ts = #{ts}</if>
+            <if test="createUser != null "> and t_version.create_user = #{createUser}</if>
+            <if test="updateUser != null "> and t_version.update_user = #{updateUser}</if>
+            <if test="versionName != null "> and t_version.version_name = #{versionName}</if>
+            <if test="updateTime != null "> and t_version.update_time = #{updateTime}</if>
+            <if test="fileSize != null "> and t_version.file_size = #{fileSize}</if>
+            <if test="url != null "> and t_version.url = #{url}</if>
+            <if test="type != null "> and t_version.type = #{type}</if>
+            <if test="remark != null "> and t_version.remark = #{remark}</if>
+            <if test="md5Code != null "> and t_version.md5_code = #{md5Code}</if>
+            <if test="fileName != null "> and t_version.file_name = #{fileName}</if>
+            <if test="createTime != null "> and t_version.create_time = #{createTime}</if>
+            <if test="md5Name != null "> and t_version.md5_name = #{md5Name}</if>
+            <if test="id != null "> and t_version.id = #{id}</if>
+        </where>
+    </select>
 
     <!-- 通过Version的id获得对应数据库中表的数据对象-->
     <select id="selectVersionById" parameterType="java.lang.Long" resultMap="result_Version_Map">

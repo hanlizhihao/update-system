@@ -7,7 +7,7 @@ spring:
     multipart:
       enabled: true
       max-request-size: 100MB
-      location: export/tempUploadDerictory
+      location: /data/applications/tempUploadDerictory
       max-file-size: 50MB
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource

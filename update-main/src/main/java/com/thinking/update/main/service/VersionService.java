@@ -3,6 +3,7 @@ import java.util.List;
 import com.thinking.update.main.domain.entity.Version;
 import com.thinking.update.main.domain.model.EnumVo;
 import com.thinking.update.main.domain.model.FileVo;
+import com.thinking.update.main.domain.model.PageVersionVo;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -77,7 +78,7 @@ public interface VersionService{
 	 * @param pageable
 	 * @return
 	 */
-	List<Version> selectPackageByPage(Pageable pageable);
+	List<PageVersionVo> selectPackageByPage(Pageable pageable);
 
 	FileVo uploadFile(FileVo fileVo, MultipartFile file);
 }
