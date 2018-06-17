@@ -12,6 +12,7 @@ import com.thinking.update.main.domain.entity.App;
 import com.thinking.update.main.domain.entity.Task;
 import com.thinking.update.main.domain.entity.TaskDetail;
 import com.thinking.update.main.domain.entity.VehicleInfo;
+import com.thinking.update.main.domain.model.AppModel;
 import com.thinking.update.main.domain.model.TaskModel;
 import com.thinking.update.main.domain.model.TaskVo;
 import com.thinking.update.main.service.TaskService;
@@ -47,6 +48,14 @@ public class TaskServiceImpl implements TaskService{
     public List<Task> selectTask(){
         return taskDao.selectTask();
     }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class, readOnly = true)
+    public List<App> getAppByTaskIdAndPageAndFilter(Pageable pageable, App app, Long taskId) {
+        PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize());
+        return appDao.filterAppByTaskId(app, taskId);
+    }
+
     @Override
     public List<Task> selectTaskByObj(Task obj){
         return taskDao.selectTaskByObj(obj);

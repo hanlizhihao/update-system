@@ -203,6 +203,43 @@
             <if test="isLock != null">and t_app.is_lock like #{isLock}</if>
         </where>
     </select>
+
+    <select id="filterAppByTaskId" parameterType="com.thinking.update.main.domain.entity.App" resultMap="result_App_Map">
+        select
+        <include refid="t_app_Column" />
+        from t_app
+        <where>
+            <if test="taskId != null">
+                and t_app.id in (
+                select app_id
+                from t_task_detail
+                where t_task_detail.task_id = #{taskId}
+                )
+            </if>
+            <if test="ts != null "> and t_app.ts like CONCAT('%',#{ts},'%')</if>
+            <if test="protocolName != null "> and t_app.protocol_name like CONCAT('%',#{protocolName},'%')</if>
+            <if test="createUser != null "> and t_app.create_user like CONCAT('%',#{createUser},'%')</if>
+            <if test="updateState != null "> and t_app.update_state like CONCAT('%',#{updateState},'%')</if>
+            <if test="targetVersionId != null "> and t_app.target_version_id like CONCAT('%',#{targetVersionId},'%')</if>
+            <if test="updateUser != null "> and t_app.update_user like CONCAT('%',#{updateUser},'%')</if>
+            <if test="versionName != null "> and t_app.version_name like CONCAT('%',#{versionName},'%')</if>
+            <if test="versionState != null "> and t_app.version_state like CONCAT('%',#{versionState},'%')</if>
+            <if test="updateTime != null "> and t_app.update_time like CONCAT('%',#{updateTime},'%')</if>
+            <if test="appTypeId != null "> and t_app.app_type_id like CONCAT('%',#{appTypeId},'%')</if>
+            <if test="appName != null "> and t_app.app_name like CONCAT('%',#{appName},'%')</if>
+            <if test="runningStateName != null "> and t_app.running_state_name like CONCAT('%',#{runningStateName},'%')</if>
+            <if test="protocolId != null "> and t_app.protocol_id like CONCAT('%',#{protocolId},'%')</if>
+            <if test="versionId != null "> and t_app.version_id like CONCAT('%',#{versionId},'%')</if>
+            <if test="runningState != null "> and t_app.running_state like CONCAT('%',#{runningState},'%')</if>
+            <if test="createTime != null "> and t_app.create_time like CONCAT('%',#{createTime},'%')</if>
+            <if test="deviceId != null "> and t_app.device_id like CONCAT('%',#{deviceId},'%')</if>
+            <if test="targetVersionName != null "> and t_app.target_version_name like CONCAT('%',#{targetVersionName},'%')</if>
+            <if test="id != null "> and t_app.id like CONCAT('%',#{id},'%')</if>
+            <if test="activityLogId != null">and t_app.activity_log_id like #{activityLogId}</if>
+            <if test="versionLogId != null">and t_app.version_log_id like #{versionLogId}</if>
+            <if test="isLock != null">and t_app.is_lock like #{isLock}</if>
+        </where>
+    </select>
     <select id="getAppForPageByObjAndDeviceIds" parameterType="com.thinking.update.main.domain.entity.App" resultMap="result_App_Map">
         select
         <include refid="t_app_Column" />

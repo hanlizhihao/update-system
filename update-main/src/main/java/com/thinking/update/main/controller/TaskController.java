@@ -4,10 +4,13 @@ import com.github.pagehelper.PageInfo;
 import com.thinking.update.main.common.annotation.PrintLog;
 import com.thinking.update.main.common.enums.VersionTypeEnum;
 import com.thinking.update.main.common.exception.BDException;
+import com.thinking.update.main.common.utils.AppTaskUtil;
+import com.thinking.update.main.common.utils.BeanCopyHelper;
 import com.thinking.update.main.dao.VersionDao;
 import com.thinking.update.main.domain.entity.App;
 import com.thinking.update.main.domain.entity.Task;
 import com.thinking.update.main.domain.entity.Version;
+import com.thinking.update.main.domain.model.AppModel;
 import com.thinking.update.main.domain.model.TaskModel;
 import com.thinking.update.main.domain.model.TaskVo;
 import com.thinking.update.main.service.TaskService;
@@ -17,9 +20,12 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
+import org.springframework.validation.Errors;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 
 /**
  * 升级任务是指批量的更改版本和协议的操作
@@ -66,8 +72,8 @@ public class TaskController extends BaseApplicationController {
     @PrintLog("Web端更新任务")
     @ApiOperation(value = "Web端更新任务", notes = "Web端更新任务", httpMethod = "POST")
     @PostMapping(value = "/update")
-    public int updateTask(@RequestBody TaskModel taskModel) {
-        if (taskModel.getTaskId() == null) {
+    public int updateTask(@RequestBody @Validated TaskModel taskModel, Errors errors) {
+        if (errors.hasErrors()) {
             throw new BDException("参数校验失败");
         }
         Version version = versionDao.selectVersionById(taskModel.getVersionId());
@@ -97,5 +103,18 @@ public class TaskController extends BaseApplicationController {
     @ApiOperation(value = "根据Id删除应用 BY hlz", notes = "根据Id删除终端应用 BY hlz", httpMethod = "DELETE")
     public int deleteTaskById(@PathVariable Long id) {
         return taskService.deleteTaskById(id);
+    }
+
+    @ApiOperation(value = "终端app列表查询", notes = "终端app列表查询", httpMethod = "GET")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "page", paramType = "query", value = "查询页号"),
+            @ApiImplicitParam(name = "size", paramType = "query", value = "每页显示记录数")
+    })
+    @PrintLog("终端app列表查询")
+    @GetMapping(value = "/detail/list")
+    public PageInfo<App> appList(Pageable pageable, AppModel appModel) {
+        App app = new App();
+        BeanCopyHelper.copy(appModel, app);
+        return new PageInfo<>(taskService.getAppByTaskIdAndPageAndFilter(pageable, app, appModel.getTaskId()));
     }
 }

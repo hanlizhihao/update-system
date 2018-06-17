@@ -50,4 +50,7 @@ public class AppModel implements Serializable {
 
     @ApiModelProperty("树形菜单选择的id")
     private String deviceIds;
+
+    @ApiModelProperty("所在升级任务Id")
+    private Long taskId;
 }

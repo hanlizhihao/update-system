@@ -25,7 +25,14 @@ public interface AppDao{
 	 */
     long getCountByObjAndTaskDetails(@Param("app") App app,@Param("taskDetails") List<TaskDetail> taskDetails);
 
+	/**
+	 * 通过TaskDetail详情查询App
+	 * @param app
+	 * @param taskDetails
+	 * @return
+	 */
     List<App> getByObjAndTaskDetails(@Param("app") App app,@Param("taskDetails") List<TaskDetail> taskDetails);
+
 
 	/**
 	 * 安装运行状态统计数量
@@ -58,6 +65,14 @@ public interface AppDao{
 	 * @return
 	 */
 	List<App> filterAppByObj(App obj);
+
+	/**
+	 * 通过taskId和app分页查询
+	 * @param obj
+	 * @param taskId
+	 * @return
+	 */
+	List<App> filterAppByTaskId(@Param("obj") App obj, @Param("taskId") Long taskId);
 
 	/**
 	 * 带过滤条件的分页查询

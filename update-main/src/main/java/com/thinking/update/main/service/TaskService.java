@@ -3,6 +3,7 @@ import java.util.List;
 
 import com.thinking.update.main.domain.entity.App;
 import com.thinking.update.main.domain.entity.Task;
+import com.thinking.update.main.domain.model.AppModel;
 import com.thinking.update.main.domain.model.TaskModel;
 import com.thinking.update.main.domain.model.TaskVo;
 import org.springframework.data.domain.Pageable;
@@ -18,6 +19,15 @@ public interface TaskService{
 	 * @return
 	 */
     List<Task> selectTask();
+
+	/**
+	 * 根据TaskId和分页参数查找App列表
+	 * @param pageable
+	 * @param app
+	 * @param taskId
+	 * @return
+	 */
+    List<App> getAppByTaskIdAndPageAndFilter(Pageable pageable, App app, Long taskId);
 	/**
 	 * 获得一个Task对象,以参数Task对象中不为空的属性作为条件进行查询
 	 * @param obj

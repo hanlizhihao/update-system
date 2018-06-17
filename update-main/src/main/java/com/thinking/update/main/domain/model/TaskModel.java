@@ -3,6 +3,7 @@ package com.thinking.update.main.domain.model;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import java.util.List;
 
@@ -34,5 +35,6 @@ public class TaskModel {
     private String versionName;
 
     @ApiModelProperty("任务Id")
+    @NotEmpty
     private Long taskId;
 }
