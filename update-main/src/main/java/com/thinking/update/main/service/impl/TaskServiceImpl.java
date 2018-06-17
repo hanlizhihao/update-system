@@ -13,6 +13,7 @@ import com.thinking.update.main.domain.entity.Task;
 import com.thinking.update.main.domain.entity.TaskDetail;
 import com.thinking.update.main.domain.entity.VehicleInfo;
 import com.thinking.update.main.domain.model.TaskModel;
+import com.thinking.update.main.domain.model.TaskVo;
 import com.thinking.update.main.service.TaskService;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,7 @@ import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author Administrator
@@ -100,9 +102,10 @@ public class TaskServiceImpl implements TaskService{
     }
 
     @Override
-    public List<Task> selectTaskByPageAndFilter(Pageable pageable, Task task) {
+    public List<TaskVo> selectTaskByPageAndFilter(Pageable pageable, Task task) {
         PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize());
-        return taskDao.filterTaskByObj(task);
+        List<TaskVo> taskVos = taskDao.filterTaskByObj(task);
+        return taskVos.parallelStream().peek(taskVo -> taskVo.setPercentString(taskVo.getPercent() + "%")).collect(Collectors.toList());
     }
 
     private void insertTaskDetail(Long taskId, List<Long> appIds) {

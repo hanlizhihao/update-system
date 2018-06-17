@@ -9,6 +9,7 @@ import com.thinking.update.main.domain.entity.App;
 import com.thinking.update.main.domain.entity.Task;
 import com.thinking.update.main.domain.entity.Version;
 import com.thinking.update.main.domain.model.TaskModel;
+import com.thinking.update.main.domain.model.TaskVo;
 import com.thinking.update.main.service.TaskService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -87,7 +88,7 @@ public class TaskController extends BaseApplicationController {
     })
     @PrintLog("升级任务列表查询")
     @GetMapping(value = "/list")
-    public PageInfo<Task> taskList(Pageable pageable, Task task) {
+    public PageInfo<TaskVo> taskList(Pageable pageable, Task task) {
         return new PageInfo<>(taskService.selectTaskByPageAndFilter(pageable, task));
     }
 

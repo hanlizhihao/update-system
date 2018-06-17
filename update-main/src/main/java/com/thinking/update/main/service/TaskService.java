@@ -4,6 +4,7 @@ import java.util.List;
 import com.thinking.update.main.domain.entity.App;
 import com.thinking.update.main.domain.entity.Task;
 import com.thinking.update.main.domain.model.TaskModel;
+import com.thinking.update.main.domain.model.TaskVo;
 import org.springframework.data.domain.Pageable;
 
 public interface TaskService{
@@ -50,7 +51,7 @@ public interface TaskService{
 	 * @param task
 	 * @return
 	 */
-	List<Task> selectTaskByPageAndFilter(Pageable pageable, Task task);
+	List<TaskVo> selectTaskByPageAndFilter(Pageable pageable, Task task);
 	/**
 	 * 插入Task中属性值不为null的数据到数据库
 	 * @param value

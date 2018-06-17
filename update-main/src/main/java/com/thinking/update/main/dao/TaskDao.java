@@ -1,6 +1,7 @@
 package com.thinking.update.main.dao;
 import com.thinking.update.main.common.utils.MybatisRedisCache;
 import com.thinking.update.main.domain.entity.Task;
+import com.thinking.update.main.domain.model.TaskVo;
 import org.apache.ibatis.annotations.CacheNamespace;
 
 import java.util.List;
@@ -31,7 +32,7 @@ public interface TaskDao{
 	 * @param obj
 	 * @return
 	 */
-	List<Task> filterTaskByObj(Task obj);
+	List<TaskVo> filterTaskByObj(Task obj);
 	/**
 	 * 通过Task的id获得Task对象
 	 * @param id
