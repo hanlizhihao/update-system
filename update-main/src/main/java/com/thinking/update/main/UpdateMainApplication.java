@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.method.support.HandlerMethodReturnValueHandler;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
@@ -62,19 +63,28 @@ public class UpdateMainApplication extends WebMvcConfigurerAdapter {
 
     @Setter
     private Boolean swaggerEnabled;
+    @Setter
+    private String uploadDirectory;
 
     public static void main(String[] args) {
         SpringApplication.run(UpdateMainApplication.class, args);
     }
 
     @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry){
+        //html页面请求的资源的url，将对应服务器的存储地址
+        registry.addResourceHandler(uploadDirectory + "/**")
+                .addResourceLocations("classpath:/app-file/");
+    }
+
+    @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/index").setViewName("index");
         registry.addViewController("/").setViewName("index");
-        registry.addViewController("/error/403.html").setViewName("403.html");
-        registry.addViewController("/error/404.html").setViewName("404.html");
-        registry.addViewController("/error/500.html").setViewName("500.html");
-        registry.addViewController("/error/401.html").setViewName("401.html");
+        registry.addViewController("/error/403").setViewName("403");
+        registry.addViewController("/error/404").setViewName("404");
+        registry.addViewController("/error/500").setViewName("500");
+        registry.addViewController("/error/401").setViewName("401");
     }
 
     @Override
@@ -107,10 +117,10 @@ public class UpdateMainApplication extends WebMvcConfigurerAdapter {
     @Bean
     public EmbeddedServletContainerCustomizer containerCustomizer() {
         return configurableEmbeddedServletContainer -> {
-            ErrorPage error401Page = new ErrorPage(HttpStatus.UNAUTHORIZED, "/error/401.html");
-            ErrorPage error403Page = new ErrorPage(HttpStatus.FORBIDDEN, "/error/403.html");
-            ErrorPage error404Page = new ErrorPage(HttpStatus.NOT_FOUND, "/error/404.html");
-            ErrorPage error500Page = new ErrorPage(HttpStatus.INTERNAL_SERVER_ERROR, "/error/500.html");
+            ErrorPage error401Page = new ErrorPage(HttpStatus.UNAUTHORIZED, "/error/401");
+            ErrorPage error403Page = new ErrorPage(HttpStatus.FORBIDDEN, "/error/403");
+            ErrorPage error404Page = new ErrorPage(HttpStatus.NOT_FOUND, "/error/404");
+            ErrorPage error500Page = new ErrorPage(HttpStatus.INTERNAL_SERVER_ERROR, "/error/500");
             configurableEmbeddedServletContainer.addErrorPages(error401Page, error403Page, error404Page, error500Page);
         };
     }

@@ -11,9 +11,14 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,6 +27,7 @@ import javax.annotation.Resource;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigInteger;
+import java.nio.file.Paths;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
@@ -33,6 +39,7 @@ import java.util.List;
 @Api(description = "应用安装程序和协议文件Api")
 @RestController
 @Slf4j
+@ConfigurationProperties(prefix = "app")
 public class VersionController extends BaseApplicationController {
 
     @Resource
@@ -114,4 +121,5 @@ public class VersionController extends BaseApplicationController {
     public int deleteAppById(@PathVariable Long id) {
         return versionService.deleteVersionById(id);
     }
+
 }

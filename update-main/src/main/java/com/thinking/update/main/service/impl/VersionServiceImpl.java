@@ -43,6 +43,8 @@ public class VersionServiceImpl implements VersionService{
 
     @Setter
     private String uploadDirectory;
+    @Setter
+    private String context;
     @Resource
     private VersionDao versionDao;
     @Resource
@@ -136,7 +138,9 @@ public class VersionServiceImpl implements VersionService{
 
     @Override
     public FileVo uploadFile(FileVo fileVo, MultipartFile file) {
-        return FileUtil.getFileVo(fileVo, file, uploadDirectory);
+        FileVo fileVo1 = FileUtil.getFileVo(fileVo, file, uploadDirectory);
+        fileVo1.setPath(context + "" + fileVo1.getPath());
+        return fileVo1;
     }
 
     private List<EnumVo> getVersionList(int versionType) {

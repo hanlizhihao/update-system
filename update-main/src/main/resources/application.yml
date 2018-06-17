@@ -37,8 +37,9 @@ pagehelper:
     offsetAsPageNum: true
 app:
  swaggerEnabled: true
- uploadDirectory: /data/applications/update-app
- logDirectory: /data/applications/update-log
+ uploadDirectory: /data/applications/update-upload/app
+ logDirectory: /data/applications/update-upload/log
+ context: http://10.10.64.146:8080/
 myOAthConfig:
   hostUrl: http://localhost:5678/auth
   logoutUrl: ${myOAthConfig.hostUrl}/logout

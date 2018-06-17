@@ -1,7 +1,9 @@
 package com.thinking.update.main.config;
 
 import com.alibaba.druid.pool.DruidDataSource;
+import lombok.Setter;
 import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -17,14 +19,17 @@ import javax.annotation.Resource;
  */
 @EnableOAuth2Sso
 @Configuration
+@ConfigurationProperties(prefix = "app")
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Resource
     private DruidDataSource dataSource;
+    @Setter
+    private String uploadDirectory;
 
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers("/css/**","/js/**","/img/**","/docs/**",
-                "common/**", "error/**", "system/**", "swagger-ui.html");
+                "common/**", "error/**", "system/**", uploadDirectory+"/**");
     }
 //    @Override
 //    public void configure(AuthenticationManagerBuilder auth) throws Exception {

@@ -31,13 +31,17 @@ public class FileUtil {
 	public static FileVo getFileVo(FileVo fileVo, MultipartFile file, String filePath) {
 		String fileType = fileVo.getFileName().substring(fileVo.getFileName().lastIndexOf("."));
 		String realFileName = fileVo.getMd5() + fileType;
+		File tempFile = new File(filePath);
+		if (!tempFile.exists()) {
+			tempFile.mkdirs();
+		}
 		try {
 			FileUtils.writeByteArrayToFile(new File(filePath, realFileName),file.getBytes());
 		} catch (IOException e) {
 			log.error("上传文件失败", e);
 			throw new BDException("上传文件发生IO异常");
 		}
-		fileVo.setPath(filePath+realFileName);
+		fileVo.setPath("download/" + realFileName);
 		fileVo.setRealName(realFileName);
 		return fileVo;
 	}
