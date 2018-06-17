@@ -117,4 +117,11 @@ public class TaskController extends BaseApplicationController {
         BeanCopyHelper.copy(appModel, app);
         return new PageInfo<>(taskService.getAppByTaskIdAndPageAndFilter(pageable, app, appModel.getTaskId()));
     }
+
+    @PrintLog("通过TaskId查询任务")
+    @GetMapping(value = "/detail/{id}")
+    @ApiOperation(value = "通过TaskId查询任务 By hlz", notes = "通过TaskId查询详情", httpMethod = "GET")
+    public Task getTaskDetail(Long id) {
+        return taskService.selectTaskById(id);
+    }
 }
