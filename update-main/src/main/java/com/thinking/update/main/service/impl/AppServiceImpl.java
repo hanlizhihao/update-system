@@ -80,7 +80,7 @@ public class AppServiceImpl implements AppService {
 
     @Override
     @Transactional(rollbackFor = Exception.class, readOnly = true)
-    public AbnormalNumberVo getAbnormalAppNumber() {
+    public List<AbnormalNumberVo> getAbnormalAppNumber() {
         List<App> abnormalApps = appDao.selectAppByObj(App.builder()
                 .runningState(AppRunningStateEnum.ABNORMAL.getValue())
                 .build());
@@ -97,10 +97,12 @@ public class AppServiceImpl implements AppService {
                 abnormalNumber.add(abnormalNumberIndex, ++number);
             }
         }
-        return AbnormalNumberVo.builder()
+        List<AbnormalNumberVo> abnormalNumberVoList = new ArrayList<>();
+        abnormalNumberVoList.add(AbnormalNumberVo.builder()
                 .abnormalNumber(abnormalNumber)
                 .companyNames(companyNames)
-                .build();
+                .build());
+        return abnormalNumberVoList;
     }
 
     @Override
@@ -121,9 +123,11 @@ public class AppServiceImpl implements AppService {
 
     @Override
     @Transactional(rollbackFor = Exception.class, readOnly = true)
-    public List<App> selectAppByPageAndRunningState(Pageable pageable, Integer state) {
+    public List<App> selectAppByPageAndRunningState(Pageable pageable, AppModel appModel) {
         PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize());
-        return appDao.selectAppByObj(App.builder().runningState(state).build());
+        App app = new App();
+        BeanCopyHelper.copy(appModel, app);
+        return appDao.filterAppByObj(app);
     }
 
     @Override

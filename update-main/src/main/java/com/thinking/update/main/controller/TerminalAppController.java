@@ -74,8 +74,8 @@ public class TerminalAppController extends BaseApplicationController {
     })
     @PrintLog("根据运行状态查询App")
     @GetMapping(value = "/state/list")
-    public PageInfo<App> abnormalAppList(Pageable pageable, Integer state) {
-        return new PageInfo<>(appService.selectAppByPageAndRunningState(pageable, state));
+    public PageInfo<App> abnormalAppList(Pageable pageable, AppModel appModel) {
+        return new PageInfo<>(appService.selectAppByPageAndRunningState(pageable, appModel));
     }
 
     @PrintLog("更新终端应用")
@@ -114,16 +114,16 @@ public class TerminalAppController extends BaseApplicationController {
     }
 
     @PrintLog("统计终端运行状态所占比例")
-    @GetMapping(value = "/statics/state")
+    @GetMapping(value = "/statistics/state")
     @ApiOperation(value = "统计终端运行状态所占比例 BY hlz", notes = "统计终端运行状态所占比例 BY hlz", httpMethod = "GET")
     public List<EnumVo> getAppStateStatistics() {
         return appService.getAppStateStatistics();
     }
 
     @PrintLog("各机构异常终端数量")
-    @GetMapping(value = "/statics/abnormal")
+    @GetMapping(value = "/statistics/abnormal")
     @ApiOperation(value = "各机构异常终端数量 BY hlz", notes = "各机构异常终端数量 BY hlz", httpMethod = "GET")
-    public AbnormalNumberVo getAbnormalAppNumber() {
+    public List<AbnormalNumberVo> getAbnormalAppNumber() {
         return appService.getAbnormalAppNumber();
     }
 

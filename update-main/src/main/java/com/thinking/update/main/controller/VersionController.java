@@ -70,7 +70,6 @@ public class VersionController extends BaseApplicationController {
         return new PageInfo<>(versionService.selectPackageByPage(pageable));
     }
 
-    @PrintLog("上传文件")
     @PostMapping(value = "/upload")
     @ApiOperation(value = "上传安装程序或者协议", notes = "上传安装程序或者协议", httpMethod = "POST")
     public FileVo upload(MultipartFile file) throws IOException, NoSuchAlgorithmException {

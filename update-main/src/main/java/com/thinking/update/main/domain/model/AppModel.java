@@ -6,7 +6,6 @@ import lombok.*;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.ArrayList;
 
 /**
  * @author Administrator
@@ -29,7 +28,7 @@ public class AppModel implements Serializable {
     /**
      * 终端运行状态0-正常，1-异常
      */
-    private Long runningState;
+    private Integer runningState;
     @NotNull
     @ApiModelProperty("当前版本Id")
     private Long versionId;

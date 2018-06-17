@@ -26,7 +26,7 @@ public interface AppService{
 	 * 获取各个机构异常终端App数量
 	 * @return
 	 */
-	AbnormalNumberVo getAbnormalAppNumber();
+	List<AbnormalNumberVo> getAbnormalAppNumber();
 	/**
 	 * 获得App数据集合
 	 * @return
@@ -44,10 +44,10 @@ public interface AppService{
 	/**
 	 * 根据运行状态分页查询
 	 * @param pageable
-	 * @param state
+	 * @param appModel
 	 * @return
 	 */
-	List<App> selectAppByPageAndRunningState(Pageable pageable, Integer state);
+	List<App> selectAppByPageAndRunningState(Pageable pageable, AppModel appModel);
 
 	/**
 	 * 根据AppId获取State详情
