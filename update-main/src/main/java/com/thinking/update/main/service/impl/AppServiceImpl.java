@@ -84,6 +84,9 @@ public class AppServiceImpl implements AppService {
         List<App> abnormalApps = appDao.selectAppByObj(App.builder()
                 .runningState(AppRunningStateEnum.ABNORMAL.getValue())
                 .build());
+        if (CollectionUtils.isEmpty(abnormalApps)) {
+            return null;
+        }
         List<VehicleInfo> vehicleInfoList = vehicleDao.selectByApps(abnormalApps);
         List<String> companyNames = new LinkedList<>();
         List<Long> abnormalNumber = new LinkedList<>();
