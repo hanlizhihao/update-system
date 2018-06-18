@@ -67,14 +67,32 @@ public class AppServiceImpl implements AppService {
     @Override
     public List<EnumVo> getAppStateStatistics() {
         List<EnumVo> result = new ArrayList<>();
-        result.add(EnumVo.builder()
+        long normalNumber = appDao.getAppRowCountByRunningState(AppRunningStateEnum.NORMAL.getValue());
+        long abnormalNumber = appDao.getAppRowCountByRunningState(AppRunningStateEnum.ABNORMAL.getValue());
+        EnumVo normalEnum = EnumVo.builder()
                 .title(AppRunningStateEnum.NORMAL.getName())
-                .value(String.valueOf(appDao.getAppRowCountByRunningState(AppRunningStateEnum.NORMAL.getValue())))
-                .build());
-        result.add(EnumVo.builder()
+                .build();
+        EnumVo abnormalEnum = EnumVo.builder()
                 .title(AppRunningStateEnum.ABNORMAL.getName())
-                .value(String.valueOf(appDao.getAppRowCountByRunningState(AppRunningStateEnum.ABNORMAL.getValue())))
-                .build());
+                .build();
+        if (abnormalNumber == 0) {
+            normalEnum.setValue(String.valueOf(100));
+            abnormalEnum.setValue(String.valueOf(0));
+            result.add(abnormalEnum);
+            result.add(normalEnum);
+            return result;
+        }
+        if (normalNumber == 0) {
+            normalEnum.setValue(String.valueOf(0));
+            abnormalEnum.setValue(String.valueOf(100));
+            result.add(abnormalEnum);
+            result.add(normalEnum);
+            return result;
+        }
+        normalEnum.setValue(String.valueOf(normalNumber/(normalNumber + abnormalNumber)*100));
+        abnormalEnum.setValue(String.valueOf(abnormalNumber/(normalNumber + abnormalNumber)*100));
+        result.add(abnormalEnum);
+        result.add(normalEnum);
         return result;
     }
 
@@ -86,9 +104,13 @@ public class AppServiceImpl implements AppService {
                 .build());
         if (CollectionUtils.isEmpty(abnormalApps)) {
             List<AbnormalNumberVo> result = new ArrayList<>();
+            List<Long> abnormalNumber = new ArrayList<>();
+            List<String> abnormalCompany = new ArrayList<>();
+            abnormalCompany.add("所有机构");
+            abnormalNumber.add(0L);
             result.add(AbnormalNumberVo.builder()
-                    .abnormalNumber(new ArrayList<>())
-                    .companyNames(new ArrayList<>())
+                    .abnormalNumber(abnormalNumber)
+                    .companyNames(abnormalCompany)
                     .build());
             return result;
         }
