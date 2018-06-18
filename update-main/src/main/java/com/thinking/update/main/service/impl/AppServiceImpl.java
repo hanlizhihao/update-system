@@ -85,7 +85,12 @@ public class AppServiceImpl implements AppService {
                 .runningState(AppRunningStateEnum.ABNORMAL.getValue())
                 .build());
         if (CollectionUtils.isEmpty(abnormalApps)) {
-            return null;
+            List<AbnormalNumberVo> result = new ArrayList<>();
+            result.add(AbnormalNumberVo.builder()
+                    .abnormalNumber(new ArrayList<>())
+                    .companyNames(new ArrayList<>())
+                    .build());
+            return result;
         }
         List<VehicleInfo> vehicleInfoList = vehicleDao.selectByApps(abnormalApps);
         List<String> companyNames = new LinkedList<>();
