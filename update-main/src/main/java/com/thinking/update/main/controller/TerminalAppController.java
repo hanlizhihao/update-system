@@ -123,7 +123,7 @@ public class TerminalAppController extends BaseApplicationController {
     @PrintLog("各机构异常终端数量")
     @GetMapping(value = "/statistics/abnormal")
     @ApiOperation(value = "各机构异常终端数量 BY hlz", notes = "各机构异常终端数量 BY hlz", httpMethod = "GET")
-    public List<AbnormalNumberVo> getAbnormalAppNumber() {
+    public List<List<?>> getAbnormalAppNumber() {
         return appService.getAbnormalAppNumber();
     }
 

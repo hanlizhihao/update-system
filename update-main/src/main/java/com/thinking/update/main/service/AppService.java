@@ -26,7 +26,7 @@ public interface AppService{
 	 * 获取各个机构异常终端App数量
 	 * @return
 	 */
-	List<AbnormalNumberVo> getAbnormalAppNumber();
+	List<List<?>> getAbnormalAppNumber();
 	/**
 	 * 获得App数据集合
 	 * @return

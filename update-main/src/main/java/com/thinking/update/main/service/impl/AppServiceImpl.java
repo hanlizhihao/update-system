@@ -98,20 +98,18 @@ public class AppServiceImpl implements AppService {
 
     @Override
     @Transactional(rollbackFor = Exception.class, readOnly = true)
-    public List<AbnormalNumberVo> getAbnormalAppNumber() {
+    public List<List<?>> getAbnormalAppNumber() {
+        List<List<?>> result = new ArrayList<>();
         List<App> abnormalApps = appDao.selectAppByObj(App.builder()
                 .runningState(AppRunningStateEnum.ABNORMAL.getValue())
                 .build());
         if (CollectionUtils.isEmpty(abnormalApps)) {
-            List<AbnormalNumberVo> result = new ArrayList<>();
             List<Long> abnormalNumber = new ArrayList<>();
             List<String> abnormalCompany = new ArrayList<>();
             abnormalCompany.add("所有机构");
             abnormalNumber.add(0L);
-            result.add(AbnormalNumberVo.builder()
-                    .abnormalNumber(abnormalNumber)
-                    .companyNames(abnormalCompany)
-                    .build());
+            result.add(abnormalCompany);
+            result.add(abnormalNumber);
             return result;
         }
         List<VehicleInfo> vehicleInfoList = vehicleDao.selectByApps(abnormalApps);
@@ -127,12 +125,9 @@ public class AppServiceImpl implements AppService {
                 abnormalNumber.add(abnormalNumberIndex, ++number);
             }
         }
-        List<AbnormalNumberVo> abnormalNumberVoList = new ArrayList<>();
-        abnormalNumberVoList.add(AbnormalNumberVo.builder()
-                .abnormalNumber(abnormalNumber)
-                .companyNames(companyNames)
-                .build());
-        return abnormalNumberVoList;
+        result.add(companyNames);
+        result.add(abnormalNumber);
+        return result;
     }
 
     @Override
